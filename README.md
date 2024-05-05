@@ -662,6 +662,16 @@ await corellium.team.user.create('teamId', 'userId');
 await corellium.team.user.delete('teamId', 'userId');
 ```
 
+## Tokens (API)
+
+```ts
+// Generate an API Token for the current user.
+const token = await corellium.token.generate();
+
+// Delete the current user's API Token.
+await corellium.token.delete();
+```
+
 ### Users
 
 ```ts

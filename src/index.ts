@@ -26,6 +26,7 @@ import { createDeviceEndpoints } from './device';
 import { createDevicesEndpoints } from './devices';
 import { createProjectsEndpoints } from './projects';
 import { createWebplayerEndpoints } from './webplayer';
+import { createTokenEndpoints } from './token';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -65,6 +66,7 @@ class Corellium {
   public role!: ReturnType<typeof createRoleEndpoints>;
   public snapshot!: ReturnType<typeof createSnapshotEndpoints>;
   public team!: ReturnType<typeof createTeamEndpoints>;
+  public token!: ReturnType<typeof createTokenEndpoints>;
   public user!: ReturnType<typeof createUserEndpoints>;
   public webplayer!: ReturnType<typeof createWebplayerEndpoints>;
 
@@ -99,6 +101,7 @@ class Corellium {
     this.role = createRoleEndpoints(api);
     this.snapshot = createSnapshotEndpoints(api);
     this.team = createTeamEndpoints(api);
+    this.token = createTokenEndpoints(baseUrl, apiToken);
     this.user = createUserEndpoints(api);
     this.webplayer = createWebplayerEndpoints(baseUrl, apiToken);
 
