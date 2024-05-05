@@ -1,3 +1,15 @@
+# v1.0.20 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Update tsup.config.ts ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.19 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
