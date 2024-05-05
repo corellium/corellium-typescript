@@ -1,3 +1,15 @@
+# v1.0.18 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Create LICENSE.md ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.17 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
