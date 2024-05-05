@@ -1,5 +1,3 @@
-/* eslint-disable new-cap, @typescript-eslint/member-ordering */
-
 import createFetchClient from 'openapi-fetch';
 import { createCoreTraceEndpoints } from './coretrace';
 import { createHyperTraceEndpoints } from './hypertrace';
@@ -25,17 +23,18 @@ import { createPortForwardingEndpoints } from './port-forwarding';
 import { createMessagingEndpoints } from './messaging';
 import { createConnectEndpoints } from './connect';
 import { createDeviceEndpoints } from './device';
+import { createDevicesEndpoints } from './devices';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
-  accessToken: paths['/v1/auth/login']['post']['requestBody']['content']['application/json']['properties']['accessToken'];
+  accessToken: string;
   endpoint?: string;
 };
 
 class Corellium {
   private accessToken: string;
   private endpoint = 'https://app.corellium.com/';
-  private api: ReturnType<typeof createFetchClient<paths>> | null = null;
+  private api: ReturnType<typeof createFetchClient<paths>> = {} as never;
 
   public constructor(options: CorelliumOptions) {
     this.accessToken = options.accessToken;
@@ -53,24 +52,19 @@ class Corellium {
     });
   }
 
-  public auth = this.api ? createAuthEndpoints(this.api) : null;
-  public authProvider = this.api ? createAuthProviderEndpoints(this.api) : null;
-  public customNetwork = this.api
-    ? createCustomNetworkEndpoints(this.api)
-    : null;
-  public image = this.api ? createImageEndpoints(this.api) : null;
-  public model = this.api ? createModelEndpoints(this.api) : null;
-  public project = this.api ? createProjectEndpoints(this.api) : null;
-  public role = this.api ? createRoleEndpoints(this.api) : null;
-  public snapshot = this.api ? createSnapshotEndpoints(this.api) : null;
-  public team = this.api ? createTeamEndpoints(this.api) : null;
-  public user = this.api ? createUserEndpoints(this.api) : null;
+  public auth = createAuthEndpoints(this.api);
+  public authProvider = createAuthProviderEndpoints(this.api);
+  public customNetwork = createCustomNetworkEndpoints(this.api);
+  public devices = createDevicesEndpoints(this.api);
+  public image = createImageEndpoints(this.api);
+  public model = createModelEndpoints(this.api);
+  public project = createProjectEndpoints(this.api);
+  public role = createRoleEndpoints(this.api);
+  public snapshot = createSnapshotEndpoints(this.api);
+  public team = createTeamEndpoints(this.api);
+  public user = createUserEndpoints(this.api);
 
   public device(deviceId: string) {
-    if (!this.api) {
-      return null;
-    }
-
     return {
       ...createDeviceEndpoints(this.api, deviceId),
       app: createAppEndpoints(this.api, deviceId),
@@ -91,4 +85,4 @@ class Corellium {
   }
 }
 
-export default Corellium;
+export { Corellium };
