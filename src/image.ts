@@ -4,7 +4,7 @@ import type { paths } from '../types/corellium';
 export const createImageEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  list: async (projectId: string) => {
+  list: async (projectId?: string) => {
     const response = await api.GET('/v1/images', {
       params: {
         query: {
@@ -39,7 +39,9 @@ export const createImageEndpoints = (
     return response.data;
   },
 
-  get: async (imageId: string) => {
+  get: async (
+    imageId: paths['/v1/images/{imageId}']['get']['parameters']['path']['imageId']
+  ) => {
     const response = await api.GET('/v1/images/{imageId}', {
       params: {
         path: {
@@ -56,7 +58,7 @@ export const createImageEndpoints = (
   },
 
   update: async (
-    imageId: string,
+    imageId: paths['/v1/images/{imageId}']['post']['parameters']['path']['imageId'],
     body: paths['/v1/images/{imageId}']['post']['requestBody']['content']['binary']
   ) => {
     const response = await api.POST('/v1/images/{imageId}', {
@@ -66,7 +68,7 @@ export const createImageEndpoints = (
         },
       },
 
-      // @ts-expect-error - TBD, this sucks.
+      // @ts-expect-error - Need to figure this out
       body,
     });
 
@@ -77,7 +79,9 @@ export const createImageEndpoints = (
     return response.data;
   },
 
-  delete: async (imageId: string) => {
+  delete: async (
+    imageId: paths['/v2/images/{imageId}']['delete']['parameters']['path']['imageId']
+  ) => {
     const response = await api.DELETE('/v2/images/{imageId}', {
       params: {
         path: {

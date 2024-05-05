@@ -5,7 +5,9 @@ export const createPortForwardingEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
   // How do you specify the port number?
-  create: async (instanceId: string) => {
+  create: async (
+    instanceId: paths['/v1/instances/{instanceId}/exposeport/enable']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/exposeport/enable',
       {
@@ -25,7 +27,9 @@ export const createPortForwardingEndpoints = (
   },
 
   // How do you specify the port number?
-  delete: async (instanceId: string) => {
+  delete: async (
+    instanceId: paths['/v1/instances/{instanceId}/exposeport/disable']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/exposeport/disable',
       {

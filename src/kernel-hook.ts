@@ -4,7 +4,9 @@ import type { paths } from '../types/corellium';
 export const createKernelHookEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  list: async (instanceId: string) => {
+  list: async (
+    instanceId: paths['/v1/instances/{instanceId}/hooks']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET('/v1/instances/{instanceId}/hooks', {
       params: {
         path: {
@@ -21,7 +23,7 @@ export const createKernelHookEndpoints = (
   },
 
   create: async (
-    instanceId: string,
+    instanceId: paths['/v1/instances/{instanceId}/hooks']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/hooks']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/hooks', {
@@ -40,7 +42,9 @@ export const createKernelHookEndpoints = (
     return response.data;
   },
 
-  get: async (hookId: string) => {
+  get: async (
+    hookId: paths['/v1/hooks/{hookId}']['get']['parameters']['path']['hookId']
+  ) => {
     const response = await api.GET('/v1/hooks/{hookId}', {
       params: {
         path: {
@@ -57,7 +61,7 @@ export const createKernelHookEndpoints = (
   },
 
   update: async (
-    hookId: string,
+    hookId: paths['/v1/hooks/{hookId}']['put']['parameters']['path']['hookId'],
     body: paths['/v1/hooks/{hookId}']['put']['requestBody']['content']['application/json']
   ) => {
     const response = await api.PUT('/v1/hooks/{hookId}', {
@@ -76,7 +80,9 @@ export const createKernelHookEndpoints = (
     return response.data;
   },
 
-  delete: async (hookId: string) => {
+  delete: async (
+    hookId: paths['/v1/hooks/{hookId}']['delete']['parameters']['path']['hookId']
+  ) => {
     const response = await api.DELETE('/v1/hooks/{hookId}', {
       params: {
         path: {
@@ -92,7 +98,9 @@ export const createKernelHookEndpoints = (
     return response.data;
   },
 
-  run: async (instanceId: string) => {
+  run: async (
+    instanceId: paths['/v1/instances/{instanceId}/hooks/execute']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/hooks/execute',
       {
@@ -111,7 +119,9 @@ export const createKernelHookEndpoints = (
     return response.data;
   },
 
-  clear: async (instanceId: string) => {
+  clear: async (
+    instanceId: paths['/v1/instances/{instanceId}/hooks/clear']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST('/v1/instances/{instanceId}/hooks/clear', {
       params: {
         path: {

@@ -15,14 +15,14 @@ export const createRoleEndpoints = (
   },
 
   add: async (
-    projectId: string,
-    roleId: string,
+    projectId: paths['/v1/roles/projects/{projectId}/users/{userId}/roles/{roleId}']['put']['parameters']['path']['projectId'],
+    roleId: paths['/v1/roles/projects/{projectId}/users/{userId}/roles/{roleId}']['put']['parameters']['path']['roleId'],
     options:
       | {
-          teamId: string;
+          teamId: paths['/v1/roles/projects/{projectId}/teams/{teamId}/roles/{roleId}']['put']['parameters']['path']['teamId'];
         }
       | {
-          userId: string;
+          userId: paths['/v1/roles/projects/{projectId}/users/{userId}/roles/{roleId}']['put']['parameters']['path']['userId'];
         }
   ) => {
     if ('userId' in options) {
@@ -67,14 +67,14 @@ export const createRoleEndpoints = (
   },
 
   delete: async (
-    projectId: string,
-    roleId: string,
+    projectId: paths['/v1/roles/projects/{projectId}/users/{userId}/roles/{roleId}']['delete']['parameters']['path']['projectId'],
+    roleId: paths['/v1/roles/projects/{projectId}/users/{userId}/roles/{roleId}']['delete']['parameters']['path']['roleId'],
     options:
       | {
-          teamId: string;
+          teamId: paths['/v1/roles/projects/{projectId}/teams/{teamId}/roles/{roleId}']['delete']['parameters']['path']['teamId'];
         }
       | {
-          userId: string;
+          userId: paths['/v1/roles/projects/{projectId}/users/{userId}/roles/{roleId}']['delete']['parameters']['path']['userId'];
         }
   ) => {
     if ('userId' in options) {

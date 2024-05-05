@@ -35,7 +35,7 @@ export const createTeamEndpoints = (
   },
 
   update: async (
-    teamId: string,
+    teamId: paths['/v1/teams/{teamId}']['patch']['parameters']['path']['teamId'],
     body: paths['/v1/teams/{teamId}']['patch']['requestBody']['content']['application/json']
   ) => {
     const response = await api.PATCH('/v1/teams/{teamId}', {
@@ -54,7 +54,9 @@ export const createTeamEndpoints = (
     return response.data;
   },
 
-  delete: async (teamId: string) => {
+  delete: async (
+    teamId: paths['/v1/teams/{teamId}']['delete']['parameters']['path']['teamId']
+  ) => {
     const response = await api.DELETE('/v1/teams/{teamId}', {
       params: {
         path: {
@@ -70,7 +72,10 @@ export const createTeamEndpoints = (
     return response.data;
   },
 
-  addUser: async (teamId: string, userId: string) => {
+  addUser: async (
+    teamId: paths['/v1/teams/{teamId}/users/{userId}']['put']['parameters']['path']['teamId'],
+    userId: paths['/v1/teams/{teamId}/users/{userId}']['put']['parameters']['path']['userId']
+  ) => {
     const response = await api.PUT('/v1/teams/{teamId}/users/{userId}', {
       params: {
         path: {
@@ -87,7 +92,10 @@ export const createTeamEndpoints = (
     return response.data;
   },
 
-  removeUser: async (teamId: string, userId: string) => {
+  removeUser: async (
+    teamId: paths['/v1/teams/{teamId}/users/{userId}']['delete']['parameters']['path']['teamId'],
+    userId: paths['/v1/teams/{teamId}/users/{userId}']['delete']['parameters']['path']['userId']
+  ) => {
     const response = await api.DELETE('/v1/teams/{teamId}/users/{userId}', {
       params: {
         path: {

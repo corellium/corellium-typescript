@@ -5,7 +5,7 @@ export const createMediaEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
   start: async (
-    instanceId: string,
+    instanceId: paths['/v1/instances/{instanceId}/media/play']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/media/play']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/media/play', {
@@ -24,7 +24,9 @@ export const createMediaEndpoints = (
     return response.data;
   },
 
-  stop: async (instanceId: string) => {
+  stop: async (
+    instanceId: paths['/v1/instances/{instanceId}/media/stop']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST('/v1/instances/{instanceId}/media/stop', {
       params: {
         path: {

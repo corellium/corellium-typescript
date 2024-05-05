@@ -4,7 +4,9 @@ import type { paths } from '../types/corellium';
 export const createConnectEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  getQuickConnectUrl: async (instanceId: string) => {
+  getQuickConnectUrl: async (
+    instanceId: paths['/v2/instances/{instanceId}/quickConnectCommand']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET(
       '/v2/instances/{instanceId}/quickConnectCommand',
       {
@@ -24,7 +26,9 @@ export const createConnectEndpoints = (
   },
 
   eth0IP: {
-    get: async (instanceId: string) => {
+    get: async (
+      instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/network']['get']['parameters']['path']['instanceId']
+    ) => {
       const response = await api.GET(
         '/v1/instances/{instanceId}/agent/v1/system/network',
         {
@@ -45,7 +49,9 @@ export const createConnectEndpoints = (
   },
 
   adbAuthSetting: {
-    get: async (instanceId: string) => {
+    get: async (
+      instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/adbauth']['get']['parameters']['path']['instanceId']
+    ) => {
       const response = await api.GET(
         '/v1/instances/{instanceId}/agent/v1/system/adbauth',
         {
@@ -65,7 +71,7 @@ export const createConnectEndpoints = (
     },
 
     set: async (
-      instanceId: string,
+      instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/adbauth']['put']['parameters']['path']['instanceId'],
       body: paths['/v1/instances/{instanceId}/agent/v1/system/adbauth']['put']['requestBody']['content']['application/json']
     ) => {
       const response = await api.PUT(

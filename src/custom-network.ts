@@ -44,7 +44,7 @@ export const createCustomNetworkEndpoints = (
   },
 
   update: async (
-    customNetworkId: string,
+    customNetworkId: paths['/v1/network/connections/{id}']['patch']['parameters']['path']['id'],
     /*
      * Patching bad OpenAPI spec
      * body: paths['/v1/network/connections/{id}']['patch']['requestBody']['content']['application/json']
@@ -78,7 +78,9 @@ export const createCustomNetworkEndpoints = (
     return response.data;
   },
 
-  delete: async (customNetworkId: string) => {
+  delete: async (
+    customNetworkId: paths['/v1/network/connections/{id}']['delete']['parameters']['path']['id']
+  ) => {
     const response = await api.DELETE('/v1/network/connections/{id}', {
       params: {
         path: {

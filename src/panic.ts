@@ -4,7 +4,9 @@ import type { paths } from '../types/corellium';
 export const createPanicEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  list: async (instanceId: string) => {
+  list: async (
+    instanceId: paths['/v1/instances/{instanceId}/panics']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET('/v1/instances/{instanceId}/panics', {
       params: {
         path: {
@@ -20,7 +22,9 @@ export const createPanicEndpoints = (
     return response.data;
   },
 
-  clear: async (instanceId: string) => {
+  clear: async (
+    instanceId: paths['/v1/instances/{instanceId}/panics']['delete']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.DELETE('/v1/instances/{instanceId}/panics', {
       params: {
         path: {

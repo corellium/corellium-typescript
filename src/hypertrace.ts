@@ -5,7 +5,7 @@ export const createHyperTraceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
   start: async (
-    instanceId: string,
+    instanceId: paths['/v1/instances/{instanceId}/btrace/enable']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/btrace/enable']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST(
@@ -27,7 +27,9 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  stop: async (instanceId: string) => {
+  stop: async (
+    instanceId: paths['/v1/instances/{instanceId}/btrace/disable']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/btrace/disable',
       {
@@ -46,7 +48,9 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  ranges: async (instanceId: string) => {
+  ranges: async (
+    instanceId: paths['/v1/instances/{instanceId}/btrace-kcrange']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/btrace-kcrange',
       {
@@ -65,7 +69,9 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  authorize: async (instanceId: string) => {
+  authorize: async (
+    instanceId: paths['/v1/instances/{instanceId}/btrace-authorize']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/btrace-authorize',
       {
@@ -84,7 +90,9 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  clear: async (instanceId: string) => {
+  clear: async (
+    instanceId: paths['/v1/instances/{instanceId}/btrace']['delete']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.DELETE('/v1/instances/{instanceId}/btrace', {
       params: {
         path: {

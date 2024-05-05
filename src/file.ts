@@ -4,7 +4,10 @@ import type { paths } from '../types/corellium';
 export const createFileEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  download: async (instanceId: string, filePath: string) => {
+  download: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['get']['parameters']['path']['instanceId'],
+    filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['get']['parameters']['path']['filePath']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/file/device/{filePath}',
       {
@@ -25,8 +28,8 @@ export const createFileEndpoints = (
   },
 
   upload: async (
-    instanceId: string,
-    filePath: string,
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['parameters']['path']['instanceId'],
+    filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['parameters']['path']['filePath'],
     body: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['requestBody']['content']['application/octet-stream']
   ) => {
     const response = await api.PUT(
@@ -49,7 +52,10 @@ export const createFileEndpoints = (
     return response.data;
   },
 
-  delete: async (instanceId: string, filePath: string) => {
+  delete: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['delete']['parameters']['path']['instanceId'],
+    filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['delete']['parameters']['path']['filePath']
+  ) => {
     const response = await api.DELETE(
       '/v1/instances/{instanceId}/agent/v1/file/device/{filePath}',
       {
@@ -69,7 +75,9 @@ export const createFileEndpoints = (
     return response.data;
   },
 
-  generateFilename: async (instanceId: string) => {
+  generateFilename: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/temp']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/file/temp',
       {
@@ -89,8 +97,8 @@ export const createFileEndpoints = (
   },
 
   update: async (
-    instanceId: string,
-    filePath: string,
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['parameters']['path']['instanceId'],
+    filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['parameters']['path']['filePath'],
     body: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['requestBody']['content']['application/json']
   ) => {
     const response = await api.PATCH(

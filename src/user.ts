@@ -18,7 +18,9 @@ export const createUserEndpoints = (
     return response.data;
   },
 
-  delete: async (userId: string) => {
+  delete: async (
+    userId: paths['/v1/users/{userId}']['delete']['parameters']['path']['userId']
+  ) => {
     const response = await api.DELETE('/v1/users/{userId}', {
       params: {
         path: {
@@ -35,7 +37,7 @@ export const createUserEndpoints = (
   },
 
   update: async (
-    userId: string,
+    userId: paths['/v1/users/{userId}']['patch']['parameters']['path']['userId'],
     body: paths['/v1/users/{userId}']['patch']['requestBody']['content']['application/json']
   ) => {
     const response = await api.PATCH('/v1/users/{userId}', {

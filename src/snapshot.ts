@@ -5,9 +5,9 @@ export const createSnapshotEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
   get: async (
-    snapshotId: string,
+    snapshotId: paths['/v1/snapshots/{snapshotId}']['get']['parameters']['path']['snapshotId'],
     options?: {
-      instanceId?: string;
+      instanceId?: paths['/v1/instances/{instanceId}/snapshots']['get']['parameters']['path']['instanceId'];
     }
   ) => {
     if (options?.instanceId) {
@@ -46,7 +46,7 @@ export const createSnapshotEndpoints = (
   },
 
   create: async (
-    instanceId: string,
+    instanceId: paths['/v1/instances/{instanceId}/snapshots']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/snapshots']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/snapshots', {
@@ -66,9 +66,9 @@ export const createSnapshotEndpoints = (
   },
 
   delete: async (
-    snapshotId: string,
+    snapshotId: paths['/v1/snapshots/{snapshotId}']['delete']['parameters']['path']['snapshotId'],
     options?: {
-      instanceId?: string;
+      instanceId?: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['delete']['parameters']['path']['instanceId'];
     }
   ) => {
     if (options?.instanceId) {
@@ -107,10 +107,10 @@ export const createSnapshotEndpoints = (
   },
 
   update: async (
-    snapshotId: string,
+    snapshotId: paths['/v1/snapshots/{snapshotId}']['patch']['parameters']['path']['snapshotId'],
     body: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['patch']['requestBody']['content']['application/json'],
     options?: {
-      instanceId?: string;
+      instanceId?: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['patch']['parameters']['path']['instanceId'];
     }
   ) => {
     if (options?.instanceId) {
@@ -150,7 +150,10 @@ export const createSnapshotEndpoints = (
     return response.data;
   },
 
-  restore: async (snapshotId: string, instanceId: string) => {
+  restore: async (
+    snapshotId: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}/restore']['post']['parameters']['path']['snapshotId'],
+    instanceId: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}/restore']['post']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/snapshots/{snapshotId}/restore',
       {
@@ -172,7 +175,7 @@ export const createSnapshotEndpoints = (
 
   sharing: {
     create: async (
-      snapshotId: string,
+      snapshotId: paths['/v1/snapshots/{snapshotId}/share']['post']['parameters']['path']['snapshotId'],
       body: paths['/v1/snapshots/{snapshotId}/share']['post']['requestBody']['content']['application/json']
     ) => {
       const response = await api.POST('/v1/snapshots/{snapshotId}/share', {
@@ -192,7 +195,7 @@ export const createSnapshotEndpoints = (
     },
 
     addAccess: async (
-      snapshotId: string,
+      snapshotId: paths['/v1/snapshots/{snapshotId}/permissions']['post']['parameters']['path']['snapshotId'],
       body: paths['/v1/snapshots/{snapshotId}/permissions']['post']['requestBody']['content']['application/json']
     ) => {
       const response = await api.POST(
@@ -215,7 +218,7 @@ export const createSnapshotEndpoints = (
     },
 
     removeAccess: async (
-      snapshotId: string,
+      snapshotId: paths['/v1/snapshots/{snapshotId}/permissions']['delete']['parameters']['path']['snapshotId'],
       body: paths['/v1/snapshots/{snapshotId}/permissions']['delete']['requestBody']['content']['application/json']
     ) => {
       const response = await api.DELETE(

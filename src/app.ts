@@ -4,7 +4,9 @@ import type { paths } from '../types/corellium';
 export const createAppEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  list: async (instanceId: string) => {
+  list: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/apps']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/app/apps',
       {
@@ -23,7 +25,10 @@ export const createAppEndpoints = (
     return response.data;
   },
 
-  run: async (instanceId: string, bundleId: string) => {
+  run: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/run']['post']['parameters']['path']['instanceId'],
+    bundleId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/run']['post']['parameters']['path']['bundleId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/run',
       {
@@ -44,7 +49,7 @@ export const createAppEndpoints = (
   },
 
   install: async (
-    instanceId: string,
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/install']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/agent/v1/app/install']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST(
@@ -66,7 +71,10 @@ export const createAppEndpoints = (
     return response.data;
   },
 
-  uninstall: async (instanceId: string, bundleId: string) => {
+  uninstall: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/uninstall']['post']['parameters']['path']['instanceId'],
+    bundleId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/uninstall']['post']['parameters']['path']['bundleId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/uninstall',
       {
@@ -86,7 +94,9 @@ export const createAppEndpoints = (
     return response.data;
   },
 
-  statuses: async (instanceId: string) => {
+  statuses: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/update']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/app/apps/update',
       {
@@ -105,7 +115,10 @@ export const createAppEndpoints = (
     return response.data;
   },
 
-  icons: async (instanceId: string, bundleIds: string[]) => {
+  icons: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/icons']['get']['parameters']['path']['instanceId'],
+    bundleIds: paths['/v1/instances/{instanceId}/agent/v1/app/icons']['get']['parameters']['query']['bundleID']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/app/icons',
       {
@@ -127,7 +140,10 @@ export const createAppEndpoints = (
     return response.data;
   },
 
-  kill: async (instanceId: string, bundleId: string) => {
+  kill: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/kill']['post']['parameters']['path']['instanceId'],
+    bundleId: paths['/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/kill']['post']['parameters']['path']['bundleId']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/app/apps/{bundleId}/kill',
       {
@@ -149,7 +165,7 @@ export const createAppEndpoints = (
 
   openGApps: {
     install: async (
-      instanceId: string,
+      instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/install-opengapps']['post']['parameters']['path']['instanceId'],
       body: paths['/v1/instances/{instanceId}/agent/v1/system/install-opengapps']['post']['requestBody']['content']['application/json']
     ) => {
       const response = await api.POST(

@@ -28,7 +28,7 @@ import { createConnectEndpoints } from './connect';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
-  accessToken: string;
+  accessToken: paths['/v1/auth/login']['post']['requestBody']['content']['application/json']['properties']['accessToken'];
   endpoint?: string;
 };
 

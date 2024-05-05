@@ -24,7 +24,10 @@ export const createAuthProviderEndpoints = (
     return response.data;
   },
 
-  delete: async (domainId: string, providerId: string) => {
+  delete: async (
+    domainId: paths['/v1/domain/{domainId}/auth/{providerId}']['delete']['parameters']['path']['domainId'],
+    providerId: paths['/v1/domain/{domainId}/auth/{providerId}']['delete']['parameters']['path']['providerId']
+  ) => {
     const response = await api.DELETE(
       '/v1/domain/{domainId}/auth/{providerId}',
       {
@@ -44,7 +47,9 @@ export const createAuthProviderEndpoints = (
     return response.data;
   },
 
-  list: async (domainId: string) => {
+  list: async (
+    domainId: paths['/v1/domain/{domainId}/auth']['get']['parameters']['path']['domainId']
+  ) => {
     const response = await api.GET('/v1/domain/{domainId}/auth', {
       params: {
         path: {

@@ -4,7 +4,9 @@ import type { paths } from '../types/corellium';
 export const createProjectEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  get: async (projectId: string) => {
+  get: async (
+    projectId: paths['/v1/projects/{projectId}']['get']['parameters']['path']['projectId']
+  ) => {
     const response = await api.GET('/v1/projects/{projectId}', {
       params: {
         path: {
@@ -34,7 +36,9 @@ export const createProjectEndpoints = (
     return response.data;
   },
 
-  delete: async (projectId: string) => {
+  delete: async (
+    projectId: paths['/v1/projects/{projectId}']['delete']['parameters']['path']['projectId']
+  ) => {
     const response = await api.DELETE('/v1/projects/{projectId}', {
       params: {
         path: {
@@ -61,7 +65,7 @@ export const createProjectEndpoints = (
   },
 
   update: async (
-    projectId: string,
+    projectId: paths['/v1/projects/{projectId}']['patch']['parameters']['path']['projectId'],
     body: paths['/v1/projects/{projectId}']['patch']['requestBody']['content']['application/json']
   ) => {
     // Better version of PATCH /v1/projects/{projectId}/settings
@@ -81,7 +85,9 @@ export const createProjectEndpoints = (
     return response.data;
   },
 
-  instances: async (projectId: string) => {
+  instances: async (
+    projectId: paths['/v1/projects/{projectId}/instances']['get']['parameters']['path']['projectId']
+  ) => {
     const response = await api.GET('/v1/projects/{projectId}/instances', {
       params: {
         path: {
@@ -97,7 +103,9 @@ export const createProjectEndpoints = (
     return response.data;
   },
 
-  getVPNConfig: async (projectId: string) => {
+  getVPNConfig: async (
+    projectId: paths['/v1/projects/{projectId}/vpnconfig/{format}']['get']['parameters']['path']['projectId']
+  ) => {
     const response = await api.GET(
       '/v1/projects/{projectId}/vpnconfig/{format}',
       {
@@ -118,7 +126,9 @@ export const createProjectEndpoints = (
   },
 
   keys: {
-    list: async (projectId: string) => {
+    list: async (
+      projectId: paths['/v1/projects/{projectId}/keys']['get']['parameters']['path']['projectId']
+    ) => {
       const response = await api.GET('/v1/projects/{projectId}/keys', {
         params: {
           path: {
@@ -135,7 +145,7 @@ export const createProjectEndpoints = (
     },
 
     add: async (
-      projectId: string,
+      projectId: paths['/v1/projects/{projectId}/keys']['post']['parameters']['path']['projectId'],
       body: paths['/v1/projects/{projectId}/keys']['post']['requestBody']['content']['application/json']
     ) => {
       const response = await api.POST('/v1/projects/{projectId}/keys', {
@@ -154,7 +164,10 @@ export const createProjectEndpoints = (
       return response.data;
     },
 
-    delete: async (projectId: string, keyId: string) => {
+    delete: async (
+      projectId: paths['/v1/projects/{projectId}/keys/{keyId}']['delete']['parameters']['path']['projectId'],
+      keyId: paths['/v1/projects/{projectId}/keys/{keyId}']['delete']['parameters']['path']['keyId']
+    ) => {
       const response = await api.DELETE(
         '/v1/projects/{projectId}/keys/{keyId}',
         {

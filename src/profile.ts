@@ -4,7 +4,9 @@ import type { paths } from '../types/corellium';
 export const createProfileEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  list: async (instanceId: string) => {
+  list: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/profile/profiles']['get']['parameters']['path']['instanceId']
+  ) => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/profile/profiles',
       {
@@ -24,7 +26,7 @@ export const createProfileEndpoints = (
   },
 
   install: async (
-    instanceId: string,
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/profile/install']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/agent/v1/profile/install']['post']['requestBody']['content']['application/octet-stream']
   ) => {
     const response = await api.POST(
@@ -46,7 +48,10 @@ export const createProfileEndpoints = (
     return response.data;
   },
 
-  delete: async (instanceId: string, profileId: string) => {
+  delete: async (
+    instanceId: paths['/v1/instances/{instanceId}/agent/v1/profile/profiles/{profileId}']['delete']['parameters']['path']['instanceId'],
+    profileId: paths['/v1/instances/{instanceId}/agent/v1/profile/profiles/{profileId}']['delete']['parameters']['path']['profileId']
+  ) => {
     const response = await api.DELETE(
       '/v1/instances/{instanceId}/agent/v1/profile/profiles/{profileId}',
       {
