@@ -7,6 +7,7 @@ import { createHyperTraceEndpoints } from './hypertrace';
 import { createKernelHookEndpoints } from './kernel-hook';
 import { createImageEndpoints } from './image';
 import { createProjectEndpoints } from './project';
+import { createSnapshotEndpoints } from './snapshot';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -41,6 +42,7 @@ class Corellium {
   public kernelHook = this.api ? createKernelHookEndpoints(this.api) : null;
   public image = this.api ? createImageEndpoints(this.api) : null;
   public project = this.api ? createProjectEndpoints(this.api) : null;
+  public snapshot = this.api ? createSnapshotEndpoints(this.api) : null;
 }
 
 export default Corellium;
