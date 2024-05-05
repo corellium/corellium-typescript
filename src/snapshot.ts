@@ -2,21 +2,19 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createSnapshotEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId?: string
 ) => ({
   get: async (
-    snapshotId: paths['/v1/snapshots/{snapshotId}']['get']['parameters']['path']['snapshotId'],
-    options?: {
-      instanceId?: paths['/v1/instances/{instanceId}/snapshots']['get']['parameters']['path']['instanceId'];
-    }
+    snapshotId: paths['/v1/snapshots/{snapshotId}']['get']['parameters']['path']['snapshotId']
   ) => {
-    if (options?.instanceId) {
+    if (instanceId) {
       const response = await api.GET(
         '/v1/instances/{instanceId}/snapshots/{snapshotId}',
         {
           params: {
             path: {
-              instanceId: options.instanceId,
+              instanceId,
               snapshotId,
             },
           },
@@ -46,9 +44,12 @@ export const createSnapshotEndpoints = (
   },
 
   create: async (
-    instanceId: paths['/v1/instances/{instanceId}/snapshots']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/snapshots']['post']['requestBody']['content']['application/json']
   ) => {
+    if (!instanceId) {
+      throw new Error('instanceId is required');
+    }
+
     const response = await api.POST('/v1/instances/{instanceId}/snapshots', {
       params: {
         path: {
@@ -66,18 +67,15 @@ export const createSnapshotEndpoints = (
   },
 
   delete: async (
-    snapshotId: paths['/v1/snapshots/{snapshotId}']['delete']['parameters']['path']['snapshotId'],
-    options?: {
-      instanceId?: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['delete']['parameters']['path']['instanceId'];
-    }
+    snapshotId: paths['/v1/snapshots/{snapshotId}']['delete']['parameters']['path']['snapshotId']
   ) => {
-    if (options?.instanceId) {
+    if (instanceId) {
       const response = await api.DELETE(
         '/v1/instances/{instanceId}/snapshots/{snapshotId}',
         {
           params: {
             path: {
-              instanceId: options.instanceId,
+              instanceId,
               snapshotId,
             },
           },
@@ -108,18 +106,15 @@ export const createSnapshotEndpoints = (
 
   update: async (
     snapshotId: paths['/v1/snapshots/{snapshotId}']['patch']['parameters']['path']['snapshotId'],
-    body: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['patch']['requestBody']['content']['application/json'],
-    options?: {
-      instanceId?: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['patch']['parameters']['path']['instanceId'];
-    }
+    body: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}']['patch']['requestBody']['content']['application/json']
   ) => {
-    if (options?.instanceId) {
+    if (instanceId) {
       const response = await api.PATCH(
         '/v1/instances/{instanceId}/snapshots/{snapshotId}',
         {
           params: {
             path: {
-              instanceId: options.instanceId,
+              instanceId,
               snapshotId,
             },
           },
@@ -151,9 +146,12 @@ export const createSnapshotEndpoints = (
   },
 
   restore: async (
-    snapshotId: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}/restore']['post']['parameters']['path']['snapshotId'],
-    instanceId: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}/restore']['post']['parameters']['path']['instanceId']
+    snapshotId: paths['/v1/instances/{instanceId}/snapshots/{snapshotId}/restore']['post']['parameters']['path']['snapshotId']
   ) => {
+    if (!instanceId) {
+      throw new Error('instanceId is required');
+    }
+
     const response = await api.POST(
       '/v1/instances/{instanceId}/snapshots/{snapshotId}/restore',
       {

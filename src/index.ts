@@ -86,6 +86,7 @@ class Corellium {
       panic: createPanicEndpoints(this.api, deviceId),
       portForwarding: createPortForwardingEndpoints(this.api, deviceId),
       profile: createProfileEndpoints(this.api, deviceId),
+      snapshot: createSnapshotEndpoints(this.api, deviceId),
     };
   }
 }
