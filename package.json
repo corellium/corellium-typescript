@@ -15,7 +15,7 @@
     "prepublishOnly": "pnpm build",
     "build": "tsup src",
     "dev": "tsup src --watch",
-    "test": "node test/test.js",
+    "test": "bun test/index.ts",
     "generate-types": "npx openapi-typescript https://app.corellium.com/api/openapi.json -o ./types/corellium.d.ts"
   },
   "repository": {

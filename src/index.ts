@@ -32,56 +32,62 @@ type CorelliumOptions = {
 };
 
 class Corellium {
-  private accessToken: string;
-  private endpoint = 'https://app.corellium.com/';
-  private api: ReturnType<typeof createFetchClient<paths>> = {} as never;
+  // Declare endpoint properties here
+  public auth!: ReturnType<typeof createAuthEndpoints>;
+  public authProvider!: ReturnType<typeof createAuthProviderEndpoints>;
+  public customNetwork!: ReturnType<typeof createCustomNetworkEndpoints>;
+  public device!: (
+    deviceId: string
+  ) => ReturnType<typeof createDeviceEndpoints>;
+  public devices!: ReturnType<typeof createDevicesEndpoints>;
+  public image!: ReturnType<typeof createImageEndpoints>;
+  public model!: ReturnType<typeof createModelEndpoints>;
+  public project!: ReturnType<typeof createProjectEndpoints>;
+  public role!: ReturnType<typeof createRoleEndpoints>;
+  public snapshot!: ReturnType<typeof createSnapshotEndpoints>;
+  public team!: ReturnType<typeof createTeamEndpoints>;
+  public user!: ReturnType<typeof createUserEndpoints>;
 
   public constructor(options: CorelliumOptions) {
-    this.accessToken = options.accessToken;
-
-    if (options.endpoint) {
-      this.endpoint = options.endpoint;
-    }
-
-    this.api = createFetchClient<paths>({
-      baseUrl: this.endpoint,
+    const api = createFetchClient<paths>({
+      baseUrl: options.endpoint
+        ? new URL('/api', options.endpoint).toString()
+        : 'https://app.corellium.com/api',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: `Bearer ${options.accessToken}`,
       },
     });
-  }
 
-  public auth = createAuthEndpoints(this.api);
-  public authProvider = createAuthProviderEndpoints(this.api);
-  public customNetwork = createCustomNetworkEndpoints(this.api);
-  public devices = createDevicesEndpoints(this.api);
-  public image = createImageEndpoints(this.api);
-  public model = createModelEndpoints(this.api);
-  public project = createProjectEndpoints(this.api);
-  public role = createRoleEndpoints(this.api);
-  public snapshot = createSnapshotEndpoints(this.api);
-  public team = createTeamEndpoints(this.api);
-  public user = createUserEndpoints(this.api);
+    this.auth = createAuthEndpoints(api);
+    this.authProvider = createAuthProviderEndpoints(api);
+    this.customNetwork = createCustomNetworkEndpoints(api);
+    this.devices = createDevicesEndpoints(api);
+    this.image = createImageEndpoints(api);
+    this.model = createModelEndpoints(api);
+    this.project = createProjectEndpoints(api);
+    this.role = createRoleEndpoints(api);
+    this.snapshot = createSnapshotEndpoints(api);
+    this.team = createTeamEndpoints(api);
+    this.user = createUserEndpoints(api);
 
-  public device(deviceId: string) {
-    return {
-      ...createDeviceEndpoints(this.api, deviceId),
-      app: createAppEndpoints(this.api, deviceId),
-      connect: createConnectEndpoints(this.api, deviceId),
-      console: createConsoleEndpoints(this.api, deviceId),
-      coreTrace: createCoreTraceEndpoints(this.api, deviceId),
-      file: createFileEndpoints(this.api, deviceId),
-      hyperTrace: createHyperTraceEndpoints(this.api, deviceId),
-      kernelHook: createKernelHookEndpoints(this.api, deviceId),
-      media: createMediaEndpoints(this.api, deviceId),
-      messaging: createMessagingEndpoints(this.api, deviceId),
-      networkMonitor: createNetworkMonitorEndpoints(this.api, deviceId),
-      panic: createPanicEndpoints(this.api, deviceId),
-      portForwarding: createPortForwardingEndpoints(this.api, deviceId),
-      profile: createProfileEndpoints(this.api, deviceId),
-      snapshot: createSnapshotEndpoints(this.api, deviceId),
-    };
+    this.device = (deviceId: string) => ({
+      ...createDeviceEndpoints(api, deviceId),
+      app: createAppEndpoints(api, deviceId),
+      connect: createConnectEndpoints(api, deviceId),
+      console: createConsoleEndpoints(api, deviceId),
+      coreTrace: createCoreTraceEndpoints(api, deviceId),
+      file: createFileEndpoints(api, deviceId),
+      hyperTrace: createHyperTraceEndpoints(api, deviceId),
+      kernelHook: createKernelHookEndpoints(api, deviceId),
+      media: createMediaEndpoints(api, deviceId),
+      messaging: createMessagingEndpoints(api, deviceId),
+      networkMonitor: createNetworkMonitorEndpoints(api, deviceId),
+      panic: createPanicEndpoints(api, deviceId),
+      portForwarding: createPortForwardingEndpoints(api, deviceId),
+      profile: createProfileEndpoints(api, deviceId),
+      snapshot: createSnapshotEndpoints(api, deviceId),
+    });
   }
 }
 
