@@ -1,3 +1,15 @@
+# v1.0.17 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Add more recipes ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.16 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
