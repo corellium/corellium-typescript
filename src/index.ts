@@ -17,6 +17,7 @@ import { createProfileEndpoints } from './profile';
 import { createAuthProviderEndpoints } from './auth-provider';
 import { createNetworkMonitorEndpoints } from './network-monitor';
 import { createRoleEndpoints } from './role';
+import { createCustomNetworkEndpoints } from './custom-network';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -48,6 +49,9 @@ class Corellium {
   public auth = this.api ? createAuthEndpoints(this.api) : null;
   public authProvider = this.api ? createAuthProviderEndpoints(this.api) : null;
   public app = this.api ? createAppEndpoints(this.api) : null;
+  public customNetwork = this.api
+    ? createCustomNetworkEndpoints(this.api)
+    : null;
   public coretrace = this.api ? createCoreTraceEndpoints(this.api) : null;
   public device = this.api ? createDeviceEndpoints(this.api) : null;
   public file = this.api ? createFileEndpoints(this.api) : null;
