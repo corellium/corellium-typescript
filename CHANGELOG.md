@@ -1,3 +1,15 @@
+# v1.0.8 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Create dependabot.yml ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.7 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
