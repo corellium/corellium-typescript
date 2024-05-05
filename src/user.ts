@@ -4,6 +4,13 @@ import type { paths } from '../types/corellium';
 export const createUserEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
+  /**
+   * Create a user.
+   * @param body The request body.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.user.create(body);
+   */
   create: async (
     body: paths['/v1/users']['post']['requestBody']['content']['application/json']
   ) => {
@@ -18,6 +25,13 @@ export const createUserEndpoints = (
     return response.data;
   },
 
+  /**
+   * Delete a user.
+   * @param userId The user ID.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.user.delete('123');
+   */
   delete: async (
     userId: paths['/v1/users/{userId}']['delete']['parameters']['path']['userId']
   ) => {
@@ -36,6 +50,14 @@ export const createUserEndpoints = (
     return response.data;
   },
 
+  /**
+   * Update a user.
+   * @param userId The user ID.
+   * @param body The request body.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.user.update('123', body);
+   */
   update: async (
     userId: paths['/v1/users/{userId}']['patch']['parameters']['path']['userId'],
     body: paths['/v1/users/{userId}']['patch']['requestBody']['content']['application/json']
