@@ -187,10 +187,10 @@ await corellium.device('deviceId').coreTrace.clear();
 
 ```ts
 // List all devices
-const devices = await corellium.device.list();
+const devices = await corellium.devices.list();
 
 // Create a new device
-const device = await corellium.device.create({
+const device = await corellium.devices.create({
   project: 'projectId',
   name: 'My New Device',
   flavor: 'ranchu',
@@ -198,7 +198,7 @@ const device = await corellium.device.create({
 });
 
 // Search for devices by name
-const search = await corellium.device.search('My Device');
+const search = await corellium.devices.search('My Device');
 ```
 
 ### Device (Specific)
