@@ -1,15 +1,39 @@
 # corellium-typescript
 
+[![Version](https://img.shields.io/npm/v/corellium-typescript.svg)](https://www.npmjs.org/package/corellium-typescript) [![Build Status](https://github.com/haydenbleasel/corellium-typescript/actions/workflows/push.yml/badge.svg?branch=main)](https://github.com/haydenbleasel/corellium-typescript/actions?query=branch%3Amain)
+
 `corellium-typescript` is a TypeScript library for interacting with the Corellium API. It is a wrapper around the Corellium REST API, providing a more user-friendly interface for interacting with the API.
+
+The key differences between `corellium-typescript` and official Corellium libraries are:
+
+- TypeScript types for all API responses
+- Improved structuring of endpoints e.g. `corellium.project.keys.add` instead of `corellium.v1AddProjectKey`
+- Opinionated error handling (throws errors for all non-2xx responses so you can catch them)
+- Endpoints with device context e.g. `corellium.device('123').app.run('com.corellium.cafe')`
 
 **Note: While I am a Corellium employee, this library is not officially supported by Corellium.**
 
+## Requirements
+
+- Node.js 18.x or later
+- A Corellium account
+
 ## Installation
 
-You can install `corellium-typescript` using any JavaScript package manager. For example, using `pnpm`:
+You can install `corellium-typescript` using any JavaScript package manager:
 
 ```sh
+# npm
+npm install corellium-typescript
+
+# yarn
+yarn add corellium-typescript
+
+# pnpm
 pnpm add corellium-typescript
+
+# bun
+bun add corellium-typescript
 ```
 
 ## Usage
