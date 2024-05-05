@@ -20,6 +20,7 @@ import { createRoleEndpoints } from './role';
 import { createCustomNetworkEndpoints } from './custom-network';
 import { createModelEndpoints } from './model';
 import { createConsoleEndpoints } from './console';
+import { createPanicEndpoints } from './panic';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -65,6 +66,7 @@ class Corellium {
   public networkMonitor = this.api
     ? createNetworkMonitorEndpoints(this.api)
     : null;
+  public panic = this.api ? createPanicEndpoints(this.api) : null;
   public profile = this.api ? createProfileEndpoints(this.api) : null;
   public project = this.api ? createProjectEndpoints(this.api) : null;
   public role = this.api ? createRoleEndpoints(this.api) : null;
