@@ -146,4 +146,29 @@ export const createAppEndpoints = (
 
     return response.data;
   },
+
+  openGApps: {
+    install: async (
+      instanceId: string,
+      body: paths['/v1/instances/{instanceId}/agent/v1/system/install-opengapps']['post']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.POST(
+        '/v1/instances/{instanceId}/agent/v1/system/install-opengapps',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
+          },
+          body,
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
 });

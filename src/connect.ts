@@ -22,4 +22,69 @@ export const createConnectEndpoints = (
 
     return response.data;
   },
+
+  eth0IP: {
+    get: async (instanceId: string) => {
+      const response = await api.GET(
+        '/v1/instances/{instanceId}/agent/v1/system/network',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
+          },
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
+
+  adbAuthSetting: {
+    get: async (instanceId: string) => {
+      const response = await api.GET(
+        '/v1/instances/{instanceId}/agent/v1/system/adbauth',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
+          },
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+
+    set: async (
+      instanceId: string,
+      body: paths['/v1/instances/{instanceId}/agent/v1/system/adbauth']['put']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.PUT(
+        '/v1/instances/{instanceId}/agent/v1/system/adbauth',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
+          },
+          body,
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
 });

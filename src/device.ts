@@ -113,6 +113,7 @@ export const createDeviceEndpoints = (
   },
 
   stop: async (instanceId: string) => {
+    // There's also /v1/instances/{instanceId}/agent/v1/system/shutdown - not sure what the difference is
     const response = await api.POST('/v1/instances/{instanceId}/stop', {
       params: {
         path: {
@@ -445,6 +446,73 @@ export const createDeviceEndpoints = (
       },
       body,
     });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  ready: async (instanceId: string) => {
+    const response = await api.GET(
+      '/v1/instances/{instanceId}/agent/v1/app/ready',
+      {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  hostname: {
+    set: async (
+      instanceId: string,
+      body: paths['/v1/instances/{instanceId}/agent/v1/system/setHostname']['post']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.POST(
+        '/v1/instances/{instanceId}/agent/v1/system/setHostname',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
+          },
+          body,
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
+
+  getSystemProperty: async (
+    instanceId: string,
+    body: paths['/v1/instances/{instanceId}/agent/v1/system/getprop']['post']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.POST(
+      '/v1/instances/{instanceId}/agent/v1/system/getprop',
+      {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+        body,
+      }
+    );
 
     if (response.error) {
       throw new Error(response.error.error);
