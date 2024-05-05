@@ -169,4 +169,77 @@ export const createSnapshotEndpoints = (
 
     return response.data;
   },
+
+  share: async (
+    snapshotId: string,
+    body: paths['/v1/snapshots/{snapshotId}/share']['post']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.POST('/v1/snapshots/{snapshotId}/share', {
+      params: {
+        path: {
+          snapshotId,
+        },
+      },
+      body,
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  addShareAccess: async (
+    snapshotId: string,
+    body: paths['/v1/snapshots/{snapshotId}/permissions']['post']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.POST('/v1/snapshots/{snapshotId}/permissions', {
+      params: {
+        path: {
+          snapshotId,
+        },
+      },
+      body,
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  removeShareAccess: async (
+    snapshotId: string,
+    body: paths['/v1/snapshots/{snapshotId}/permissions']['delete']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.DELETE(
+      '/v1/snapshots/{snapshotId}/permissions',
+      {
+        params: {
+          path: {
+            snapshotId,
+          },
+        },
+        body,
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  getShared: async () => {
+    const response = await api.GET('/v1/snapshots/shared');
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
 });
