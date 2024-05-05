@@ -731,3 +731,60 @@ await corellium.role.add(project.id, roles[0].id, {
   userId,
 });
 ```
+
+### Spin up 10 Android devices concurrently
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium('apiToken');
+
+const project = await corellium.projects.create({
+  name: 'My New Project',
+});
+
+const devices = await Promise.allSettled(
+  Array.from({ length: 10 }).map(() =>
+    corellium.devices.create({
+      project: project.id,
+      name: 'My New Device',
+      flavor: 'ranchu',
+      os: '14.0.0',
+    })
+  )
+);
+
+// Errors will contain the devices that failed to create
+const errors = devices.filter((device) => device.status === 'rejected');
+const successes = devices.filter((device) => device.status === 'fulfilled');
+
+if (errors.length) {
+  console.error(errors);
+}
+
+console.log(
+  `Successfully created ${successes.length} / ${devices.length} devices`
+);
+```
+
+### Create an iPhone XS and wait for it to be ready
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium('apiToken');
+
+const device = await corellium.devices.create({
+  project: 'projectId',
+  name: 'My New Device',
+  flavor: 'iphone-xs',
+  os: '14.0.0',
+});
+
+while (!(await corellium.device(device.id).ready())) {
+  // Wait 1 minute before checking again
+  await new Promise((resolve) => setTimeout(resolve, 60000));
+}
+
+console.log('Device is ready!');
+```
