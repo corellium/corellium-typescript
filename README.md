@@ -45,9 +45,7 @@ To use `corellium-typescript`, you will need to have a Corellium account and gen
 ```ts
 import { Corellium } from 'corellium-typescript';
 
-const corellium = new Corellium({
-  apiKey: 'apiKey',
-
+const corellium = new Corellium('apiToken', {
   // Optional: Set the API URL to use a different Corellium instance
   endpoint: 'https://acme.enterprise.corellium.com',
 });

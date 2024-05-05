@@ -27,7 +27,6 @@ import { createDevicesEndpoints } from './devices';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
-  accessToken: string;
   endpoint?: string;
 };
 
@@ -48,14 +47,14 @@ class Corellium {
   public team!: ReturnType<typeof createTeamEndpoints>;
   public user!: ReturnType<typeof createUserEndpoints>;
 
-  public constructor(options: CorelliumOptions) {
+  public constructor(apiToken: string, options?: CorelliumOptions) {
     const api = createFetchClient<paths>({
-      baseUrl: options.endpoint
+      baseUrl: options?.endpoint
         ? new URL('/api', options.endpoint).toString()
         : 'https://app.corellium.com/api',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${options.accessToken}`,
+        Authorization: `Bearer ${apiToken}`,
       },
     });
 

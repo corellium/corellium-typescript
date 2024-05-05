@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import { Corellium } from '../dist';
 
-const corellium = new Corellium({
-  accessToken: '123',
-});
+const corellium = new Corellium('123');
 
 try {
   const devices = await corellium.devices.list();
