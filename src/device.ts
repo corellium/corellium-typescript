@@ -175,4 +175,42 @@ export const createDeviceEndpoints = (
 
     return response.data;
   },
+
+  lock: async (instanceId: string) => {
+    const response = await api.POST(
+      '/v1/instances/{instanceId}/agent/v1/system/lock',
+      {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  unlock: async (instanceId: string) => {
+    const response = await api.POST(
+      '/v1/instances/{instanceId}/agent/v1/system/unlock',
+      {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
 });
