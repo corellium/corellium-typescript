@@ -1,7 +1,7 @@
 import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
-export const createKernelHooksEndpoints = (
+export const createKernelHookEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
   list: async (instanceId: string) => {
