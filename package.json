@@ -1,6 +1,6 @@
 {
   "name": "corellium-typescript",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "A beautiful TypeScript Corellium library.",
   "files": [
     "dist"
