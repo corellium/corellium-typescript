@@ -24,6 +24,7 @@ import { createPanicEndpoints } from './panic';
 import { createMediaEndpoints } from './media';
 import { createPortForwardingEndpoints } from './port-forwarding';
 import { createMessagingEndpoints } from './messaging';
+import { createConnectEndpoints } from './connect';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -55,6 +56,7 @@ class Corellium {
   public auth = this.api ? createAuthEndpoints(this.api) : null;
   public authProvider = this.api ? createAuthProviderEndpoints(this.api) : null;
   public app = this.api ? createAppEndpoints(this.api) : null;
+  public connect = this.api ? createConnectEndpoints(this.api) : null;
   public customNetwork = this.api
     ? createCustomNetworkEndpoints(this.api)
     : null;
