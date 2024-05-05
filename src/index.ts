@@ -1,6 +1,8 @@
 /* eslint-disable new-cap, @typescript-eslint/member-ordering */
 
 import createFetchClient from 'openapi-fetch';
+import { createDeviceEndpoints } from './device';
+import { createCoreTraceEndpoints } from './coretrace';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -29,43 +31,8 @@ class Corellium {
     });
   }
 
-  public device = {
-    create: async (
-      body: paths['/v1/instances']['post']['requestBody']['content']['application/json']
-    ): Promise<unknown> =>
-      this.api?.POST('/v1/instances', {
-        body,
-      }),
-
-    delete: async (instanceId: string): Promise<unknown> =>
-      this.api?.DELETE(`/v1/instances/{instanceId}`, {
-        params: {
-          path: {
-            instanceId,
-          },
-        },
-      }),
-
-    get: async (instanceId: string): Promise<unknown> =>
-      this.api?.GET(`/v1/instances/{instanceId}`, {
-        params: {
-          path: {
-            instanceId,
-          },
-        },
-      }),
-
-    list: async (): Promise<unknown> => this.api?.GET('/v1/instances'),
-
-    search: async (name: string): Promise<unknown> =>
-      this.api?.GET('/v1/instances', {
-        params: {
-          query: {
-            name,
-          },
-        },
-      }),
-  };
+  public coretrace = this.api ? createCoreTraceEndpoints(this.api) : null;
+  public device = this.api ? createDeviceEndpoints(this.api) : null;
 }
 
 export default Corellium;
