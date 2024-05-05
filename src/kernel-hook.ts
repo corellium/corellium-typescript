@@ -2,11 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createKernelHookEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
-  list: async (
-    instanceId: paths['/v1/instances/{instanceId}/hooks']['get']['parameters']['path']['instanceId']
-  ) => {
+  list: async () => {
     const response = await api.GET('/v1/instances/{instanceId}/hooks', {
       params: {
         path: {
@@ -23,7 +22,6 @@ export const createKernelHookEndpoints = (
   },
 
   create: async (
-    instanceId: paths['/v1/instances/{instanceId}/hooks']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/hooks']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/hooks', {
@@ -98,9 +96,7 @@ export const createKernelHookEndpoints = (
     return response.data;
   },
 
-  run: async (
-    instanceId: paths['/v1/instances/{instanceId}/hooks/execute']['post']['parameters']['path']['instanceId']
-  ) => {
+  run: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/hooks/execute',
       {
@@ -119,9 +115,7 @@ export const createKernelHookEndpoints = (
     return response.data;
   },
 
-  clear: async (
-    instanceId: paths['/v1/instances/{instanceId}/hooks/clear']['post']['parameters']['path']['instanceId']
-  ) => {
+  clear: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/hooks/clear', {
       params: {
         path: {

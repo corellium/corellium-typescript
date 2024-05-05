@@ -1,7 +1,6 @@
 /* eslint-disable new-cap, @typescript-eslint/member-ordering */
 
 import createFetchClient from 'openapi-fetch';
-import { createDeviceEndpoints } from './device';
 import { createCoreTraceEndpoints } from './coretrace';
 import { createHyperTraceEndpoints } from './hypertrace';
 import { createKernelHookEndpoints } from './kernel-hook';
@@ -25,6 +24,7 @@ import { createMediaEndpoints } from './media';
 import { createPortForwardingEndpoints } from './port-forwarding';
 import { createMessagingEndpoints } from './messaging';
 import { createConnectEndpoints } from './connect';
+import { createDeviceEndpoints } from './device';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -55,34 +55,39 @@ class Corellium {
 
   public auth = this.api ? createAuthEndpoints(this.api) : null;
   public authProvider = this.api ? createAuthProviderEndpoints(this.api) : null;
-  public app = this.api ? createAppEndpoints(this.api) : null;
-  public connect = this.api ? createConnectEndpoints(this.api) : null;
   public customNetwork = this.api
     ? createCustomNetworkEndpoints(this.api)
     : null;
-  public console = this.api ? createConsoleEndpoints(this.api) : null;
-  public coretrace = this.api ? createCoreTraceEndpoints(this.api) : null;
-  public device = this.api ? createDeviceEndpoints(this.api) : null;
-  public file = this.api ? createFileEndpoints(this.api) : null;
-  public hypertrace = this.api ? createHyperTraceEndpoints(this.api) : null;
-  public kernelHook = this.api ? createKernelHookEndpoints(this.api) : null;
   public image = this.api ? createImageEndpoints(this.api) : null;
-  public media = this.api ? createMediaEndpoints(this.api) : null;
-  public messaging = this.api ? createMessagingEndpoints(this.api) : null;
   public model = this.api ? createModelEndpoints(this.api) : null;
-  public networkMonitor = this.api
-    ? createNetworkMonitorEndpoints(this.api)
-    : null;
-  public panic = this.api ? createPanicEndpoints(this.api) : null;
-  public portForwarding = this.api
-    ? createPortForwardingEndpoints(this.api)
-    : null;
-  public profile = this.api ? createProfileEndpoints(this.api) : null;
   public project = this.api ? createProjectEndpoints(this.api) : null;
   public role = this.api ? createRoleEndpoints(this.api) : null;
   public snapshot = this.api ? createSnapshotEndpoints(this.api) : null;
   public team = this.api ? createTeamEndpoints(this.api) : null;
   public user = this.api ? createUserEndpoints(this.api) : null;
+
+  public device(deviceId: string) {
+    if (!this.api) {
+      return null;
+    }
+
+    return {
+      ...createDeviceEndpoints(this.api, deviceId),
+      app: createAppEndpoints(this.api, deviceId),
+      connect: createConnectEndpoints(this.api, deviceId),
+      console: createConsoleEndpoints(this.api, deviceId),
+      coreTrace: createCoreTraceEndpoints(this.api, deviceId),
+      file: createFileEndpoints(this.api, deviceId),
+      hyperTrace: createHyperTraceEndpoints(this.api, deviceId),
+      kernelHook: createKernelHookEndpoints(this.api, deviceId),
+      media: createMediaEndpoints(this.api, deviceId),
+      messaging: createMessagingEndpoints(this.api, deviceId),
+      networkMonitor: createNetworkMonitorEndpoints(this.api, deviceId),
+      panic: createPanicEndpoints(this.api, deviceId),
+      portForwarding: createPortForwardingEndpoints(this.api, deviceId),
+      profile: createProfileEndpoints(this.api, deviceId),
+    };
+  }
 }
 
 export default Corellium;

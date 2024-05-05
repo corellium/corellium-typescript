@@ -2,12 +2,11 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createPortForwardingEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
   // How do you specify the port number?
-  create: async (
-    instanceId: paths['/v1/instances/{instanceId}/exposeport/enable']['post']['parameters']['path']['instanceId']
-  ) => {
+  create: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/exposeport/enable',
       {
@@ -27,9 +26,7 @@ export const createPortForwardingEndpoints = (
   },
 
   // How do you specify the port number?
-  delete: async (
-    instanceId: paths['/v1/instances/{instanceId}/exposeport/disable']['post']['parameters']['path']['instanceId']
-  ) => {
+  delete: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/exposeport/disable',
       {

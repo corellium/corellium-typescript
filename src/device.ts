@@ -2,7 +2,8 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createDeviceEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
   create: async (
     body: paths['/v1/instances']['post']['requestBody']['content']['application/json']
@@ -18,9 +19,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  delete: async (
-    instanceId: paths['/v1/instances/{instanceId}']['delete']['parameters']['path']['instanceId']
-  ) => {
+  delete: async () => {
     const response = await api.DELETE('/v1/instances/{instanceId}', {
       params: {
         path: {
@@ -36,9 +35,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  get: async (
-    instanceId: paths['/v1/instances/{instanceId}']['get']['parameters']['path']['instanceId']
-  ) => {
+  get: async () => {
     const response = await api.GET('/v1/instances/{instanceId}', {
       params: {
         path: {
@@ -81,7 +78,6 @@ export const createDeviceEndpoints = (
   },
 
   update: async (
-    instanceId: paths['/v1/instances/{instanceId}']['patch']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}']['patch']['requestBody']['content']['application/json']
   ) => {
     const response = await api.PATCH('/v1/instances/{instanceId}', {
@@ -100,9 +96,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  start: async (
-    instanceId: paths['/v1/instances/{instanceId}/start']['post']['parameters']['path']['instanceId']
-  ) => {
+  start: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/start', {
       params: {
         path: {
@@ -118,9 +112,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  stop: async (
-    instanceId: paths['/v1/instances/{instanceId}/stop']['post']['parameters']['path']['instanceId']
-  ) => {
+  stop: async () => {
     // There's also /v1/instances/{instanceId}/agent/v1/system/shutdown - not sure what the difference is
     const response = await api.POST('/v1/instances/{instanceId}/stop', {
       params: {
@@ -137,9 +129,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  restart: async (
-    instanceId: paths['/v1/instances/{instanceId}/reboot']['post']['parameters']['path']['instanceId']
-  ) => {
+  restart: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/reboot', {
       params: {
         path: {
@@ -155,9 +145,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  pause: async (
-    instanceId: paths['/v1/instances/{instanceId}/pause']['post']['parameters']['path']['instanceId']
-  ) => {
+  pause: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/pause', {
       params: {
         path: {
@@ -173,9 +161,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  resume: async (
-    instanceId: paths['/v1/instances/{instanceId}/unpause']['post']['parameters']['path']['instanceId']
-  ) => {
+  resume: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/unpause', {
       params: {
         path: {
@@ -191,9 +177,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  lock: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/lock']['post']['parameters']['path']['instanceId']
-  ) => {
+  lock: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/system/lock',
       {
@@ -212,9 +196,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  unlock: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/unlock']['post']['parameters']['path']['instanceId']
-  ) => {
+  unlock: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/system/unlock',
       {
@@ -233,9 +215,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  getWebsocketURL: async (
-    instanceId: paths['/v1/instances/{instanceId}/console']['get']['parameters']['path']['instanceId']
-  ) => {
+  getWebsocketURL: async () => {
     const response = await api.GET('/v1/instances/{instanceId}/console', {
       params: {
         path: {
@@ -251,9 +231,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  status: async (
-    instanceId: paths['/v2/instances/{instanceId}/state']['get']['parameters']['path']['instanceId']
-  ) => {
+  status: async () => {
     // We also have access to setState but we have other endpoints for that
     const response = await api.GET('/v2/instances/{instanceId}/state', {
       params: {
@@ -271,9 +249,7 @@ export const createDeviceEndpoints = (
   },
 
   gpio: {
-    list: async (
-      instanceId: paths['/v1/instances/{instanceId}/gpios']['get']['parameters']['path']['instanceId']
-    ) => {
+    list: async () => {
       const response = await api.GET('/v1/instances/{instanceId}/gpios', {
         params: {
           path: {
@@ -290,7 +266,6 @@ export const createDeviceEndpoints = (
     },
 
     set: async (
-      instanceId: paths['/v1/instances/{instanceId}/gpios']['put']['parameters']['path']['instanceId'],
       body: paths['/v1/instances/{instanceId}/gpios']['put']['requestBody']['content']['application/json']
     ) => {
       const response = await api.PUT('/v1/instances/{instanceId}/gpios', {
@@ -311,9 +286,7 @@ export const createDeviceEndpoints = (
   },
 
   sensors: {
-    list: async (
-      instanceId: paths['/v1/instances/{instanceId}/peripherals']['get']['parameters']['path']['instanceId']
-    ) => {
+    list: async () => {
       const response = await api.GET('/v1/instances/{instanceId}/peripherals', {
         params: {
           path: {
@@ -330,7 +303,6 @@ export const createDeviceEndpoints = (
     },
 
     set: async (
-      instanceId: paths['/v1/instances/{instanceId}/peripherals']['put']['parameters']['path']['instanceId'],
       body: paths['/v1/instances/{instanceId}/peripherals']['put']['requestBody']['content']['application/json']
     ) => {
       const response = await api.PUT('/v1/instances/{instanceId}/peripherals', {
@@ -351,7 +323,6 @@ export const createDeviceEndpoints = (
   },
 
   restoreBackup: async (
-    instanceId: paths['/v1/instances/{instanceId}/restoreBackup']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/restoreBackup']['post']['requestBody']
   ) => {
     const response = await api.POST(
@@ -375,7 +346,6 @@ export const createDeviceEndpoints = (
   },
 
   takeScreenshot: async (
-    instanceId: paths['/v1/instances/{instanceId}/screenshot.{format}']['get']['parameters']['path']['instanceId'],
     format: paths['/v1/instances/{instanceId}/screenshot.{format}']['get']['parameters']['path']['format'],
     /*
      * Patching bad OpenAPI spec
@@ -406,7 +376,6 @@ export const createDeviceEndpoints = (
   },
 
   rotate: async (
-    instanceId: paths['/v1/instances/{instanceId}/rotate']['post']['parameters']['path']['instanceId'],
     orientation:
       | 'landscape-inverted'
       | 'landscape'
@@ -441,7 +410,6 @@ export const createDeviceEndpoints = (
   },
 
   input: async (
-    instanceId: paths['/v1/instances/{instanceId}/input']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/input', {
@@ -461,7 +429,6 @@ export const createDeviceEndpoints = (
   },
 
   upgrade: async (
-    instanceId: paths['/v1/instances/{instanceId}/upgrade']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/upgrade']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/upgrade', {
@@ -480,9 +447,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  ready: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/app/ready']['get']['parameters']['path']['instanceId']
-  ) => {
+  ready: async () => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/app/ready',
       {
@@ -503,7 +468,6 @@ export const createDeviceEndpoints = (
 
   hostname: {
     set: async (
-      instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/setHostname']['post']['parameters']['path']['instanceId'],
       body: paths['/v1/instances/{instanceId}/agent/v1/system/setHostname']['post']['requestBody']['content']['application/json']
     ) => {
       const response = await api.POST(
@@ -527,7 +491,6 @@ export const createDeviceEndpoints = (
   },
 
   getSystemProperty: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/system/getprop']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/agent/v1/system/getprop']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST(

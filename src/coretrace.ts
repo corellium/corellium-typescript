@@ -2,11 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createCoreTraceEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
-  start: async (
-    instanceId: paths['/v1/instances/{instanceId}/strace/enable']['post']['parameters']['path']['instanceId']
-  ) => {
+  start: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/strace/enable',
       {
@@ -25,9 +24,7 @@ export const createCoreTraceEndpoints = (
     return response.data;
   },
 
-  stop: async (
-    instanceId: paths['/v1/instances/{instanceId}/strace/disable']['post']['parameters']['path']['instanceId']
-  ) => {
+  stop: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/strace/disable',
       {
@@ -46,9 +43,7 @@ export const createCoreTraceEndpoints = (
     return response.data;
   },
 
-  threads: async (
-    instanceId: paths['/v1/instances/{instanceId}/strace/thread-list']['get']['parameters']['path']['instanceId']
-  ) => {
+  threads: async () => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/strace/thread-list',
       {
@@ -67,9 +62,7 @@ export const createCoreTraceEndpoints = (
     return response.data;
   },
 
-  clear: async (
-    instanceId: paths['/v1/instances/{instanceId}/strace']['delete']['parameters']['path']['instanceId']
-  ) => {
+  clear: async () => {
     const response = await api.DELETE('/v1/instances/{instanceId}/strace', {
       params: {
         path: {

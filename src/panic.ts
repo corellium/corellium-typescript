@@ -2,11 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createPanicEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
-  list: async (
-    instanceId: paths['/v1/instances/{instanceId}/panics']['get']['parameters']['path']['instanceId']
-  ) => {
+  list: async () => {
     const response = await api.GET('/v1/instances/{instanceId}/panics', {
       params: {
         path: {
@@ -22,9 +21,7 @@ export const createPanicEndpoints = (
     return response.data;
   },
 
-  clear: async (
-    instanceId: paths['/v1/instances/{instanceId}/panics']['delete']['parameters']['path']['instanceId']
-  ) => {
+  clear: async () => {
     const response = await api.DELETE('/v1/instances/{instanceId}/panics', {
       params: {
         path: {

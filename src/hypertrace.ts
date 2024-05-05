@@ -2,10 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createHyperTraceEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
   start: async (
-    instanceId: paths['/v1/instances/{instanceId}/btrace/enable']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/btrace/enable']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST(
@@ -27,9 +27,7 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  stop: async (
-    instanceId: paths['/v1/instances/{instanceId}/btrace/disable']['post']['parameters']['path']['instanceId']
-  ) => {
+  stop: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/btrace/disable',
       {
@@ -48,9 +46,7 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  ranges: async (
-    instanceId: paths['/v1/instances/{instanceId}/btrace-kcrange']['get']['parameters']['path']['instanceId']
-  ) => {
+  ranges: async () => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/btrace-kcrange',
       {
@@ -69,9 +65,7 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  authorize: async (
-    instanceId: paths['/v1/instances/{instanceId}/btrace-authorize']['get']['parameters']['path']['instanceId']
-  ) => {
+  authorize: async () => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/btrace-authorize',
       {
@@ -90,9 +84,7 @@ export const createHyperTraceEndpoints = (
     return response.data;
   },
 
-  clear: async (
-    instanceId: paths['/v1/instances/{instanceId}/btrace']['delete']['parameters']['path']['instanceId']
-  ) => {
+  clear: async () => {
     const response = await api.DELETE('/v1/instances/{instanceId}/btrace', {
       params: {
         path: {

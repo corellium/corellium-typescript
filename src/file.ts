@@ -2,10 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createFileEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
   download: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['get']['parameters']['path']['instanceId'],
     filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['get']['parameters']['path']['filePath']
   ) => {
     const response = await api.GET(
@@ -28,7 +28,6 @@ export const createFileEndpoints = (
   },
 
   upload: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['parameters']['path']['instanceId'],
     filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['parameters']['path']['filePath'],
     body: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['requestBody']['content']['application/octet-stream']
   ) => {
@@ -53,7 +52,6 @@ export const createFileEndpoints = (
   },
 
   delete: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['delete']['parameters']['path']['instanceId'],
     filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['delete']['parameters']['path']['filePath']
   ) => {
     const response = await api.DELETE(
@@ -75,9 +73,7 @@ export const createFileEndpoints = (
     return response.data;
   },
 
-  generateFilename: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/temp']['post']['parameters']['path']['instanceId']
-  ) => {
+  generateFilename: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/file/temp',
       {
@@ -97,7 +93,6 @@ export const createFileEndpoints = (
   },
 
   update: async (
-    instanceId: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['parameters']['path']['instanceId'],
     filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['parameters']['path']['filePath'],
     body: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['requestBody']['content']['application/json']
   ) => {

@@ -2,10 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createMediaEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
   start: async (
-    instanceId: paths['/v1/instances/{instanceId}/media/play']['post']['parameters']['path']['instanceId'],
     body: paths['/v1/instances/{instanceId}/media/play']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/media/play', {
@@ -24,9 +24,7 @@ export const createMediaEndpoints = (
     return response.data;
   },
 
-  stop: async (
-    instanceId: paths['/v1/instances/{instanceId}/media/stop']['post']['parameters']['path']['instanceId']
-  ) => {
+  stop: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/media/stop', {
       params: {
         path: {

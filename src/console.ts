@@ -2,11 +2,10 @@ import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createConsoleEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  instanceId: string
 ) => ({
-  get: async (
-    instanceId: paths['/v1/instances/{instanceId}/console']['get']['parameters']['path']['instanceId']
-  ) => {
+  get: async () => {
     const response = await api.GET('/v1/instances/{instanceId}/console', {
       params: {
         path: {
