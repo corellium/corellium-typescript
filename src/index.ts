@@ -14,6 +14,7 @@ import { createAuthEndpoints } from './auth';
 import { createAppEndpoints } from './app';
 import { createFileEndpoints } from './file';
 import { createProfileEndpoints } from './profile';
+import { createAuthProviderEndpoints } from './auth-provider';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -43,6 +44,7 @@ class Corellium {
   }
 
   public auth = this.api ? createAuthEndpoints(this.api) : null;
+  public authProvider = this.api ? createAuthProviderEndpoints(this.api) : null;
   public app = this.api ? createAppEndpoints(this.api) : null;
   public coretrace = this.api ? createCoreTraceEndpoints(this.api) : null;
   public device = this.api ? createDeviceEndpoints(this.api) : null;
