@@ -72,43 +72,45 @@ export const createTeamEndpoints = (
     return response.data;
   },
 
-  addUser: async (
-    teamId: paths['/v1/teams/{teamId}/users/{userId}']['put']['parameters']['path']['teamId'],
-    userId: paths['/v1/teams/{teamId}/users/{userId}']['put']['parameters']['path']['userId']
-  ) => {
-    const response = await api.PUT('/v1/teams/{teamId}/users/{userId}', {
-      params: {
-        path: {
-          teamId,
-          userId,
+  users: {
+    create: async (
+      teamId: paths['/v1/teams/{teamId}/users/{userId}']['put']['parameters']['path']['teamId'],
+      userId: paths['/v1/teams/{teamId}/users/{userId}']['put']['parameters']['path']['userId']
+    ) => {
+      const response = await api.PUT('/v1/teams/{teamId}/users/{userId}', {
+        params: {
+          path: {
+            teamId,
+            userId,
+          },
         },
-      },
-    });
+      });
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
 
-    return response.data;
-  },
+      return response.data;
+    },
 
-  removeUser: async (
-    teamId: paths['/v1/teams/{teamId}/users/{userId}']['delete']['parameters']['path']['teamId'],
-    userId: paths['/v1/teams/{teamId}/users/{userId}']['delete']['parameters']['path']['userId']
-  ) => {
-    const response = await api.DELETE('/v1/teams/{teamId}/users/{userId}', {
-      params: {
-        path: {
-          teamId,
-          userId,
+    delete: async (
+      teamId: paths['/v1/teams/{teamId}/users/{userId}']['delete']['parameters']['path']['teamId'],
+      userId: paths['/v1/teams/{teamId}/users/{userId}']['delete']['parameters']['path']['userId']
+    ) => {
+      const response = await api.DELETE('/v1/teams/{teamId}/users/{userId}', {
+        params: {
+          path: {
+            teamId,
+            userId,
+          },
         },
-      },
-    });
+      });
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
 
-    return response.data;
+      return response.data;
+    },
   },
 });

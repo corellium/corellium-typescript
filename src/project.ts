@@ -85,44 +85,48 @@ export const createProjectEndpoints = (
     return response.data;
   },
 
-  instances: async (
-    projectId: paths['/v1/projects/{projectId}/instances']['get']['parameters']['path']['projectId']
-  ) => {
-    const response = await api.GET('/v1/projects/{projectId}/instances', {
-      params: {
-        path: {
-          projectId,
-        },
-      },
-    });
-
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
-
-    return response.data;
-  },
-
-  getVPNConfig: async (
-    projectId: paths['/v1/projects/{projectId}/vpnconfig/{format}']['get']['parameters']['path']['projectId']
-  ) => {
-    const response = await api.GET(
-      '/v1/projects/{projectId}/vpnconfig/{format}',
-      {
+  device: {
+    list: async (
+      projectId: paths['/v1/projects/{projectId}/instances']['get']['parameters']['path']['projectId']
+    ) => {
+      const response = await api.GET('/v1/projects/{projectId}/instances', {
         params: {
           path: {
             projectId,
-            format: 'ovpn',
           },
         },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
       }
-    );
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
+      return response.data;
+    },
+  },
 
-    return response.data;
+  vpn: {
+    get: async (
+      projectId: paths['/v1/projects/{projectId}/vpnconfig/{format}']['get']['parameters']['path']['projectId']
+    ) => {
+      const response = await api.GET(
+        '/v1/projects/{projectId}/vpnconfig/{format}',
+        {
+          params: {
+            path: {
+              projectId,
+              format: 'ovpn',
+            },
+          },
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
   },
 
   keys: {

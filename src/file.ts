@@ -5,7 +5,7 @@ export const createFileEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
   instanceId: string
 ) => ({
-  download: async (
+  get: async (
     filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['get']['parameters']['path']['filePath']
   ) => {
     const response = await api.GET(
@@ -27,7 +27,7 @@ export const createFileEndpoints = (
     return response.data;
   },
 
-  upload: async (
+  create: async (
     filePath: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['parameters']['path']['filePath'],
     body: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['put']['requestBody']['content']['application/octet-stream']
   ) => {

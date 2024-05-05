@@ -20,11 +20,13 @@ export const createModelEndpoints = (
   },
 
   software: {
-    list: async () => {
+    list: async (
+      modelId: paths['/v1/models/{model}/software']['get']['parameters']['path']['model']
+    ) => {
       const response = await api.GET('/v1/models/{model}/software', {
         params: {
           path: {
-            model: 'string',
+            model: modelId,
           },
         },
       });

@@ -18,11 +18,17 @@ export const createAuthEndpoints = (
     return response.data;
   },
 
-  changePassword: async (
-    body: paths['/v1/users/change-password']['post']['requestBody']['content']['application/json']
-  ) => {
+  changePassword: async (body: {
+    userId: paths['/v1/users/change-password']['post']['requestBody']['content']['application/json']['user'];
+    oldPassword: paths['/v1/users/change-password']['post']['requestBody']['content']['application/json']['old-password'];
+    newPassword: paths['/v1/users/change-password']['post']['requestBody']['content']['application/json']['new-password'];
+  }) => {
     const response = await api.POST('/v1/users/change-password', {
-      body,
+      body: {
+        user: body.userId,
+        'old-password': body.oldPassword,
+        'new-password': body.newPassword,
+      },
     });
 
     if (response.error) {
@@ -32,11 +38,17 @@ export const createAuthEndpoints = (
     return response.data;
   },
 
-  resetPassword: async (
-    body: paths['/v1/users/reset-password']['post']['requestBody']['content']['application/json']
-  ) => {
+  resetPassword: async (body: {
+    token: paths['/v1/users/reset-password']['post']['requestBody']['content']['application/json']['token'];
+    totpToken: paths['/v1/users/reset-password']['post']['requestBody']['content']['application/json']['totpToken'];
+    newPassword: paths['/v1/users/reset-password']['post']['requestBody']['content']['application/json']['new-password'];
+  }) => {
     const response = await api.POST('/v1/users/reset-password', {
-      body,
+      body: {
+        token: body.token,
+        totpToken: body.totpToken,
+        'new-password': body.newPassword,
+      },
     });
 
     if (response.error) {

@@ -89,7 +89,7 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  restart: async () => {
+  reboot: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/reboot', {
       params: {
         path: {
@@ -175,20 +175,22 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
-  getWebsocketURL: async () => {
-    const response = await api.GET('/v1/instances/{instanceId}/console', {
-      params: {
-        path: {
-          instanceId,
+  websocket: {
+    get: async () => {
+      const response = await api.GET('/v1/instances/{instanceId}/console', {
+        params: {
+          path: {
+            instanceId,
+          },
         },
-      },
-    });
+      });
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
 
-    return response.data;
+      return response.data;
+    },
   },
 
   status: async () => {
@@ -450,25 +452,27 @@ export const createDeviceEndpoints = (
     },
   },
 
-  getSystemProperty: async (
-    body: paths['/v1/instances/{instanceId}/agent/v1/system/getprop']['post']['requestBody']['content']['application/json']
-  ) => {
-    const response = await api.POST(
-      '/v1/instances/{instanceId}/agent/v1/system/getprop',
-      {
-        params: {
-          path: {
-            instanceId,
+  property: {
+    get: async (
+      body: paths['/v1/instances/{instanceId}/agent/v1/system/getprop']['post']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.POST(
+        '/v1/instances/{instanceId}/agent/v1/system/getprop',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
           },
-        },
-        body,
+          body,
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
       }
-    );
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
-
-    return response.data;
+      return response.data;
+    },
   },
 });

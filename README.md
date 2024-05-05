@@ -11,7 +11,7 @@ The key differences between `corellium-typescript` and official Corellium librar
 - TypeScript types for all API responses
 - Improved structuring of endpoints e.g. `corellium.project.keys.add` instead of `corellium.v1AddProjectKey`
 - Opinionated error handling (throws errors for all non-2xx responses so you can catch them)
-- Endpoints with device context e.g. `corellium.device('123').app.run('com.corellium.cafe')`
+- Endpoints with device context e.g. `corellium.device('deviceId').app.run('com.corellium.cafe')`
 
 **Note: While I am a Corellium employee, this library is not officially supported by Corellium.**
 
@@ -42,33 +42,623 @@ bun add corellium-typescript
 
 To use `corellium-typescript`, you will need to have a Corellium account and generate an API key. You can generate an API key by logging into the Corellium web interface and navigating to the "API Keys" section of your account settings.
 
-### Authentication
-
 ```ts
 import { Corellium } from 'corellium-typescript';
 
 const corellium = new Corellium({
-  apiKey: '1234567890abcdef',
+  apiKey: 'apiKey',
 
   // Optional: Set the API URL to use a different Corellium instance
   endpoint: 'https://acme.enterprise.corellium.com',
 });
 ```
 
-### Examples
+Then, you can use the `corellium` object to interact with the Corellium API. The library is structured in a way that mirrors the Corellium UI, with methods for projects, devices, and apps e.g.
 
 ```ts
+const project = await corellium.project.get('projectId');
+```
+
+## Examples
+
+### Apps
+
+```ts
+// List all apps on a device
+const apps = await corellium.device('deviceId').app.list();
+
+// Run an app on a device
+await corellium.device('deviceId').app.run('com.corellium.cafe');
+
+// Uninstall an app from a device
+await corellium.device('deviceId').app.uninstall('com.corellium.cafe');
+
+// Get statuses for all apps on a device
+const statuses = await corellium.device('deviceId').app.statuses();
+
+// Get the icons for specified apps on a device
+const icons = await corellium
+  .device('deviceId')
+  .app.icons(['com.corellium.cafe', 'com.apple.mobilesafari']);
+
+// Kill an app on a device
+await corellium.device('deviceId').app.kill('com.corellium.cafe');
+
+// Install OpenGApps on an Android device
+await corellium.device('deviceId').app.openGApps.install();
+```
+
+### AuthProviders
+
+```ts
+// Create an auth provider
+const provider = await corellium.authProvider.create({
+  enabled: true,
+  providerType: 'open-id-connect',
+  label: "Login with Custom Auth0",
+  config: {
+    discoveryUrl: 'http://localhost:8080/realms/Corellium/.well-known/openid-configuration',
+    clientId: 'B5GhRzrVn19adO1a1vJ6aZRYdNY9jSP4',
+    clientSecret: 'itsasecret',
+    invitedOnly: false
+  }
+}
+
+// Delete an auth provider
+await corellium.authProvider.delete('authProviderId');
+
+// List all auth providers
+const providers = await corellium.authProvider.list();
+
+// Update an auth provider
+await corellium.authProvider.update('authProviderId', {
+  enabled: false,
+  label: "Login with Custom Auth0 (disabled)"
+});
+```
+
+### Authentication
+
+```ts
+// Change the password for a user
+await corellium.auth.changePassword({
+  userId: 'userId',
+  oldPassword: 'newpassword',
+  newPassword: 'oldpassword',
+});
+
+// Reset the password for a user using a token
+await corellium.auth.resetPassword({
+  token: 'token',
+  totpToken: 'totpToken',
+  newPassword: 'newpassword',
+});
+
+// Send a password reset email to a user
+await corellium.auth.sendPasswordResetEmail({
+  email: 'jane@acme.com',
+});
+
+// Consent to the terms of service
+await corellium.auth.consent();
+```
+
+### Connect
+
+```ts
+// Get the QuickConnect URL for a device
+const url = await corellium.device('deviceId').connect.quickConnect.get();
+
+// Get IP of eth0 (AOSP only)
+const ip = await corellium.device('deviceId').connect.eth0IP.get();
+
+// Get ADB Auth Setting (AOSP only)
+const auth = await corellium.device('deviceId').connect.adbAuthSetting.get();
+
+// Set ADB Auth Setting (AOSP only)
+await corellium.device('deviceId').connect.adbAuthSetting.set({
+  enabled: true,
+});
+```
+
+### Console
+
+```ts
+// Get console websocket URL
+const url = await corellium.device('deviceId').console.get();
+```
+
+### CoreTrace
+
+```ts
+// Start running CoreTrace on a device
+await corellium.device('deviceId').coreTrace.start();
+
+// Stop running CoreTrace on a device
+await corellium.device('deviceId').coreTrace.stop();
+
+// Get running CoreTrace threads on a device
+const threads = await corellium.device('deviceId').coreTrace.threads();
+
+// Clear the CoreTrace data on a device
+await corellium.device('deviceId').coreTrace.clear();
+```
+
+### Devices (General)
+
+```ts
+// List all devices
+const devices = await corellium.device.list();
+
+// Create a new device
+const device = await corellium.device.create({
+  project: 'projectId',
+  name: 'My New Device',
+  flavor: 'ranchu',
+  os: '14.0.0',
+});
+
+// Search for devices by name
+const search = await corellium.device.search('My Device');
+```
+
+### Device (Specific)
+
+```ts
+// Get a device
+const device = await corellium.device('deviceId').get();
+
+// Delete a device
+await corellium.device('deviceId').delete();
+
+// Update a device
+await corellium.device('deviceId').update({
+  name: 'My Updated Device',
+});
+
+// Start a device
+await corellium.device('deviceId').start();
+
+// Stop a device
+await corellium.device('deviceId').stop();
+
+// Reboot a device
+await corellium.device('deviceId').reboot();
+
+// Pause a device
+await corellium.device('deviceId').pause();
+
+// Resume a device
+await corellium.device('deviceId').resume();
+
+// Lock a device (iOS only)
+await corellium.device('deviceId').lock();
+
+// Unlock a device (iOS only)
+await corellium.device('deviceId').unlock();
+
+// Get the Websocket URL for a device
+const url = await corellium.device('deviceId').websocket.get();
+
+// Get the status of a device
+const status = await corellium.device('deviceId').status();
+
+// Get the GPIO state of a device
+const gpio = await corellium.device('deviceId').gpio.get();
+
+// Set the GPIO state of a device
+await corellium.device('deviceId').gpio.set({
+  button: {
+    bitCount: 2,
+    banks: [
+      [0, 1],
+      [1, 0],
+    ],
+  },
+  switch: {
+    bitCount: 8,
+    banks: [[0, 1, 0, 1, 0, 1, 0, 1]],
+  },
+});
+
+// Get the device's sensors
+const sensors = await corellium.device('deviceId').sensors.get();
+
+// Set the device's sensors
+await corellium.device('deviceId').sensors.set({
+  acceleration: [0, 9.81, 0],
+  gyroscope: [0, 0, 0],
+  magnetic: [0, 45, 0],
+  orientation: [0, 0, 0],
+  temperature: 25,
+  proximity: 50,
+  light: 20,
+  pressure: 1013.25,
+  humidity: 55,
+});
+
+// Take a screenshot of a device
+const screenshot = await corellium.device('deviceId').takeScreenshot({
+  format: 'png',
+});
+
+// Rotate a device
+await corellium.device('deviceId').rotate('landscape');
+
+// Send input to a device
+await corellium.device('deviceId').input([
+  {
+    buttons: ['finger'],
+    position: [[300, 600]],
+    wait: 0,
+  },
+  {
+    buttons: [],
+    wait: 100,
+  },
+]);
+
+// Upgrade a device's OS (iOS only)
+await corellium.device('deviceId').upgrade({
+  os: '15.0.0',
+});
+
+// Check if a device is ready for interaction
+const ready = await corellium.device('deviceId').ready();
+
+// Set the hostname of a device
+await corellium.device('deviceId').hostname.set('my-hostname');
+
+// Get a system property (Android only)
+const property = await corellium
+  .device('deviceId')
+  .property.get('corellium.opengapps');
+```
+
+### Files
+
+```ts
+// List all files on a device
+const files = await corellium.device('deviceId').file.list();
+
+// Get a file from a device
+const file = await corellium.device('deviceId').file.get('/data/test.txt');
+
+// Put a file on a device
+await corellium
+  .device('deviceId')
+  .file.create('/data/test.txt', 'Hello, World!');
+
+// Delete a file from a device
+await corellium.device('deviceId').file.delete('/data/test.txt');
+
+// Update a file on a device
+await corellium.device('deviceId').file.update('/data/test.txt', {
+  path: '/data/test.txt',
+  mode: 0,
+  uid: 0,
+  gid: 0,
+});
+
+// Generate a unique filename on a device
+const filename = await corellium.device('deviceId').file.generateFilename();
+```
+
+### HyperTrace
+
+```ts
+// Start running HyperTrace on a device
+await corellium.device('deviceId').hyperTrace.start();
+
+// Stop running HyperTrace on a device
+await corellium.device('deviceId').hyperTrace.stop();
+
+// Get Kernel extension ranges
+const ranges = await corellium.device('deviceId').hyperTrace.ranges();
+
+// Pre-authorize a HyperTrace download
+const preauth = await corellium.device('deviceId').hyperTrace.authorize();
+
+// Clear the HyperTrace data on a device
+await corellium.device('deviceId').hyperTrace.clear();
+```
+
+### Image
+
+```ts
+// List all images
+const images = await corellium.image.list();
+
+// Create a new image
+const image = await corellium.image.create({
+  type: 'binary',
+  encoding: 'plain',
+  encapsulated: false,
+  name: 'My New Image',
+  project: 'projectId',
+  instance: 'instanceId',
+  file: File,
+});
+
+// Get an image
+const image = await corellium.image.get('imageId');
+
+// Update an image (contents)
+await corellium.image.update('imageId', File);
+
+// Delete an image
+await corellium.image.delete('imageId');
+```
+
+### Kernel Hooks
+
+```ts
+// List all kernel hooks on a device
+const hooks = await corellium.device('deviceId').kernelHook.list();
+
+// Create a new kernel hook on a device
+const hook = await corellium.device('deviceId').kernelHook.create({
+  label: 'TEST HOOK',
+  address: '0xfffffff006ae8864',
+  patch: `print("Hello, world\n");`,
+  patchType: 'csmfcc',
+});
+
+// Get a kernel hook on a device
+const hook = await corellium.device('deviceId').kernelHook.get('hookId');
+
+// Update a kernel hook on a device
+await corellium.device('deviceId').kernelHook.update('hookId', {
+  label: 'TEST HOOK (updated)',
+});
+
+// Delete a kernel hook on a device
+await corellium.device('deviceId').kernelHook.delete('hookId');
+
+// Run kernel hooks on a device
+await corellium.device('deviceId').kernelHook.run();
+
+// Clear kernel hooks on a device
+await corellium.device('deviceId').kernelHook.clear();
+```
+
+### Media
+
+```ts
+// Start playing media file on a device
+await corellium.device('deviceId').media.start({
+  url: 'http://example.com/video.mp4',
+});
+
+// Stop playing media file on a device
+await corellium.device('deviceId').media.stop();
+```
+
+### Models
+
+```ts
+// List all models
+const models = await corellium.model.list();
+
+// List all software for a model
+const software = await corellium.model.software.list('modelId');
+```
+
+### Network Monitor
+
+```ts
+// Start network monitoring on a device
+await corellium.device('deviceId').networkMonitor.start();
+
+// Stop network monitoring on a device
+await corellium.device('deviceId').networkMonitor.stop();
+
+// Download network monitoring data from a device (PCAP)
+const pcap = await corellium.device('deviceId').networkMonitor.download();
+```
+
+You can also use the Advanced Network Monitor, like so:
+
+```ts
+// Start advanced network monitoring on a device
+await corellium.device('deviceId').networkMonitor.advanced.start({
+  ports: ['443', '80'],
+  processes: ['42'],
+});
+
+// Stop advanced network monitoring on a device
+await corellium.device('deviceId').networkMonitor.advanced.stop();
+
+// Download advanced network monitoring data from a device (PCAP)
+const pcap = await corellium
+  .device('deviceId')
+  .networkMonitor.advanced.download();
+```
+
+### Panics
+
+```ts
+// List all panics on a device
+const panics = await corellium.device('deviceId').panic.list();
+
+// Clear all panics on a device
+await corellium.device('deviceId').panic.clear();
+```
+
+### Profiles
+
+```ts
+// List all profiles on a device
+const profiles = await corellium.device('deviceId').profile.list();
+
+// Install a profile on a device
+await corellium.device('deviceId').profile.install(File);
+
+// Delete a profile from a device
+await corellium.device('deviceId').profile.delete('profileId');
+```
+
+### Projects
+
+```ts
+// Get a project
+const project = await corellium.project.get('projectId');
+
 // List all projects
 const projects = await corellium.project.list();
 
-// Get a project by ID
-const project = await corellium.project.get(
-  '12345678-1234-1234-1234-1234567890ab'
-);
+// Create a new project
+const project = await corellium.project.create({
+  name: 'My New Project',
+});
 
-// Get all devices
-const devices = await corellium.devices.list();
+// Update a project
+await corellium.project.update('projectId', {
+  name: 'My Updated Project',
+});
 
-// Install an app
-await corellium.device('123').app.run('com.corellium.cafe');
+// Delete a project
+await corellium.project.delete('projectId');
+
+// Get devices in a project
+const devices = await corellium.project('projectId').device.list();
+
+// Get the VPN configuration for a project
+const vpn = await corellium.project('projectId').vpn.get();
+
+// List the SSH keys for a project
+const keys = await corellium.project('projectId').keys.list();
+
+// Add an SSH key to a project
+await corellium.project('projectId').keys.add({
+  kind: 'ssh',
+  label: 'My New Key',
+  key: 'ssh-ed25519 <key>',
+});
+
+// Delete an SSH key from a project
+await corellium.project('projectId').keys.delete('keyId');
+```
+
+### Roles
+
+```ts
+// List all roles
+const roles = await corellium.role.list();
+
+// Add a user role to a project
+await corellium.role.add('projectId', 'roleId', {
+  userId: 'userId',
+});
+
+// Remove a user role from a project
+await corellium.role.remove('projectId', 'roleId', {
+  userId,
+});
+
+// Add a team role to a project
+await corellium.role.add('projectId', 'roleId', {
+  teamId: 'teamId',
+});
+
+// Remove a team role from a project
+await corellium.role.remove('projectId', 'roleId', {
+  teamId,
+});
+```
+
+### Snapshots
+
+```ts
+// List all snapshots
+const snapshots = await corellium.snapshot.list('deviceId');
+
+// Create a new snapshot
+const snapshot = await corellium.snapshot.create('deviceId', {
+  name: 'My New Snapshot',
+});
+
+// Get a snapshot
+const snapshot = await corellium.snapshot.get('deviceId', 'snapshotId');
+
+// Update a snapshot
+await corellium.snapshot.update('deviceId', 'snapshotId', {
+  name: 'My Updated Snapshot',
+});
+
+// Delete a snapshot
+await corellium.snapshot.delete('deviceId', 'snapshotId');
+
+// Restore a snapshot
+await corellium.snapshot.restore('deviceId', 'snapshotId');
+
+// List shared snapshots
+const sharedSnapshots = await corellium.snapshot.sharing.list();
+
+// Share a snapshot
+await corellium.snapshot.sharing.create('snapshotId', {
+  sharingType: 'passwordPublicLink',
+  password: 'password',
+});
+
+// Set the sharing policy for a snapshot
+await corellium.snapshot.sharing.allow('snapshotId', {
+  members: ['jane@acme.com', 'john@acme.com'],
+});
+
+// Revoke the sharing policy for a snapshot
+await corellium.snapshot.sharing.revoke('snapshotId', {
+  members: ['jane@acme.com', 'john@acme.com'],
+});
+```
+
+You can run a couple of these commands without a device context, like so:
+
+```ts
+// Get a snapshot
+const snapshots = await corellium.snapshot.get('snapshotId');
+
+// Delete a snapshot
+await corellium.snapshot.delete('snapshotId');
+
+// Update a snapshot
+await corellium.snapshot.update('snapshotId', {
+  name: 'My Updated Snapshot',
+});
+```
+
+### Team
+
+```ts
+// List all teams
+const teams = await corellium.team.list();
+
+// Get a team
+const team = await corellium.team.get('teamId');
+
+// Create a new team
+const team = await corellium.team.create({
+  name: 'My New Team',
+});
+
+// Update a team
+await corellium.team.update('teamId', {
+  name: 'My Updated Team',
+});
+
+// Delete a team
+await corellium.team.delete('teamId');
+
+// Add a user to a team
+await corellium.team.user.create('teamId', 'userId');
+
+// Remove a user from a team
+await corellium.team.user.delete('teamId', 'userId');
+```
+
+### Users
+
+```ts
+// Delete a user
+await corellium.user.delete('userId');
 ```

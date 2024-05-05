@@ -5,23 +5,25 @@ export const createConnectEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
   instanceId: string
 ) => ({
-  getQuickConnectUrl: async () => {
-    const response = await api.GET(
-      '/v2/instances/{instanceId}/quickConnectCommand',
-      {
-        params: {
-          path: {
-            instanceId,
+  quickConnect: {
+    get: async () => {
+      const response = await api.GET(
+        '/v2/instances/{instanceId}/quickConnectCommand',
+        {
+          params: {
+            path: {
+              instanceId,
+            },
           },
-        },
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
       }
-    );
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
-
-    return response.data;
+      return response.data;
+    },
   },
 
   eth0IP: {

@@ -5,6 +5,26 @@ export const createSnapshotEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
   instanceId?: string
 ) => ({
+  list: async () => {
+    if (!instanceId) {
+      throw new Error('instanceId is required');
+    }
+
+    const response = await api.GET('/v1/instances/{instanceId}/snapshots', {
+      params: {
+        path: {
+          instanceId,
+        },
+      },
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
   get: async (
     snapshotId: paths['/v1/snapshots/{snapshotId}']['get']['parameters']['path']['snapshotId']
   ) => {
@@ -192,7 +212,7 @@ export const createSnapshotEndpoints = (
       return response.data;
     },
 
-    addAccess: async (
+    allow: async (
       snapshotId: paths['/v1/snapshots/{snapshotId}/permissions']['post']['parameters']['path']['snapshotId'],
       body: paths['/v1/snapshots/{snapshotId}/permissions']['post']['requestBody']['content']['application/json']
     ) => {
@@ -215,7 +235,7 @@ export const createSnapshotEndpoints = (
       return response.data;
     },
 
-    removeAccess: async (
+    revoke: async (
       snapshotId: paths['/v1/snapshots/{snapshotId}/permissions']['delete']['parameters']['path']['snapshotId'],
       body: paths['/v1/snapshots/{snapshotId}/permissions']['delete']['requestBody']['content']['application/json']
     ) => {
