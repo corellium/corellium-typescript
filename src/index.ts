@@ -24,6 +24,7 @@ import { createMessagingEndpoints } from './messaging';
 import { createConnectEndpoints } from './connect';
 import { createDeviceEndpoints } from './device';
 import { createDevicesEndpoints } from './devices';
+import { createProjectsEndpoints } from './projects';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -56,7 +57,10 @@ class Corellium {
   public devices!: ReturnType<typeof createDevicesEndpoints>;
   public image!: ReturnType<typeof createImageEndpoints>;
   public model!: ReturnType<typeof createModelEndpoints>;
-  public project!: ReturnType<typeof createProjectEndpoints>;
+  public projects!: ReturnType<typeof createProjectsEndpoints>;
+  public project!: (
+    projectId: string
+  ) => ReturnType<typeof createProjectEndpoints>;
   public role!: ReturnType<typeof createRoleEndpoints>;
   public snapshot!: ReturnType<typeof createSnapshotEndpoints>;
   public team!: ReturnType<typeof createTeamEndpoints>;
@@ -85,9 +89,9 @@ class Corellium {
     this.authProvider = createAuthProviderEndpoints(api);
     this.customNetwork = createCustomNetworkEndpoints(api);
     this.devices = createDevicesEndpoints(api);
+    this.projects = createProjectsEndpoints(api);
     this.image = createImageEndpoints(api);
     this.model = createModelEndpoints(api);
-    this.project = createProjectEndpoints(api);
     this.role = createRoleEndpoints(api);
     this.snapshot = createSnapshotEndpoints(api);
     this.team = createTeamEndpoints(api);
@@ -117,6 +121,16 @@ class Corellium {
       profile: createProfileEndpoints(api, deviceId),
       snapshot: createSnapshotEndpoints(api, deviceId),
     });
+
+    /**
+     * Create a project pointer.
+     * @param projectId The project ID.
+     * @returns The project endpoints.
+     * @example const project = corellium.project('123');
+     * @example const devices = await corellium.project('123').devices.list();
+     */
+    this.project = (projectId: string) =>
+      createProjectEndpoints(api, projectId);
   }
 }
 

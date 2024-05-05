@@ -55,7 +55,7 @@ const corellium = new Corellium('apiToken', {
 Then, you can use the `corellium` object to interact with the Corellium API. The library is structured in a way that mirrors the Corellium UI, with methods for projects, devices, and apps e.g.
 
 ```ts
-const project = await corellium.project.get('projectId');
+const projects = await corellium.projects.list();
 ```
 
 ## Examples
@@ -497,46 +497,50 @@ await corellium.device('deviceId').profile.install(File);
 await corellium.device('deviceId').profile.delete('profileId');
 ```
 
-### Projects
+### Projects (General)
+
+```ts
+// List all projects
+const projects = await corellium.projects.list();
+
+// Create a new project
+const project = await corellium.projects.create({
+  name: 'My New Project',
+});
+```
+
+### Project (Specific)
 
 ```ts
 // Get a project
-const project = await corellium.project.get('projectId');
-
-// List all projects
-const projects = await corellium.project.list();
-
-// Create a new project
-const project = await corellium.project.create({
-  name: 'My New Project',
-});
+const project = await corellium.project('projectId').get();
 
 // Update a project
-await corellium.project.update('projectId', {
+await corellium.project('projectId').update({
   name: 'My Updated Project',
 });
 
 // Delete a project
-await corellium.project.delete('projectId');
+await corellium.project('projectId').delete();
 
 // Get devices in a project
-const devices = await corellium.project().device.list('projectId');
+const devices = await corellium.project('projectId').device.list();
 
 // Get the VPN configuration for a project
-const vpn = await corellium.project().vpn.get('projectId');
+const vpn = await corellium.project('projectId').vpn.get();
 
 // List the SSH keys for a project
-const keys = await corellium.project().keys.list('projectId');
+const keys = await corellium.project('projectId').keys.list();
 
 // Add an SSH key to a project
-await corellium.project().keys.add('projectId', {
+await corellium.project('projectId').keys.add({
   kind: 'ssh',
   label: 'My New Key',
   key: 'ssh-ed25519 <key>',
 });
 
 // Delete an SSH key from a project
-await corellium.project.keys.delete('projectId', 'keyId');
+await corellium.project('projectId').keys.delete('keyId');
 ```
 
 ### Roles
