@@ -97,6 +97,26 @@ export const createProjectEndpoints = (
     return response.data;
   },
 
+  getVPNConfig: async (projectId: string) => {
+    const response = await api.GET(
+      '/v1/projects/{projectId}/vpnconfig/{format}',
+      {
+        params: {
+          path: {
+            projectId,
+            format: 'ovpn',
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
   keys: {
     list: async (projectId: string) => {
       const response = await api.GET('/v1/projects/{projectId}/keys', {
