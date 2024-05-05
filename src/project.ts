@@ -96,4 +96,62 @@ export const createProjectEndpoints = (
 
     return response.data;
   },
+
+  keys: {
+    list: async (projectId: string) => {
+      const response = await api.GET('/v1/projects/{projectId}/keys', {
+        params: {
+          path: {
+            projectId,
+          },
+        },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+
+    add: async (
+      projectId: string,
+      body: paths['/v1/projects/{projectId}/keys']['post']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.POST('/v1/projects/{projectId}/keys', {
+        params: {
+          path: {
+            projectId,
+          },
+        },
+        body,
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+
+    delete: async (projectId: string, keyId: string) => {
+      const response = await api.DELETE(
+        '/v1/projects/{projectId}/keys/{keyId}',
+        {
+          params: {
+            path: {
+              projectId,
+              keyId,
+            },
+          },
+        }
+      );
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
 });
