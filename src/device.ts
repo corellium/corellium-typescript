@@ -432,4 +432,24 @@ export const createDeviceEndpoints = (
 
     return response.data;
   },
+
+  upgrade: async (
+    instanceId: string,
+    body: paths['/v1/instances/{instanceId}/upgrade']['post']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.POST('/v1/instances/{instanceId}/upgrade', {
+      params: {
+        path: {
+          instanceId,
+        },
+      },
+      body,
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
 });
