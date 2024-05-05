@@ -25,6 +25,7 @@ import { createConnectEndpoints } from './connect';
 import { createDeviceEndpoints } from './device';
 import { createDevicesEndpoints } from './devices';
 import { createProjectsEndpoints } from './projects';
+import { createWebplayerEndpoints } from './webplayer';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -65,6 +66,7 @@ class Corellium {
   public snapshot!: ReturnType<typeof createSnapshotEndpoints>;
   public team!: ReturnType<typeof createTeamEndpoints>;
   public user!: ReturnType<typeof createUserEndpoints>;
+  public webplayer!: ReturnType<typeof createWebplayerEndpoints>;
 
   /**
    * Create a new Corellium TypeScript SDK instance.
@@ -75,10 +77,12 @@ class Corellium {
    * @example const corellium = new Corellium('1234567890abcdef');
    */
   public constructor(apiToken: string, options?: CorelliumOptions) {
+    const baseUrl = options?.endpoint
+      ? new URL('/api', options.endpoint).toString()
+      : 'https://app.corellium.com/api';
+
     const api = createFetchClient<paths>({
-      baseUrl: options?.endpoint
-        ? new URL('/api', options.endpoint).toString()
-        : 'https://app.corellium.com/api',
+      baseUrl,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiToken}`,
@@ -96,6 +100,7 @@ class Corellium {
     this.snapshot = createSnapshotEndpoints(api);
     this.team = createTeamEndpoints(api);
     this.user = createUserEndpoints(api);
+    this.webplayer = createWebplayerEndpoints(baseUrl, apiToken);
 
     /**
      * Create a device pointer.

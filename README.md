@@ -666,6 +666,34 @@ await corellium.team.user.delete('teamId', 'userId');
 await corellium.user.delete('userId');
 ```
 
+### Webplayer
+
+```ts
+// List all Webplayer sessions
+const sessions = await corellium.webplayer.list();
+
+// Create a new Webplayer session
+const session = await corellium.webplayer.create({
+  projectId: 'projectId',
+  instanceId: 'instanceId',
+  expiresIn: 3600, // 1 hour
+  features: {
+    apps: true,
+    console: true,
+    files: true,
+  },
+});
+
+// Get a Webplayer session
+const session = await corellium.webplayer.get('sessionId');
+
+// Refresh a Webplayer session
+await corellium.webplayer.refresh('sessionId');
+
+// Delete a Webplayer session
+await corellium.webplayer.delete('sessionId');
+```
+
 ## Recipes
 
 ### Hold down two buttons concurrently for 3 seconds
