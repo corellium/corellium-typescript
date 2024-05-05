@@ -2,7 +2,9 @@
 
 [![Version](https://img.shields.io/npm/v/corellium-typescript.svg)](https://www.npmjs.org/package/corellium-typescript) [![Build Status](https://github.com/haydenbleasel/corellium-typescript/actions/workflows/push.yml/badge.svg?branch=main)](https://github.com/haydenbleasel/corellium-typescript/actions?query=branch%3Amain)
 
-`corellium-typescript` is a TypeScript library for interacting with the Corellium API. It is a wrapper around the Corellium REST API, providing a more user-friendly interface for interacting with the API.
+![Corellium TypeScript](/sample.png)
+
+`corellium-typescript` is a TypeScript library for interacting with the [Corellium](https://www.corellium.com/) API. It is a wrapper around the Corellium REST API, providing a more user-friendly interface for interacting with the API.
 
 The key differences between `corellium-typescript` and official Corellium libraries are:
 
