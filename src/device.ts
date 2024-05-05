@@ -213,4 +213,37 @@ export const createDeviceEndpoints = (
 
     return response.data;
   },
+
+  getWebsocketURL: async (instanceId: string) => {
+    const response = await api.GET('/v1/instances/{instanceId}/console', {
+      params: {
+        path: {
+          instanceId,
+        },
+      },
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  status: async (instanceId: string) => {
+    // We also have access to setState but we have other endpoints for that
+    const response = await api.GET('/v2/instances/{instanceId}/state', {
+      params: {
+        path: {
+          instanceId,
+        },
+      },
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
 });

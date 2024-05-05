@@ -87,4 +87,34 @@ export const createFileEndpoints = (
 
     return response.data;
   },
+
+  update: async (
+    instanceId: string,
+    filePath: string,
+    body: paths['/v1/instances/{instanceId}/agent/v1/file/device/{filePath}']['patch']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.PATCH(
+      '/v1/instances/{instanceId}/agent/v1/file/device/{filePath}',
+      {
+        params: {
+          path: {
+            instanceId,
+            filePath,
+          },
+        },
+        body,
+      }
+    );
+
+    // Patching bad OpenAPI spec
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (response.error) {
+      throw new Error(
+        // Patching bad OpenAPI spec
+        (response as unknown as { error: { error: string } }).error.error
+      );
+    }
+
+    return response.data;
+  },
 });

@@ -4,7 +4,10 @@ import type { paths } from '../types/corellium';
 export const createHyperTraceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
-  start: async (instanceId: string) => {
+  start: async (
+    instanceId: string,
+    body: paths['/v1/instances/{instanceId}/btrace/enable']['post']['requestBody']['content']['application/json']
+  ) => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/btrace/enable',
       {
@@ -13,9 +16,7 @@ export const createHyperTraceEndpoints = (
             instanceId,
           },
         },
-
-        // Patching bad OpenAPI spec
-        body: {},
+        body,
       }
     );
 
