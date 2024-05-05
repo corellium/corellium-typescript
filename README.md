@@ -238,8 +238,8 @@ await corellium.device('deviceId').unlock();
 // Get the Websocket URL for a device
 const url = await corellium.device('deviceId').websocket.get();
 
-// Get the status of a device
-const status = await corellium.device('deviceId').status();
+// Get the state of a device
+const state = await corellium.device('deviceId').state.get();
 
 // Get the GPIO state of a device
 const gpio = await corellium.device('deviceId').gpio.get();

@@ -5,6 +5,12 @@ export const createDeviceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
   instanceId: string
 ) => ({
+  /**
+   * Delete a device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').delete();
+   */
   delete: async () => {
     const response = await api.DELETE('/v1/instances/{instanceId}', {
       params: {
@@ -21,6 +27,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Get a device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').get();
+   */
   get: async () => {
     const response = await api.GET('/v1/instances/{instanceId}', {
       params: {
@@ -37,6 +49,13 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Update a device.
+   * @param body The request body.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').update({ name: 'My Device' });
+   */
   update: async (
     body: paths['/v1/instances/{instanceId}']['patch']['requestBody']['content']['application/json']
   ) => {
@@ -56,6 +75,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Start the device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').start();
+   */
   start: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/start', {
       params: {
@@ -72,6 +97,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Stop the device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').stop();
+   */
   stop: async () => {
     // There's also /v1/instances/{instanceId}/agent/v1/system/shutdown - not sure what the difference is
     const response = await api.POST('/v1/instances/{instanceId}/stop', {
@@ -89,6 +120,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Reboot the device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').reboot();
+   */
   reboot: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/reboot', {
       params: {
@@ -105,6 +142,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Pause the device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').pause();
+   */
   pause: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/pause', {
       params: {
@@ -121,6 +164,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Resume the device.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').resume();
+   */
   resume: async () => {
     const response = await api.POST('/v1/instances/{instanceId}/unpause', {
       params: {
@@ -137,6 +186,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Lock the device (iOS only)
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').lock();
+   */
   lock: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/system/lock',
@@ -156,6 +211,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Unlock the device (iOS only)
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').unlock();
+   */
   unlock: async () => {
     const response = await api.POST(
       '/v1/instances/{instanceId}/agent/v1/system/unlock',
@@ -176,6 +237,12 @@ export const createDeviceEndpoints = (
   },
 
   websocket: {
+    /**
+     * Get the websocket URL for the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').websocket.get();
+     */
     get: async () => {
       const response = await api.GET('/v1/instances/{instanceId}/console', {
         params: {
@@ -193,24 +260,38 @@ export const createDeviceEndpoints = (
     },
   },
 
-  status: async () => {
-    // We also have access to setState but we have other endpoints for that
-    const response = await api.GET('/v2/instances/{instanceId}/state', {
-      params: {
-        path: {
-          instanceId,
+  state: {
+    /**
+     * Get the status of the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').state.get();
+     */
+    get: async () => {
+      // We also have access to setState but we have other endpoints for that
+      const response = await api.GET('/v2/instances/{instanceId}/state', {
+        params: {
+          path: {
+            instanceId,
+          },
         },
-      },
-    });
+      });
 
-    if (response.error) {
-      throw new Error(response.error.error);
-    }
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
 
-    return response.data;
+      return response.data;
+    },
   },
 
   gpio: {
+    /**
+     * Get the GPIO list of the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').gpio.list();
+     */
     list: async () => {
       const response = await api.GET('/v1/instances/{instanceId}/gpios', {
         params: {
@@ -227,6 +308,13 @@ export const createDeviceEndpoints = (
       return response.data;
     },
 
+    /**
+     * Set the GPIO list of the device.
+     * @param body The request body.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').gpio.set({ button: { bitCount: 2 }});
+     */
     set: async (
       body: paths['/v1/instances/{instanceId}/gpios']['put']['requestBody']['content']['application/json']
     ) => {
@@ -248,6 +336,12 @@ export const createDeviceEndpoints = (
   },
 
   sensors: {
+    /**
+     * Get the sensor list of the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').sensors.list();
+     */
     list: async () => {
       const response = await api.GET('/v1/instances/{instanceId}/peripherals', {
         params: {
@@ -264,6 +358,13 @@ export const createDeviceEndpoints = (
       return response.data;
     },
 
+    /**
+     * Set the sensor list of the device.
+     * @param body The request body.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').sensors.set({ acceleration: acceleration: [0, 9.81, 0] });
+     */
     set: async (
       body: paths['/v1/instances/{instanceId}/peripherals']['put']['requestBody']['content']['application/json']
     ) => {
@@ -284,6 +385,13 @@ export const createDeviceEndpoints = (
     },
   },
 
+  /**
+   * Restore a backup to the device (iOS only)
+   * @param body The request body.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').restoreBackup(body);
+   */
   restoreBackup: async (
     body: paths['/v1/instances/{instanceId}/restoreBackup']['post']['requestBody']
   ) => {
@@ -307,6 +415,14 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Take a screenshot of the device.
+   * @param format The format of the screenshot.
+   * @param scale The scale of the screenshot.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').takeScreenshot(format, scale);
+   */
   takeScreenshot: async (
     format: paths['/v1/instances/{instanceId}/screenshot.{format}']['get']['parameters']['path']['format'],
     /*
@@ -337,6 +453,13 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Rotate the device.
+   * @param orientation The orientation to rotate the device to.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').rotate('landscape');
+   */
   rotate: async (
     orientation:
       | 'landscape-inverted'
@@ -371,6 +494,13 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Send input to the device.
+   * @param body The request body.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').input([{ buttons: ['finger'], position: [[300, 600]], wait: 0 }]);
+   */
   input: async (
     body: paths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json']
   ) => {
@@ -390,6 +520,15 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Upgrade the OS of the device (iOS only)
+   * @param body The request body.
+   * @param body.os The OS to upgrade to.
+   * @param body.osbuild The OS build to upgrade to.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').upgrade({ os: '14.3', osbuild: '18C66' });
+   */
   upgrade: async (
     body: paths['/v1/instances/{instanceId}/upgrade']['post']['requestBody']['content']['application/json']
   ) => {
@@ -409,6 +548,12 @@ export const createDeviceEndpoints = (
     return response.data;
   },
 
+  /**
+   * Determine whether the device is ready.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').ready();
+   */
   ready: async () => {
     const response = await api.GET(
       '/v1/instances/{instanceId}/agent/v1/app/ready',
@@ -429,6 +574,14 @@ export const createDeviceEndpoints = (
   },
 
   hostname: {
+    /**
+     * Set the hostname of the device.
+     * @param body The request body.
+     * @param body.hostname The hostname to set.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').hostname.set({ hostname: 'my-hostname' });
+     */
     set: async (
       body: paths['/v1/instances/{instanceId}/agent/v1/system/setHostname']['post']['requestBody']['content']['application/json']
     ) => {
@@ -453,6 +606,14 @@ export const createDeviceEndpoints = (
   },
 
   property: {
+    /**
+     * Get a system property of the device.
+     * @param body The request body.
+     * @param body.property The property to get.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').property.get({ property: 'corellium.opengapps' });
+     */
     get: async (
       body: paths['/v1/instances/{instanceId}/agent/v1/system/getprop']['post']['requestBody']['content']['application/json']
     ) => {
