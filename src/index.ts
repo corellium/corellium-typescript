@@ -21,6 +21,7 @@ import { createCustomNetworkEndpoints } from './custom-network';
 import { createModelEndpoints } from './model';
 import { createConsoleEndpoints } from './console';
 import { createPanicEndpoints } from './panic';
+import { createMediaEndpoints } from './media';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -62,6 +63,7 @@ class Corellium {
   public hypertrace = this.api ? createHyperTraceEndpoints(this.api) : null;
   public kernelHook = this.api ? createKernelHookEndpoints(this.api) : null;
   public image = this.api ? createImageEndpoints(this.api) : null;
+  public media = this.api ? createMediaEndpoints(this.api) : null;
   public model = this.api ? createModelEndpoints(this.api) : null;
   public networkMonitor = this.api
     ? createNetworkMonitorEndpoints(this.api)
