@@ -246,4 +246,190 @@ export const createDeviceEndpoints = (
 
     return response.data;
   },
+
+  gpio: {
+    list: async (instanceId: string) => {
+      const response = await api.GET('/v1/instances/{instanceId}/gpios', {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+
+    set: async (
+      instanceId: string,
+      body: paths['/v1/instances/{instanceId}/gpios']['put']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.PUT('/v1/instances/{instanceId}/gpios', {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+        body,
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
+
+  sensors: {
+    list: async (instanceId: string) => {
+      const response = await api.GET('/v1/instances/{instanceId}/peripherals', {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+
+    set: async (
+      instanceId: string,
+      body: paths['/v1/instances/{instanceId}/peripherals']['put']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.PUT('/v1/instances/{instanceId}/peripherals', {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+        body,
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
+
+  restoreBackup: async (
+    instanceId: string,
+    body: paths['/v1/instances/{instanceId}/restoreBackup']['post']['requestBody']
+  ) => {
+    const response = await api.POST(
+      '/v1/instances/{instanceId}/restoreBackup',
+      {
+        params: {
+          path: {
+            instanceId,
+          },
+        },
+        // Patching bad OpenAPI spec
+        body: body as unknown as Record<string, never>,
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  takeScreenshot: async (
+    instanceId: string,
+    format: paths['/v1/instances/{instanceId}/screenshot.{format}']['get']['parameters']['path']['format'],
+    /*
+     * Patching bad OpenAPI spec
+     * scale?: paths['/v1/instances/{instanceId}/screenshot.{format}']['get']['parameters']['query']
+     */
+    scale?: number
+  ) => {
+    const response = await api.GET(
+      '/v1/instances/{instanceId}/screenshot.{format}',
+      {
+        params: {
+          path: {
+            instanceId,
+            format,
+          },
+          query: {
+            scale,
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  rotate: async (
+    instanceId: string,
+    orientation:
+      | 'landscape-inverted'
+      | 'landscape'
+      | 'portrait-inverted'
+      | 'portrait'
+  ) => {
+    const orientationMap = {
+      portrait: 1,
+      'portrait-inverted': 2,
+      landscape: 3,
+      'landscape-inverted': 4,
+    };
+
+    const response = await api.POST('/v1/instances/{instanceId}/rotate', {
+      params: {
+        path: {
+          instanceId,
+        },
+      },
+      body: {
+        orientation: orientationMap[
+          orientation
+        ] as paths['/v1/instances/{instanceId}/rotate']['post']['requestBody']['content']['application/json']['orientation'],
+      },
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
+
+  input: async (
+    instanceId: string,
+    body: paths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json']
+  ) => {
+    const response = await api.POST('/v1/instances/{instanceId}/input', {
+      params: {
+        path: {
+          instanceId,
+        },
+      },
+      body,
+    });
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    return response.data;
+  },
 });
