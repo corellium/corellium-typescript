@@ -16,6 +16,7 @@ import { createFileEndpoints } from './file';
 import { createProfileEndpoints } from './profile';
 import { createAuthProviderEndpoints } from './auth-provider';
 import { createNetworkMonitorEndpoints } from './network-monitor';
+import { createRoleEndpoints } from './role';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -58,6 +59,7 @@ class Corellium {
     : null;
   public profile = this.api ? createProfileEndpoints(this.api) : null;
   public project = this.api ? createProjectEndpoints(this.api) : null;
+  public role = this.api ? createRoleEndpoints(this.api) : null;
   public snapshot = this.api ? createSnapshotEndpoints(this.api) : null;
   public team = this.api ? createTeamEndpoints(this.api) : null;
   public user = this.api ? createUserEndpoints(this.api) : null;
