@@ -8,6 +8,7 @@ import { createKernelHookEndpoints } from './kernel-hook';
 import { createImageEndpoints } from './image';
 import { createProjectEndpoints } from './project';
 import { createSnapshotEndpoints } from './snapshot';
+import { createTeamEndpoints } from './team';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -43,6 +44,7 @@ class Corellium {
   public image = this.api ? createImageEndpoints(this.api) : null;
   public project = this.api ? createProjectEndpoints(this.api) : null;
   public snapshot = this.api ? createSnapshotEndpoints(this.api) : null;
+  public team = this.api ? createTeamEndpoints(this.api) : null;
 }
 
 export default Corellium;
