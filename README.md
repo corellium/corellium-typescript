@@ -12,6 +12,7 @@ The key differences between `corellium-typescript` and official Corellium librar
 - Improved structuring of endpoints e.g. `corellium.project.keys.add` instead of `corellium.v1AddProjectKey`
 - Opinionated error handling (throws errors for all non-2xx responses so you can catch them)
 - Endpoints with device context e.g. `corellium.device('deviceId').app.run('com.corellium.cafe')`
+- Deep JSDoc comments for all methods and types
 
 **Note: While I am a Corellium employee, this library is not officially supported by Corellium.**
 
