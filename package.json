@@ -1,0 +1,51 @@
+{
+  "name": "corellium-typescript",
+  "version": "1.0.0",
+  "description": "A beautiful TypeScript Corellium library.",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm build",
+    "build": "tsup src",
+    "dev": "tsup src --watch",
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haydenbleasel/corellium-typescript.git"
+  },
+  "keywords": [
+    "friendly",
+    "words",
+    "name",
+    "generate"
+  ],
+  "author": "Hayden Bleasel <hello@haydenbleasel.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haydenbleasel/corellium-typescript/issues"
+  },
+  "homepage": "https://github.com/haydenbleasel/friendlier-words#readme",
+  "devDependencies": {
+    "eslint": "^8.37.0",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.7",
+    "stylelint": "^15.4.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.3"
+  },
+  "prettier": "eslint-config-harmony/prettier",
+  "stylelint": {
+    "extends": "eslint-config-harmony/stylelint"
+  },
+  "dependencies": {
+    "eslint-config-harmony": "^3.0.3"
+  }
+}
