@@ -29,7 +29,6 @@ jobs:
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
-          version: 8
           run_install: false
 
       - name: Get pnpm store directory
@@ -46,7 +45,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --no-verify-store-integrity
+        run: pnpm install --no-frozen-lockfile
 
       - name: Create Release
         env:
