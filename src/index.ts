@@ -35,9 +35,24 @@ class Corellium {
   public auth!: ReturnType<typeof createAuthEndpoints>;
   public authProvider!: ReturnType<typeof createAuthProviderEndpoints>;
   public customNetwork!: ReturnType<typeof createCustomNetworkEndpoints>;
-  public device!: (
-    deviceId: string
-  ) => ReturnType<typeof createDeviceEndpoints>;
+  public device!: (deviceId: string) => ReturnType<
+    typeof createDeviceEndpoints
+  > & {
+    app: ReturnType<typeof createAppEndpoints>;
+    connect: ReturnType<typeof createConnectEndpoints>;
+    console: ReturnType<typeof createConsoleEndpoints>;
+    coreTrace: ReturnType<typeof createCoreTraceEndpoints>;
+    file: ReturnType<typeof createFileEndpoints>;
+    hyperTrace: ReturnType<typeof createHyperTraceEndpoints>;
+    kernelHook: ReturnType<typeof createKernelHookEndpoints>;
+    media: ReturnType<typeof createMediaEndpoints>;
+    messaging: ReturnType<typeof createMessagingEndpoints>;
+    networkMonitor: ReturnType<typeof createNetworkMonitorEndpoints>;
+    panic: ReturnType<typeof createPanicEndpoints>;
+    portForwarding: ReturnType<typeof createPortForwardingEndpoints>;
+    profile: ReturnType<typeof createProfileEndpoints>;
+    snapshot: ReturnType<typeof createSnapshotEndpoints>;
+  };
   public devices!: ReturnType<typeof createDevicesEndpoints>;
   public image!: ReturnType<typeof createImageEndpoints>;
   public model!: ReturnType<typeof createModelEndpoints>;
