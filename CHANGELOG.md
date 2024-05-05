@@ -1,3 +1,16 @@
+# v1.0.23 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Add undocumented Tokens endpoints ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add Search projects endpoints ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.22 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
