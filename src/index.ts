@@ -15,6 +15,7 @@ import { createAppEndpoints } from './app';
 import { createFileEndpoints } from './file';
 import { createProfileEndpoints } from './profile';
 import { createAuthProviderEndpoints } from './auth-provider';
+import { createNetworkMonitorEndpoints } from './network-monitor';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -52,6 +53,9 @@ class Corellium {
   public hypertrace = this.api ? createHyperTraceEndpoints(this.api) : null;
   public kernelHook = this.api ? createKernelHookEndpoints(this.api) : null;
   public image = this.api ? createImageEndpoints(this.api) : null;
+  public networkMonitor = this.api
+    ? createNetworkMonitorEndpoints(this.api)
+    : null;
   public profile = this.api ? createProfileEndpoints(this.api) : null;
   public project = this.api ? createProjectEndpoints(this.api) : null;
   public snapshot = this.api ? createSnapshotEndpoints(this.api) : null;
