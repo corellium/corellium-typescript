@@ -23,6 +23,7 @@ import { createConsoleEndpoints } from './console';
 import { createPanicEndpoints } from './panic';
 import { createMediaEndpoints } from './media';
 import { createPortForwardingEndpoints } from './port-forwarding';
+import { createMessagingEndpoints } from './messaging';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -65,6 +66,7 @@ class Corellium {
   public kernelHook = this.api ? createKernelHookEndpoints(this.api) : null;
   public image = this.api ? createImageEndpoints(this.api) : null;
   public media = this.api ? createMediaEndpoints(this.api) : null;
+  public messaging = this.api ? createMessagingEndpoints(this.api) : null;
   public model = this.api ? createModelEndpoints(this.api) : null;
   public networkMonitor = this.api
     ? createNetworkMonitorEndpoints(this.api)
