@@ -1,3 +1,15 @@
+# v1.0.22 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Improve Create Device documentation ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.21 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
