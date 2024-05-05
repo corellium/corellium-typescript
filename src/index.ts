@@ -33,6 +33,7 @@ class Corellium {
 
   public coretrace = this.api ? createCoreTraceEndpoints(this.api) : null;
   public device = this.api ? createDeviceEndpoints(this.api) : null;
+  public hypertrace = this.api ? createHyperTraceEndpoints(this.api) : null;
 }
 
 export default Corellium;
