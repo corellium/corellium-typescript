@@ -665,3 +665,69 @@ await corellium.team.user.delete('teamId', 'userId');
 // Delete a user
 await corellium.user.delete('userId');
 ```
+
+## Recipes
+
+### Hold down two buttons concurrently for 3 seconds
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium('apiToken');
+
+await corellium
+  .device('deviceId')
+  .input([
+    { buttons: ['volumeUp', 'volumeDown'] },
+    { buttons: [], wait: 3000 },
+  ]);
+```
+
+### Run network monitor for 10 seconds and download the PCAP
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium('apiToken');
+
+await corellium.device('deviceId').networkMonitor.start();
+
+await new Promise((resolve) => setTimeout(resolve, 10000));
+
+const pcap = await corellium.device('deviceId').networkMonitor.download();
+```
+
+### Create a kernel hook and run all hooks on a device
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium('apiToken');
+
+const hook = await corellium.device('deviceId').kernelHook.create({
+  label: 'TEST HOOK',
+  address: '0xfffffff006ae8864',
+  patch: `print("Hello, world\n");`,
+  patchType: 'csmfcc',
+});
+
+await corellium.device('deviceId').kernelHook.run();
+```
+
+### Create a new project and add a user to it
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium('apiToken');
+
+const project = await corellium.projects.create({
+  name: 'My New Project',
+});
+
+const roles = await corellium.role.list();
+
+await corellium.role.add(project.id, roles[0].id, {
+  userId,
+});
+```
