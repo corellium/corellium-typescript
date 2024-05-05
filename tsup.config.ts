@@ -5,7 +5,4 @@ export default defineConfig({
   minify: true,
   dts: true,
   format: ['cjs'],
-  loader: {
-    '.js': 'jsx',
-  },
 });
