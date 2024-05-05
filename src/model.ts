@@ -4,6 +4,12 @@ import type { paths } from '../types/corellium';
 export const createModelEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
+  /**
+   * Get the list of models on the Corellium instance.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.model.list();
+   */
   list: async () => {
     const response = await api.GET('/v1/models');
 
@@ -20,6 +26,13 @@ export const createModelEndpoints = (
   },
 
   software: {
+    /**
+     * Get the list of software for a model.
+     * @param modelId The model ID to filter software by.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.model.software.list('123');
+     */
     list: async (
       modelId: paths['/v1/models/{model}/software']['get']['parameters']['path']['model']
     ) => {
