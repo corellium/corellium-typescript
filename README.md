@@ -507,6 +507,9 @@ const projects = await corellium.projects.list();
 const project = await corellium.projects.create({
   name: 'My New Project',
 });
+
+// Search for projects by name
+const search = await corellium.projects.search('My Project');
 ```
 
 ### Project (Specific)

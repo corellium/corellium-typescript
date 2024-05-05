@@ -65,4 +65,17 @@ export const createProjectsEndpoints = (
 
     return response.data;
   },
+
+  /**
+   * Search for a project by name.
+   * @param name The project name.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.project.search('My Project');
+   */
+  search: async (name: string) => {
+    const projects = await createProjectsEndpoints(api).list();
+
+    return projects.find((project) => project.name === name);
+  },
 });
