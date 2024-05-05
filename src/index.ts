@@ -62,6 +62,14 @@ class Corellium {
   public team!: ReturnType<typeof createTeamEndpoints>;
   public user!: ReturnType<typeof createUserEndpoints>;
 
+  /**
+   * Create a new Corellium TypeScript SDK instance.
+   * @param apiToken The Corellium API token e.g. `1234567890abcdef`.
+   * @param options The Corellium SDK options.
+   * @param options.endpoint The Corellium API endpoint e.g. `https://acme.enterprise.corellium.com`.
+   * @returns The Corellium TypeScript SDK instance.
+   * @example const corellium = new Corellium('1234567890abcdef');
+   */
   public constructor(apiToken: string, options?: CorelliumOptions) {
     const api = createFetchClient<paths>({
       baseUrl: options?.endpoint
@@ -85,6 +93,13 @@ class Corellium {
     this.team = createTeamEndpoints(api);
     this.user = createUserEndpoints(api);
 
+    /**
+     * Create a device pointer.
+     * @param deviceId The device ID.
+     * @returns The device endpoints.
+     * @example const device = corellium.device('123');
+     * @example const apps = await corellium.device('123').app.list();
+     */
     this.device = (deviceId: string) => ({
       ...createDeviceEndpoints(api, deviceId),
       app: createAppEndpoints(api, deviceId),

@@ -4,6 +4,13 @@ import type { paths } from '../types/corellium';
 export const createImageEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>
 ) => ({
+  /**
+   * List all images.
+   * @param projectId The project ID to filter images by.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.image.list();
+   */
   list: async (projectId?: string) => {
     const response = await api.GET('/v1/images', {
       params: {
@@ -25,6 +32,20 @@ export const createImageEndpoints = (
     return response.data;
   },
 
+  /**
+   * Create a new image.
+   * @param body The request body.
+   * @param body.type The type of the image e.g. `binary`.
+   * @param body.encoding The encoding of the image e.g. `plain`.
+   * @param body.encapsulated Whether the uploaded file is encapsulated inside a zip file e.g. `true`.
+   * @param body.name The name of the image.
+   * @param body.project The project ID.
+   * @param body.instance The instance ID.
+   * @param body.file The image file.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.image.create({ type: 'binary', encoding: 'plain', encapsulated: true, name: 'My Image', project: 'projectId', instance: 'instanceId', file: File });
+   */
   create: async (
     body: paths['/v1/images']['post']['requestBody']['content']['multipart/form-data']
   ) => {
@@ -39,6 +60,13 @@ export const createImageEndpoints = (
     return response.data;
   },
 
+  /**
+   * Get an image.
+   * @param imageId The image ID.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.image.get('123');
+   */
   get: async (
     imageId: paths['/v1/images/{imageId}']['get']['parameters']['path']['imageId']
   ) => {
@@ -57,6 +85,14 @@ export const createImageEndpoints = (
     return response.data;
   },
 
+  /**
+   * Update an image.
+   * @param imageId The image ID.
+   * @param body The request body.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.image.update('123', File);
+   */
   update: async (
     imageId: paths['/v1/images/{imageId}']['post']['parameters']['path']['imageId'],
     body: paths['/v1/images/{imageId}']['post']['requestBody']['content']['binary']
@@ -79,6 +115,13 @@ export const createImageEndpoints = (
     return response.data;
   },
 
+  /**
+   * Delete an image.
+   * @param imageId The image ID.
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.image.delete('123');
+   */
   delete: async (
     imageId: paths['/v2/images/{imageId}']['delete']['parameters']['path']['imageId']
   ) => {
