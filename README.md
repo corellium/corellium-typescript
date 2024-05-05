@@ -521,23 +521,23 @@ await corellium.project.update('projectId', {
 await corellium.project.delete('projectId');
 
 // Get devices in a project
-const devices = await corellium.project('projectId').device.list();
+const devices = await corellium.project().device.list('projectId');
 
 // Get the VPN configuration for a project
-const vpn = await corellium.project('projectId').vpn.get();
+const vpn = await corellium.project().vpn.get('projectId');
 
 // List the SSH keys for a project
-const keys = await corellium.project('projectId').keys.list();
+const keys = await corellium.project().keys.list('projectId');
 
 // Add an SSH key to a project
-await corellium.project('projectId').keys.add({
+await corellium.project().keys.add('projectId', {
   kind: 'ssh',
   label: 'My New Key',
   key: 'ssh-ed25519 <key>',
 });
 
 // Delete an SSH key from a project
-await corellium.project('projectId').keys.delete('keyId');
+await corellium.project.keys.delete('projectId', 'keyId');
 ```
 
 ### Roles
