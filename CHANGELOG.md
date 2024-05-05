@@ -1,3 +1,25 @@
+# v1.0.12 (Sun May 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Update README.md ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add user and team annotations ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add role and snapshot annotations ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add project annotations ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add annotations for media, model, netmon, panic and profile ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add annotations for kernel hooks and images ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add jsdoc comments for file and hypertrace ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add annotations for device(s) ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add JSDoc comments to 7 files ([@haydenbleasel](https://github.com/haydenbleasel))
+- Fix types ([@haydenbleasel](https://github.com/haydenbleasel))
+- Simplify instantiation process, fix token name ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.11 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
