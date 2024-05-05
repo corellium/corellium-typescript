@@ -12,6 +12,7 @@ import { createTeamEndpoints } from './team';
 import { createUserEndpoints } from './user';
 import { createAuthEndpoints } from './auth';
 import { createAppEndpoints } from './app';
+import { createFileEndpoints } from './file';
 import type { paths } from '../types/corellium';
 
 type CorelliumOptions = {
@@ -44,6 +45,7 @@ class Corellium {
   public app = this.api ? createAppEndpoints(this.api) : null;
   public coretrace = this.api ? createCoreTraceEndpoints(this.api) : null;
   public device = this.api ? createDeviceEndpoints(this.api) : null;
+  public file = this.api ? createFileEndpoints(this.api) : null;
   public hypertrace = this.api ? createHyperTraceEndpoints(this.api) : null;
   public kernelHook = this.api ? createKernelHookEndpoints(this.api) : null;
   public image = this.api ? createImageEndpoints(this.api) : null;
