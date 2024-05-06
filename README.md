@@ -433,6 +433,16 @@ await corellium.device('deviceId').media.start({
 await corellium.device('deviceId').media.stop();
 ```
 
+### Messaging
+
+```ts
+// Receive a message (iOS only)
+const message = await corellium.device('deviceId').message.receive({
+  number: '+1234567890',
+  message: 'Hello, World!',
+});
+```
+
 ### Models
 
 ```ts
