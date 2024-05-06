@@ -13,6 +13,7 @@ The key differences between `corellium-typescript` and official Corellium librar
 - Opinionated error handling (throws errors for all non-2xx responses so you can catch them)
 - Endpoints with device context e.g. `corellium.device('deviceId').app.run('com.corellium.cafe')`
 - Deep JSDoc comments for all methods and types
+- Adds undocumented endpoint payloads
 
 **Note: While I am a Corellium employee, this library is not officially supported by Corellium.**
 
