@@ -1,3 +1,15 @@
+# v1.0.24 (Mon May 06 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Fix and document messaging endpoint ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.23 (Sun May 05 2024)
 
 #### ⚠️ Pushed to `main`
