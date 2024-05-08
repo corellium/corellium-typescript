@@ -1,3 +1,15 @@
+# v1.0.27 (Wed May 08 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Add more JSDoc annotations ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.26 (Mon May 06 2024)
 
 #### ⚠️ Pushed to `main`
