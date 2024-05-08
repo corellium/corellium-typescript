@@ -34,7 +34,6 @@ type CorelliumOptions = {
 };
 
 class Corellium {
-  // Declare endpoint properties here
   public auth!: ReturnType<typeof createAuthEndpoints>;
   public authProvider!: ReturnType<typeof createAuthProviderEndpoints>;
   public customNetwork!: ReturnType<typeof createCustomNetworkEndpoints>;

@@ -52,6 +52,19 @@ export const createDeviceEndpoints = (
   /**
    * Update a device.
    * @param body The request body.
+   * @param body.name The name of the device.
+   * @param body.state The state of the device e.g. `on`, `off`, `paused`, `deleting`.
+   * @param body.os The OS version of the device e.g. `14.0.0`.
+   * @param body.bootOptions The boot options of the device.
+   * @param body.bootOptions.bootArgs Boot arguments to provide to the kernel
+   * @param body.bootOptions.restoreBootArgs Boot arguments to provide to the kernel when restoring
+   * @param body.bootOptions.udid UDID of the device
+   * @param body.bootOptions.ecid Assigned ECID
+   * @param body.bootOptions.randomSeed Random seed to provide to boot if any
+   * @param body.bootOptions.pac Enable PAC
+   * @param body.bootOptions.aprr Enable APRR
+   * @param body.bootOptions.additionalTags Additional tags to provide to boot
+   * @param body.proxy The proxy settings for the device.
    * @returns The response data.
    * @throws {Error} The error message.
    * @example const response = await corellium.device('123').update({ name: 'My Device' });

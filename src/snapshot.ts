@@ -80,6 +80,7 @@ export const createSnapshotEndpoints = (
   /**
    * Create a snapshot.
    * @param body The snapshot data.
+   * @param body.name The snapshot name.
    * @returns The response data.
    * @throws {Error} The error message.
    * @example const response = await corellium.device('123').snapshot.create({ name: 'Snapshot' });
@@ -157,6 +158,7 @@ export const createSnapshotEndpoints = (
    * Update a snapshot.
    * @param snapshotId The snapshot ID.
    * @param body The snapshot data.
+   * @param body.name The snapshot name.
    * @returns The response data.
    * @throws {Error} The error message.
    * @example const response = await corellium.snapshot.update('123', { name: 'Snapshot' });

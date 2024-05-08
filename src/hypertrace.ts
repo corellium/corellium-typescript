@@ -8,10 +8,10 @@ export const createHyperTraceEndpoints = (
   /**
    * Start HyperTrace on the device.
    * @param body The request body.
-   * @param body.ranges The ranges to trace e.g. `['0x1000', '0x2000']`
+   * @param body.ranges The ranges to trace e.g. `[['0x1000', '0x2000']]`
    * @returns The response data.
    * @throws {Error} The error message.
-   * @example const response = await corellium.device('123').hypertrace.start({ ranges: ['0x1000', '0x2000'] });
+   * @example const response = await corellium.device('123').hypertrace.start({ ranges: [['0x1000', '0x2000']] });
    */
   start: async (
     body: paths['/v1/instances/{instanceId}/btrace/enable']['post']['requestBody']['content']['application/json']
