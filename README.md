@@ -314,11 +314,78 @@ await corellium.device('deviceId').hostname.set('my-hostname');
 const property = await corellium
   .device('deviceId')
   .property.get('corellium.opengapps');
+```
 
-// Send a command to a device
+You can also send some commands directly into the device e.g.
+
+```ts
+// Run a shell script
 const commandResponse = await corellium
   .device('deviceId')
-  .send({ type: 'app', op: 'list' });
+  .send('app', 'shellExec', { cmd });
+
+// Enable UI automation
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'enableUIAutomation');
+
+// Disable UI automation
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'disableUIAutomation');
+
+// Check if SSL pinning is enabled
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'isSSLPinningEnabled');
+
+// Enable SSL pinning
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'enableSSLPinning');
+
+// Disable SSL pinning
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'disableSSLPinning');
+
+// Acquire DisableAutolockAssertion
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'acquireDisableAutolockAssertion');
+
+// Release DisableAutolockAssertion
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('system', 'releaseDisableAutolockAssertion');
+
+// Connect to WiFi
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('wifi', 'connect');
+
+// Disconnect from WiFi
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('wifi', 'disconnect');
+
+// Run Frida
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('frida', 'run-frida', {
+    target_pid: 'pid',
+    target_name: 'name',
+  });
+
+// Run `frida-ps`
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('frida', 'run-frida-ps');
+
+// Run Frida Kill
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('frida', 'run-frida-kill');
 ```
 
 ### Files
