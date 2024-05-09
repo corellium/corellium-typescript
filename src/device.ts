@@ -691,7 +691,12 @@ export const createDeviceEndpoints = (
       const ws = new WebSocket(websocketUrl.toString());
 
       ws.on('close', (code) => {
-        console.log(`WebSocket closed with code ${code}`);
+        if (code !== 1000) {
+          reject(new Error(`WebSocket closed with code ${code}`));
+          return;
+        }
+
+        resolve(null);
       });
 
       console.log('Waiting for WebSocket connection to open...');
