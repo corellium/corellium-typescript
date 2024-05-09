@@ -12,7 +12,7 @@ export const createWebplayerEndpoints = (
    * @example const response = await corellium.webplayer.get('123');
    */
   get: async (sessionId: string) => {
-    const url = new URL(`/webplayer/${sessionId}`, baseUrl);
+    const url = new URL(`/api/v1/webplayer/${sessionId}`, baseUrl);
 
     const response = await fetch(url, {
       headers: {
@@ -63,7 +63,7 @@ export const createWebplayerEndpoints = (
    * @example const response = await corellium.webplayer.refresh('123');
    */
   refresh: async (sessionId: string) => {
-    const url = new URL(`/webplayer/${sessionId}/refresh`, baseUrl);
+    const url = new URL(`/api/v1/webplayer/${sessionId}/refresh`, baseUrl);
 
     const response = await fetch(url, {
       headers: {
@@ -121,7 +121,7 @@ export const createWebplayerEndpoints = (
    * @example await corellium.webplayer.delete('123');
    */
   delete: async (sessionId: string) => {
-    const url = new URL(`/webplayer/${sessionId}`, baseUrl);
+    const url = new URL(`/api/v1/webplayer/${sessionId}`, baseUrl);
 
     const response = await fetch(url, {
       method: 'DELETE',
