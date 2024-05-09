@@ -1,9 +1,11 @@
+import WebSocket from 'ws';
 import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createDeviceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
-  instanceId: string
+  instanceId: string,
+  baseUrl: string
 ) => ({
   /**
    * Delete a device.
@@ -648,5 +650,91 @@ export const createDeviceEndpoints = (
 
       return response.data;
     },
+  },
+
+  /**
+   * Send a command to the device.
+   * @param body The request body.
+   * @param body.type Passed in the `type` field of the agent command
+   * @param body.op Passed in the `op` field of the agent command
+   * @param body.params Any other parameters to include in the command
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').send({ type: 'wifi', op: 'connect' });
+   */
+  send: async ({
+    type,
+    op,
+    params,
+  }: {
+    type: string;
+    op: string;
+    params?: Record<string, unknown>;
+  }) => {
+    const device = await createDeviceEndpoints(api, instanceId, baseUrl).get();
+
+    if (!device.agent?.info) {
+      throw new Error('No agent info returned');
+    }
+
+    const websocketUrl = new URL(`/api/v1/agent/${device.agent.info}`, baseUrl);
+
+    websocketUrl.protocol = 'wss:';
+
+    const id = Math.floor(Math.random() * 1000);
+    const props = { type, op, id, ...params };
+
+    // eslint-disable-next-line promise/avoid-new
+    return new Promise((resolve, reject) => {
+      const ws = new WebSocket(websocketUrl.toString());
+
+      ws.on('close', (code) => {
+        if (code !== 1000) {
+          reject(new Error(`WebSocket closed with code ${code}`));
+          return;
+        }
+
+        resolve(null);
+      });
+
+      ws.on('error', () => {
+        reject(new Error('Error connecting to WebSocket'));
+      });
+
+      ws.on('open', () => {
+        ws.send(JSON.stringify(props));
+      });
+
+      ws.on('message', (message) => {
+        if (!Buffer.isBuffer(message)) {
+          reject(new Error('Invalid message data, expecting buffer.'));
+          return;
+        }
+
+        const data = message.toString();
+
+        const content = JSON.parse(data) as Record<string, unknown> & {
+          id?: number;
+          error?: {
+            message: string;
+          };
+        };
+
+        if (!content.id) {
+          reject(new Error('Invalid message data, expecting id.'));
+          return;
+        }
+
+        if (content.error) {
+          reject(new Error(content.error.message));
+          return;
+        }
+
+        if (id === content.id) {
+          resolve(content);
+          ws.close();
+        }
+      });
+    });
   },
 });

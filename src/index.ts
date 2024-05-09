@@ -112,7 +112,7 @@ class Corellium {
      * @example const apps = await corellium.device('123').app.list();
      */
     this.device = (deviceId: string) => ({
-      ...createDeviceEndpoints(api, deviceId),
+      ...createDeviceEndpoints(api, deviceId, baseUrl),
       app: createAppEndpoints(api, deviceId),
       connect: createConnectEndpoints(api, deviceId),
       console: createConsoleEndpoints(api, deviceId),
