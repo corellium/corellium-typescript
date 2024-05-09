@@ -1,3 +1,15 @@
+# v1.0.28 (Thu May 09 2024)
+
+#### 🐛 Bug Fix
+
+- Add ESM support [#1](https://github.com/haydenbleasel/corellium-typescript/pull/1) ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.27 (Wed May 08 2024)
 
 #### ⚠️ Pushed to `main`
