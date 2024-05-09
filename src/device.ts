@@ -689,13 +689,17 @@ export const createDeviceEndpoints = (
     await new Promise((resolve, reject) => {
       const ws = new WebSocket(websocketUrl.toString());
 
+      ws.addEventListener('close', () => {
+        console.log('WebSocket connection closed');
+      });
+
       console.log('Waiting for WebSocket connection to open...');
 
-      ws.onerror = () => {
+      ws.addEventListener('error', () => {
         reject(new Error('Error connecting to WebSocket'));
-      };
+      });
 
-      ws.onopen = () => {
+      ws.addEventListener('open', () => {
         console.log(
           'WebSocket connection established, sending message',
           message
@@ -704,9 +708,9 @@ export const createDeviceEndpoints = (
         ws.send(JSON.stringify(message));
 
         console.log('Message sent. Waiting for response...');
-      };
+      });
 
-      ws.onmessage = (event) => {
+      ws.addEventListener('message', (event) => {
         console.log('Received response:', event);
 
         let messageContent: string | null = null;
@@ -720,16 +724,15 @@ export const createDeviceEndpoints = (
           messageContent = event.data.slice(8).toString();
         }
 
-        ws.close();
-
         if (!messageContent || !messageId) {
           reject(new Error('Error receiving response'));
         }
 
         if (id === messageId) {
           resolve(message);
+          ws.close();
         }
-      };
+      });
     });
   },
 });
