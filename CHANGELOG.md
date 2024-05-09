@@ -1,3 +1,15 @@
+# v1.0.29 (Thu May 09 2024)
+
+#### 🐛 Bug Fix
+
+- Command [#2](https://github.com/haydenbleasel/corellium-typescript/pull/2) ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.28 (Thu May 09 2024)
 
 #### 🐛 Bug Fix
