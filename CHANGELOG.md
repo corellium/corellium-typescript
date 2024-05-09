@@ -1,3 +1,15 @@
+# v1.1.0 (Thu May 09 2024)
+
+#### 🚀 Enhancement
+
+- Improve readme, flatten send commands [#3](https://github.com/haydenbleasel/corellium-typescript/pull/3) ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.0.29 (Thu May 09 2024)
 
 #### 🐛 Bug Fix
