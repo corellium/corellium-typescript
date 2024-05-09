@@ -649,4 +649,85 @@ export const createDeviceEndpoints = (
       return response.data;
     },
   },
+
+  /**
+   * Send a command to the device.
+   * @param body The request body.
+   * @param body.type Passed in the `type` field of the agent command
+   * @param body.op Passed in the `op` field of the agent command
+   * @param body.params Any other parameters to include in the command
+   * @param body.callback The callback function to execute
+   * @param body.uploadHandler A kludge for file uploads to work
+   * @returns The response data.
+   * @throws {Error} The error message.
+   * @example const response = await corellium.device('123').send('echo "Hello, World!"');
+   */
+  send: async ({
+    type,
+    op,
+    params,
+    callback,
+    uploadHandler,
+  }: {
+    type: string;
+    op: string;
+    params: object;
+    callback?: (data: any) => void;
+    uploadHandler?: (data: any) => void;
+  }) => {
+    const websocketUrl = await createDeviceEndpoints(
+      api,
+      instanceId
+    ).websocket.get();
+
+    if (!websocketUrl.url) {
+      throw new Error('No websocket URL returned');
+    }
+
+    const ws = new WebSocket(websocketUrl.url);
+    const id = Math.random().toString(36).substring(7);
+    const message = { type, op, id, ...params };
+
+    // eslint-disable-next-line promise/avoid-new
+    await new Promise((resolve, reject) => {
+      ws.onopen = resolve;
+      ws.onerror = reject;
+    });
+
+    ws.send(JSON.stringify(message));
+    uploadHandler?.(id);
+
+    // eslint-disable-next-line promise/avoid-new
+    return new Promise((resolve, reject) => {
+      ws.onmessage = (event) => {
+        let messageContent: string | null = null;
+        let messageId: string | null = null;
+
+        if (typeof event === 'string') {
+          messageContent = JSON.parse(event);
+          messageId = message.id;
+        } else if (event.length >= 8) {
+          messageId = event.readUInt32LE(0);
+          messageContent = event.slice(8);
+        }
+
+        console.log('Received message:', messageContent, messageId);
+
+        ws.close();
+
+        if (!messageContent || !messageId) {
+          reject('Invalid message');
+        }
+
+        if (id === messageId) {
+          resolve(message);
+        }
+      };
+
+      ws.onerror = () => {
+        ws.close();
+        reject(new Error('Error sending message'));
+      };
+    });
+  },
 });
