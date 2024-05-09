@@ -654,23 +654,14 @@ export const createDeviceEndpoints = (
 
   /**
    * Send a command to the device.
-   * @param body The request body.
-   * @param body.type Passed in the `type` field of the agent command
-   * @param body.op Passed in the `op` field of the agent command
-   * @param body.params Any other parameters to include in the command
+   * @param type Passed in the `type` field of the agent command
+   * @param op Passed in the `op` field of the agent command
+   * @param params Any other parameters to include in the command
    * @returns The response data.
    * @throws {Error} The error message.
-   * @example const response = await corellium.device('123').send({ type: 'wifi', op: 'connect' });
+   * @example const response = await corellium.device('123').send('app', 'list');'
    */
-  send: async ({
-    type,
-    op,
-    params,
-  }: {
-    type: string;
-    op: string;
-    params?: Record<string, unknown>;
-  }) => {
+  send: async (type: string, op: string, params?: Record<string, unknown>) => {
     const device = await createDeviceEndpoints(api, instanceId, baseUrl).get();
 
     if (!device.agent?.info) {
