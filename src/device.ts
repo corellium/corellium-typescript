@@ -657,21 +657,18 @@ export const createDeviceEndpoints = (
    * @param body.type Passed in the `type` field of the agent command
    * @param body.op Passed in the `op` field of the agent command
    * @param body.params Any other parameters to include in the command
-   * @param body.uploadHandler A kludge for file uploads to work
    * @returns The response data.
    * @throws {Error} The error message.
-   * @example const response = await corellium.device('123').send('echo "Hello, World!"');
+   * @example const response = await corellium.device('123').send({ type: 'wifi', op: 'connect' });
    */
   send: async ({
     type,
     op,
     params,
-    uploadHandler,
   }: {
     type: string;
     op: string;
     params?: Record<string, unknown>;
-    uploadHandler?: (data: any) => void;
   }) => {
     const device = await createDeviceEndpoints(api, instanceId, baseUrl).get();
 
@@ -701,12 +698,9 @@ export const createDeviceEndpoints = (
       ws.onopen = resolve;
     });
 
-    console.log('WebSocket connection established, sending message', {
-      message,
-    });
+    console.log('WebSocket connection established, sending message', message);
 
     ws.send(JSON.stringify(message));
-    // uploadHandler?.(id);
 
     console.log('Message sent.');
 
