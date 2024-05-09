@@ -688,35 +688,45 @@ export const createDeviceEndpoints = (
     const id = Math.random().toString(36).substring(7);
     const message = { type, op, id, ...params };
 
+    console.log('Sending message', { message });
+
     // eslint-disable-next-line promise/avoid-new
     await new Promise((resolve, reject) => {
       ws.onopen = resolve;
       ws.onerror = reject;
     });
 
+    console.log('WebSocket connection established');
+
     ws.send(JSON.stringify(message));
-    uploadHandler?.(id);
+    // uploadHandler?.(id);
 
     // eslint-disable-next-line promise/avoid-new
-    return new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       ws.onmessage = (event) => {
         let messageContent: string | null = null;
         let messageId: string | null = null;
 
         if (typeof event === 'string') {
-          messageContent = JSON.parse(event);
+          messageContent = JSON.parse(event) as string;
           messageId = message.id;
-        } else if (event.length >= 8) {
-          messageId = event.readUInt32LE(0);
-          messageContent = event.slice(8);
+        } else if (Buffer.isBuffer(event.data)) {
+          messageId = `${event.data.readUInt32LE(0)}`;
+          messageContent = event.data.toString();
         }
 
-        console.log('Received message:', messageContent, messageId);
+        console.log(
+          'Received message:',
+          event,
+          typeof event,
+          messageContent,
+          messageId
+        );
 
         ws.close();
 
         if (!messageContent || !messageId) {
-          reject('Invalid message');
+          reject(new Error('Error receiving message'));
         }
 
         if (id === messageId) {
