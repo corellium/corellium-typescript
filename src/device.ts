@@ -657,7 +657,6 @@ export const createDeviceEndpoints = (
    * @param body.type Passed in the `type` field of the agent command
    * @param body.op Passed in the `op` field of the agent command
    * @param body.params Any other parameters to include in the command
-   * @param body.callback The callback function to execute
    * @param body.uploadHandler A kludge for file uploads to work
    * @returns The response data.
    * @throws {Error} The error message.
@@ -667,56 +666,57 @@ export const createDeviceEndpoints = (
     type,
     op,
     params,
-    callback,
     uploadHandler,
   }: {
     type: string;
     op: string;
-    params: object;
-    callback?: (data: any) => void;
+    params?: Record<string, unknown>;
     uploadHandler?: (data: any) => void;
   }) => {
-    /*
-     * const websocketUrl = await createDeviceEndpoints(
-     *   api,
-     *   instanceId
-     * ).websocket.get();
-     */
+    const device = await createDeviceEndpoints(api, instanceId, baseUrl).get();
 
-    /*
-     * if (!websocketUrl.url) {
-     *   throw new Error('No websocket URL returned');
-     * }
-     */
+    if (!device.agent?.info) {
+      throw new Error('No agent info returned');
+    }
 
-    const someId = '???';
-
-    const websocketUrl = new URL(`/api/v1/agent/${someId}`, baseUrl);
+    const websocketUrl = new URL(`/api/v1/agent/${device.agent.info}`, baseUrl);
 
     websocketUrl.protocol = 'wss:';
 
-    console.log('Connecting to WebSocket', websocketUrl);
+    console.log('Connecting to WebSocket', websocketUrl.toString());
 
-    const ws = new WebSocket(websocketUrl);
+    const ws = new WebSocket(websocketUrl.toString());
     const id = Math.random().toString(36).substring(7);
     const message = { type, op, id, ...params };
 
-    console.log('Sending message', { message });
+    console.log('Waiting for WebSocket connection to open...');
+
+    ws.onerror = () => {
+      ws.close();
+      throw new Error('WebSocket error');
+    };
 
     // eslint-disable-next-line promise/avoid-new
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       ws.onopen = resolve;
-      ws.onerror = reject;
     });
 
-    console.log('WebSocket connection established');
+    console.log('WebSocket connection established, sending message', {
+      message,
+    });
 
     ws.send(JSON.stringify(message));
     // uploadHandler?.(id);
 
+    console.log('Message sent.');
+
     // eslint-disable-next-line promise/avoid-new
     await new Promise((resolve, reject) => {
+      console.log('Waiting for response...');
+
       ws.onmessage = (event) => {
+        console.log('Received response:', event);
+
         let messageContent: string | null = null;
         let messageId: string | null = null;
 
@@ -728,28 +728,15 @@ export const createDeviceEndpoints = (
           messageContent = event.data.slice(8).toString();
         }
 
-        console.log(
-          'Received message:',
-          event,
-          typeof event,
-          messageContent,
-          messageId
-        );
-
         ws.close();
 
         if (!messageContent || !messageId) {
-          reject(new Error('Error receiving message'));
+          reject(new Error('Error receiving response'));
         }
 
         if (id === messageId) {
           resolve(message);
         }
-      };
-
-      ws.onerror = () => {
-        ws.close();
-        reject(new Error('Error sending message'));
       };
     });
   },
