@@ -3,7 +3,8 @@ import type { paths } from '../types/corellium';
 
 export const createDeviceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
-  instanceId: string
+  instanceId: string,
+  baseUrl: string
 ) => ({
   /**
    * Delete a device.
@@ -675,16 +676,28 @@ export const createDeviceEndpoints = (
     callback?: (data: any) => void;
     uploadHandler?: (data: any) => void;
   }) => {
-    const websocketUrl = await createDeviceEndpoints(
-      api,
-      instanceId
-    ).websocket.get();
+    /*
+     * const websocketUrl = await createDeviceEndpoints(
+     *   api,
+     *   instanceId
+     * ).websocket.get();
+     */
 
-    if (!websocketUrl.url) {
-      throw new Error('No websocket URL returned');
-    }
+    /*
+     * if (!websocketUrl.url) {
+     *   throw new Error('No websocket URL returned');
+     * }
+     */
 
-    const ws = new WebSocket(websocketUrl.url);
+    const someId = '???';
+
+    const websocketUrl = new URL(`/api/v1/agent/${someId}`, baseUrl);
+
+    websocketUrl.protocol = 'wss:';
+
+    console.log('Connecting to WebSocket', websocketUrl);
+
+    const ws = new WebSocket(websocketUrl);
     const id = Math.random().toString(36).substring(7);
     const message = { type, op, id, ...params };
 
@@ -707,12 +720,12 @@ export const createDeviceEndpoints = (
         let messageContent: string | null = null;
         let messageId: string | null = null;
 
-        if (typeof event === 'string') {
-          messageContent = JSON.parse(event) as string;
+        if (typeof event.data === 'string') {
+          messageContent = JSON.parse(event.data) as string;
           messageId = message.id;
         } else if (Buffer.isBuffer(event.data)) {
           messageId = `${event.data.readUInt32LE(0)}`;
-          messageContent = event.data.toString();
+          messageContent = event.data.slice(8).toString();
         }
 
         console.log(
