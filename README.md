@@ -314,6 +314,11 @@ await corellium.device('deviceId').hostname.set('my-hostname');
 const property = await corellium
   .device('deviceId')
   .property.get('corellium.opengapps');
+
+// Send a command to a device
+const commandResponse = await corellium
+  .device('deviceId')
+  .send({ type: 'app', op: 'list' });
 ```
 
 ### Files

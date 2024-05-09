@@ -681,13 +681,11 @@ export const createDeviceEndpoints = (
 
     websocketUrl.protocol = 'wss:';
 
-    console.log('Connecting to WebSocket', websocketUrl.toString());
-
     const id = Math.floor(Math.random() * 1000);
-    const message = { type, op, id, ...params };
+    const props = { type, op, id, ...params };
 
     // eslint-disable-next-line promise/avoid-new
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const ws = new WebSocket(websocketUrl.toString());
 
       ws.on('close', (code) => {
@@ -699,46 +697,41 @@ export const createDeviceEndpoints = (
         resolve(null);
       });
 
-      console.log('Waiting for WebSocket connection to open...');
-
       ws.on('error', () => {
         reject(new Error('Error connecting to WebSocket'));
       });
 
       ws.on('open', () => {
-        console.log('Sending message', JSON.stringify(message));
-
-        ws.send(JSON.stringify(message));
-
-        console.log('Message sent. Waiting for response...');
+        ws.send(JSON.stringify(props));
       });
 
-      ws.on('message', (data) => {
-        console.log('Received response:', data);
-
-        let messageContent: string | null = null;
-        let messageId: number | null = null;
-
-        if (typeof data === 'string') {
-          messageContent = JSON.parse(data) as string;
-          messageId = message.id;
-        } else if (Buffer.isBuffer(data)) {
-          messageId = data.readUInt32LE(0);
-          messageContent = data.slice(8).toString();
-        } else {
-          reject(new Error('Invalid message data'));
+      ws.on('message', (message) => {
+        if (!Buffer.isBuffer(message)) {
+          reject(new Error('Invalid message data, expecting buffer.'));
+          return;
         }
 
-        console.log('Response parsed', messageContent, messageId);
+        const data = message.toString();
 
-        if (!messageContent || !messageId) {
-          reject(new Error('Error receiving response'));
+        const content = JSON.parse(data) as Record<string, unknown> & {
+          id?: number;
+          error?: {
+            message: string;
+          };
+        };
+
+        if (!content.id) {
+          reject(new Error('Invalid message data, expecting id.'));
+          return;
         }
 
-        console.log('Checking message ID', messageId, id);
+        if (content.error) {
+          reject(new Error(content.error.message));
+          return;
+        }
 
-        if (id === messageId) {
-          resolve(message);
+        if (id === content.id) {
+          resolve(content);
           ws.close();
         }
       });
