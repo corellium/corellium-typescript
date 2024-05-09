@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
@@ -682,51 +683,54 @@ export const createDeviceEndpoints = (
 
     console.log('Connecting to WebSocket', websocketUrl.toString());
 
-    const id = Math.random().toString(36).substring(7);
+    const id = Math.floor(Math.random() * 1000);
     const message = { type, op, id, ...params };
 
     // eslint-disable-next-line promise/avoid-new
     await new Promise((resolve, reject) => {
       const ws = new WebSocket(websocketUrl.toString());
 
-      ws.addEventListener('close', () => {
-        console.log('WebSocket connection closed');
+      ws.on('close', (code) => {
+        console.log(`WebSocket closed with code ${code}`);
       });
 
       console.log('Waiting for WebSocket connection to open...');
 
-      ws.addEventListener('error', () => {
+      ws.on('error', () => {
         reject(new Error('Error connecting to WebSocket'));
       });
 
-      ws.addEventListener('open', () => {
-        console.log(
-          'WebSocket connection established, sending message',
-          message
-        );
+      ws.on('open', () => {
+        console.log('Sending message', JSON.stringify(message));
 
         ws.send(JSON.stringify(message));
 
         console.log('Message sent. Waiting for response...');
       });
 
-      ws.addEventListener('message', (event) => {
-        console.log('Received response:', event);
+      ws.on('message', (data) => {
+        console.log('Received response:', data);
 
         let messageContent: string | null = null;
-        let messageId: string | null = null;
+        let messageId: number | null = null;
 
-        if (typeof event.data === 'string') {
-          messageContent = JSON.parse(event.data) as string;
+        if (typeof data === 'string') {
+          messageContent = JSON.parse(data) as string;
           messageId = message.id;
-        } else if (Buffer.isBuffer(event.data)) {
-          messageId = `${event.data.readUInt32LE(0)}`;
-          messageContent = event.data.slice(8).toString();
+        } else if (Buffer.isBuffer(data)) {
+          messageId = data.readUInt32LE(0);
+          messageContent = data.slice(8).toString();
+        } else {
+          reject(new Error('Invalid message data'));
         }
+
+        console.log('Response parsed', messageContent, messageId);
 
         if (!messageContent || !messageId) {
           reject(new Error('Error receiving response'));
         }
+
+        console.log('Checking message ID', messageId, id);
 
         if (id === messageId) {
           resolve(message);
