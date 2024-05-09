@@ -682,31 +682,29 @@ export const createDeviceEndpoints = (
 
     console.log('Connecting to WebSocket', websocketUrl.toString());
 
-    const ws = new WebSocket(websocketUrl.toString());
     const id = Math.random().toString(36).substring(7);
     const message = { type, op, id, ...params };
 
-    console.log('Waiting for WebSocket connection to open...');
-
-    ws.onerror = () => {
-      ws.close();
-      throw new Error('WebSocket error');
-    };
-
-    // eslint-disable-next-line promise/avoid-new
-    await new Promise((resolve) => {
-      ws.onopen = resolve;
-    });
-
-    console.log('WebSocket connection established, sending message', message);
-
-    ws.send(JSON.stringify(message));
-
-    console.log('Message sent.');
-
     // eslint-disable-next-line promise/avoid-new
     await new Promise((resolve, reject) => {
-      console.log('Waiting for response...');
+      const ws = new WebSocket(websocketUrl.toString());
+
+      console.log('Waiting for WebSocket connection to open...');
+
+      ws.onerror = () => {
+        reject(new Error('Error connecting to WebSocket'));
+      };
+
+      ws.onopen = () => {
+        console.log(
+          'WebSocket connection established, sending message',
+          message
+        );
+
+        ws.send(JSON.stringify(message));
+
+        console.log('Message sent. Waiting for response...');
+      };
 
       ws.onmessage = (event) => {
         console.log('Received response:', event);

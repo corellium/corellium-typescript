@@ -62,8 +62,7 @@
   },
   "dependencies": {
     "eslint-config-harmony": "^3.1.9",
-    "openapi-fetch": "^0.9.5",
-    "ws": "^8.17.0"
+    "openapi-fetch": "^0.9.5"
   },
   "packageManager": "pnpm@9.0.6",
   "engines": {
