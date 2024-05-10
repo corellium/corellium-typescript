@@ -1,3 +1,22 @@
+# v1.1.1 (Fri May 10 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Add missing jsdoc annotations ([@haydenbleasel](https://github.com/haydenbleasel))
+- Move disableAutolockAssertion into device ([@haydenbleasel](https://github.com/haydenbleasel))
+- Move UI Automation setting into Device ([@haydenbleasel](https://github.com/haydenbleasel))
+- Move SSL Pinning commands into Device ([@haydenbleasel](https://github.com/haydenbleasel))
+- Move WiFi commands to Connect ([@haydenbleasel](https://github.com/haydenbleasel))
+- Fix existing sendCommands ([@haydenbleasel](https://github.com/haydenbleasel))
+- Move sendCommand to lib function ([@haydenbleasel](https://github.com/haydenbleasel))
+- Move Frida commands into device.ts ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.1.0 (Thu May 09 2024)
 
 #### 🚀 Enhancement
