@@ -338,6 +338,12 @@ await corellium.device('deviceId').sslPinning.set(true);
 
 // Disable SSL Pinning
 await corellium.device('deviceId').sslPinning.set(false);
+
+// Enable UI Automation
+await corellium.device('deviceId').uiAutomation.set(true);
+
+// Disable UI Automation
+await corellium.device('deviceId').uiAutomation.set(false);
 ```
 
 You can also send some commands directly into the device e.g.
@@ -347,16 +353,6 @@ You can also send some commands directly into the device e.g.
 const commandResponse = await corellium
   .device('deviceId')
   .send('app', 'shellExec', { cmd });
-
-// Enable UI automation
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('system', 'enableUIAutomation');
-
-// Disable UI automation
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('system', 'disableUIAutomation');
 
 // Acquire DisableAutolockAssertion
 const commandResponse = await corellium

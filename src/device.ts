@@ -710,4 +710,15 @@ export const createDeviceEndpoints = (
         enabled ? 'enableSSLPinning' : 'disableSSLPinning'
       ),
   },
+
+  uiAutomation: {
+    set: async (enabled: boolean) =>
+      sendCommand(
+        api,
+        instanceId,
+        baseUrl,
+        'system',
+        enabled ? 'enableUIAutomation' : 'disableUIAutomation'
+      ),
+  },
 });
