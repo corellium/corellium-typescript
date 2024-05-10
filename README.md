@@ -344,25 +344,19 @@ await corellium.device('deviceId').uiAutomation.set(true);
 
 // Disable UI Automation
 await corellium.device('deviceId').uiAutomation.set(false);
-```
-
-You can also send some commands directly into the device e.g.
-
-```ts
-// Run a shell script
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('app', 'shellExec', { cmd });
 
 // Acquire DisableAutolockAssertion
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('system', 'acquireDisableAutolockAssertion');
+await corellium.device('deviceId').disableAutolockAssertion.acquire();
 
 // Release DisableAutolockAssertion
 const commandResponse = await corellium
   .device('deviceId')
-  .send('system', 'releaseDisableAutolockAssertion');
+  .disableAutolockAssertion.release();
+
+// Send a commands directly into the device e.g. Run a shell command
+const commandResponse = await corellium
+  .device('deviceId')
+  .send('app', 'shellExec', { cmd });
 ```
 
 ### Files

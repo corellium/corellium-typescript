@@ -721,4 +721,23 @@ export const createDeviceEndpoints = (
         enabled ? 'enableUIAutomation' : 'disableUIAutomation'
       ),
   },
+
+  disableAutolockAssertion: {
+    acquire: async () =>
+      sendCommand(
+        api,
+        instanceId,
+        baseUrl,
+        'system',
+        'acquireDisableAutolockAssertion'
+      ),
+    release: async () =>
+      sendCommand(
+        api,
+        instanceId,
+        baseUrl,
+        'system',
+        'releaseDisableAutolockAssertion'
+      ),
+  },
 });
