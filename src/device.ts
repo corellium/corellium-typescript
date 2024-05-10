@@ -674,14 +674,10 @@ export const createDeviceEndpoints = (
      * @example const response = await corellium.device('123').frida.run('123', 'MyApp');
      */
     run: async (targetPid: string, targetName: string) =>
-      createDeviceEndpoints(api, instanceId, baseUrl).send(
-        'frida',
-        'run-frida',
-        {
-          target_pid: targetPid,
-          target_name: targetName,
-        }
-      ),
+      sendCommand(api, instanceId, baseUrl, 'frida', 'run-frida', {
+        target_pid: targetPid,
+        target_name: targetName,
+      }),
 
     /**
      * List Frida processes on the device.
@@ -690,10 +686,7 @@ export const createDeviceEndpoints = (
      * @example const response = await corellium.device('123').frida.list();
      */
     list: async () =>
-      createDeviceEndpoints(api, instanceId, baseUrl).send(
-        'frida',
-        'run-frida-ps'
-      ),
+      sendCommand(api, instanceId, baseUrl, 'frida', 'run-frida-ps'),
 
     /**
      * Run Frida Kill on the device.
@@ -702,9 +695,6 @@ export const createDeviceEndpoints = (
      * @example const response = await corellium.device('123').frida.kill('123', 'MyApp');
      */
     kill: async () =>
-      createDeviceEndpoints(api, instanceId, baseUrl).send(
-        'frida',
-        'run-frida-kill'
-      ),
+      sendCommand(api, instanceId, baseUrl, 'frida', 'run-frida-kill'),
   },
 });
