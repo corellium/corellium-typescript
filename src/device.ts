@@ -699,8 +699,22 @@ export const createDeviceEndpoints = (
   },
 
   sslPinning: {
+    /**
+     * Check if SSL pinning is enabled on the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').sslPinning.get();
+     */
     get: async () =>
       sendCommand(api, instanceId, baseUrl, 'system', 'isSSLPinningEnabled'),
+
+    /**
+     * Set the SSL pinning state of the device.
+     * @param enabled Whether to enable SSL pinning.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').sslPinning.set(true);
+     */
     set: async (enabled: boolean) =>
       sendCommand(
         api,
@@ -712,6 +726,13 @@ export const createDeviceEndpoints = (
   },
 
   uiAutomation: {
+    /**
+     * Set the UI automation state of the device.
+     * @param enabled Whether to enable UI automation.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').uiAutomation.set(true);
+     */
     set: async (enabled: boolean) =>
       sendCommand(
         api,
@@ -723,6 +744,12 @@ export const createDeviceEndpoints = (
   },
 
   disableAutolockAssertion: {
+    /**
+     * Acquire the disable autolock assertion.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').disableAutolockAssertion.acquire();
+     */
     acquire: async () =>
       sendCommand(
         api,
@@ -731,6 +758,13 @@ export const createDeviceEndpoints = (
         'system',
         'acquireDisableAutolockAssertion'
       ),
+
+    /**
+     * Release the disable autolock assertion.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').disableAutolockAssertion.release();
+     */
     release: async () =>
       sendCommand(
         api,
