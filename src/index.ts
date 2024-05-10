@@ -114,7 +114,7 @@ class Corellium {
     this.device = (deviceId: string) => ({
       ...createDeviceEndpoints(api, deviceId, baseUrl),
       app: createAppEndpoints(api, deviceId),
-      connect: createConnectEndpoints(api, deviceId),
+      connect: createConnectEndpoints(api, deviceId, baseUrl),
       console: createConsoleEndpoints(api, deviceId),
       coreTrace: createCoreTraceEndpoints(api, deviceId),
       file: createFileEndpoints(api, deviceId),

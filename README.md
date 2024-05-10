@@ -160,6 +160,12 @@ const auth = await corellium.device('deviceId').connect.adbAuthSetting.get();
 await corellium.device('deviceId').connect.adbAuthSetting.set({
   enabled: true,
 });
+
+// Connect to WiFi
+await corellium.device('deviceId').wifi.connect();
+
+// Disconnect from WiFi
+await corellium.device('deviceId').wifi.disconnect();
 ```
 
 ### Console
@@ -369,16 +375,6 @@ const commandResponse = await corellium
 const commandResponse = await corellium
   .device('deviceId')
   .send('system', 'releaseDisableAutolockAssertion');
-
-// Connect to WiFi
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('wifi', 'connect');
-
-// Disconnect from WiFi
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('wifi', 'disconnect');
 ```
 
 ### Files

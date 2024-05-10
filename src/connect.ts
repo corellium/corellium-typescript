@@ -1,9 +1,11 @@
+import { sendCommand } from './lib/command';
 import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
 
 export const createConnectEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
-  instanceId: string
+  instanceId: string,
+  baseUrl: string
 ) => ({
   quickConnect: {
     /**
@@ -114,5 +116,12 @@ export const createConnectEndpoints = (
 
       return response.data;
     },
+  },
+
+  wifi: {
+    connect: async () =>
+      sendCommand(api, instanceId, baseUrl, 'wifi', 'connect'),
+    disconnect: async () =>
+      sendCommand(api, instanceId, baseUrl, 'wifi', 'disconnect'),
   },
 });
