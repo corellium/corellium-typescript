@@ -314,6 +314,17 @@ await corellium.device('deviceId').hostname.set('my-hostname');
 const property = await corellium
   .device('deviceId')
   .property.get('corellium.opengapps');
+
+// Run Frida
+const commandResponse = await corellium
+  .device('deviceId')
+  .frida.run('targetPid', 'targetName');
+
+// List Frida processes on the device.
+const commandResponse = await corellium.device('deviceId').frida.list();
+
+// Run Frida Kill
+const commandResponse = await corellium.device('deviceId').frida.kill();
 ```
 
 You can also send some commands directly into the device e.g.
@@ -368,24 +379,6 @@ const commandResponse = await corellium
 const commandResponse = await corellium
   .device('deviceId')
   .send('wifi', 'disconnect');
-
-// Run Frida
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('frida', 'run-frida', {
-    target_pid: 'pid',
-    target_name: 'name',
-  });
-
-// Run `frida-ps`
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('frida', 'run-frida-ps');
-
-// Run Frida Kill
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('frida', 'run-frida-kill');
 ```
 
 ### Files

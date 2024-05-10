@@ -728,4 +728,48 @@ export const createDeviceEndpoints = (
       });
     });
   },
+
+  frida: {
+    /**
+     * Run Frida on the device.
+     * @param targetPid The PID of the target process.
+     * @param targetName The name of the target process.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').frida.run('123', 'MyApp');
+     */
+    run: async (targetPid: string, targetName: string) =>
+      createDeviceEndpoints(api, instanceId, baseUrl).send(
+        'frida',
+        'run-frida',
+        {
+          target_pid: targetPid,
+          target_name: targetName,
+        }
+      ),
+
+    /**
+     * List Frida processes on the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').frida.list();
+     */
+    list: async () =>
+      createDeviceEndpoints(api, instanceId, baseUrl).send(
+        'frida',
+        'run-frida-ps'
+      ),
+
+    /**
+     * Run Frida Kill on the device.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example const response = await corellium.device('123').frida.kill('123', 'MyApp');
+     */
+    kill: async () =>
+      createDeviceEndpoints(api, instanceId, baseUrl).send(
+        'frida',
+        'run-frida-kill'
+      ),
+  },
 });
