@@ -697,4 +697,17 @@ export const createDeviceEndpoints = (
     kill: async () =>
       sendCommand(api, instanceId, baseUrl, 'frida', 'run-frida-kill'),
   },
+
+  sslPinning: {
+    get: async () =>
+      sendCommand(api, instanceId, baseUrl, 'system', 'isSSLPinningEnabled'),
+    set: async (enabled: boolean) =>
+      sendCommand(
+        api,
+        instanceId,
+        baseUrl,
+        'system',
+        enabled ? 'enableSSLPinning' : 'disableSSLPinning'
+      ),
+  },
 });

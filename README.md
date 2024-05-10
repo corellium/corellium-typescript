@@ -322,15 +322,22 @@ const property = await corellium
   .property.get('corellium.opengapps');
 
 // Run Frida
-const commandResponse = await corellium
-  .device('deviceId')
-  .frida.run('targetPid', 'targetName');
+await corellium.device('deviceId').frida.run('targetPid', 'targetName');
 
 // List Frida processes on the device.
-const commandResponse = await corellium.device('deviceId').frida.list();
+const processes = await corellium.device('deviceId').frida.list();
 
 // Run Frida Kill
-const commandResponse = await corellium.device('deviceId').frida.kill();
+await corellium.device('deviceId').frida.kill();
+
+// Check if SSL Pinning is enabled
+const isEnabled = await corellium.device('deviceId').sslPinning.get();
+
+// Enable SSL Pinning
+await corellium.device('deviceId').sslPinning.set(true);
+
+// Disable SSL Pinning
+await corellium.device('deviceId').sslPinning.set(false);
 ```
 
 You can also send some commands directly into the device e.g.
@@ -350,21 +357,6 @@ const commandResponse = await corellium
 const commandResponse = await corellium
   .device('deviceId')
   .send('system', 'disableUIAutomation');
-
-// Check if SSL pinning is enabled
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('system', 'isSSLPinningEnabled');
-
-// Enable SSL pinning
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('system', 'enableSSLPinning');
-
-// Disable SSL pinning
-const commandResponse = await corellium
-  .device('deviceId')
-  .send('system', 'disableSSLPinning');
 
 // Acquire DisableAutolockAssertion
 const commandResponse = await corellium
