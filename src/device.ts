@@ -661,8 +661,11 @@ export const createDeviceEndpoints = (
    * @throws {Error} The error message.
    * @example const response = await corellium.device('123').send('app', 'list');'
    */
-  send: async (type: string, op: string, params?: Record<string, unknown>) =>
-    sendCommand(api, instanceId, baseUrl, type, op, params),
+  send: async (
+    type: string,
+    op: string,
+    parameters?: Record<string, unknown>
+  ) => sendCommand(api, instanceId, baseUrl, type, op, parameters),
 
   frida: {
     /**

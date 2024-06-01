@@ -24,10 +24,7 @@ export const createWebplayerEndpoints = (
       throw new Error(response.statusText);
     }
 
-    const data =
-      (await response.json()) as components['schemas']['WebPlayerSession'];
-
-    return data;
+    return (await response.json()) as components['schemas']['WebPlayerSession'];
   },
 
   /**
@@ -49,10 +46,7 @@ export const createWebplayerEndpoints = (
       throw new Error(response.statusText);
     }
 
-    const data =
-      (await response.json()) as components['schemas']['WebPlayerSession'][];
-
-    return data;
+    return (await response.json()) as components['schemas']['WebPlayerSession'][];
   },
 
   /**
@@ -75,10 +69,7 @@ export const createWebplayerEndpoints = (
       throw new Error(response.statusText);
     }
 
-    const data =
-      (await response.json()) as components['schemas']['WebPlayerSession'];
-
-    return data;
+    return (await response.json()) as components['schemas']['WebPlayerSession'];
   },
 
   /**

@@ -8,7 +8,7 @@ export const sendCommand = async (
   baseUrl: string,
   type: string,
   op: string,
-  params?: Record<string, unknown>
+  parameters?: Record<string, unknown>
   // eslint-disable-next-line @typescript-eslint/max-params
 ) => {
   const response = await api.GET('/v1/instances/{instanceId}', {
@@ -34,7 +34,7 @@ export const sendCommand = async (
   websocketUrl.protocol = 'wss:';
 
   const id = Math.floor(Math.random() * 1000);
-  const props = { type, op, id, ...params };
+  const properties = { type, op, id, ...parameters };
 
   // eslint-disable-next-line promise/avoid-new
   return new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ export const sendCommand = async (
     });
 
     ws.on('open', () => {
-      ws.send(JSON.stringify(props));
+      ws.send(JSON.stringify(properties));
     });
 
     ws.on('message', (message) => {

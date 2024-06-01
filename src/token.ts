@@ -21,9 +21,7 @@ export const createTokenEndpoints = (baseUrl: string, apiToken: string) => ({
       throw new Error(response.statusText);
     }
 
-    const data = (await response.json()) as components['schemas']['ApiToken'];
-
-    return data;
+    return (await response.json()) as components['schemas']['ApiToken'];
   },
 
   /**
