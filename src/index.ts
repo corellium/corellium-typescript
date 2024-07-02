@@ -90,6 +90,18 @@ class Corellium {
       },
     });
 
+    const matrixBaseUrl = options?.endpoint
+      ? new URL('/api/v1/services/matrix', options.endpoint).toString()
+      : 'https://app.corellium.com/api/v1/services/matrix';
+
+    const matrixApi = createFetchClient<paths>({
+      matrixBaseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiToken}`,
+      },
+    });
+
     this.auth = createAuthEndpoints(api);
     this.authProvider = createAuthProviderEndpoints(api);
     this.customNetwork = createCustomNetworkEndpoints(api);
@@ -120,6 +132,7 @@ class Corellium {
       file: createFileEndpoints(api, deviceId),
       hyperTrace: createHyperTraceEndpoints(api, deviceId),
       kernelHook: createKernelHookEndpoints(api, deviceId),
+      matrix: createMatrixEndpoints(matrixApi, deviceId),
       media: createMediaEndpoints(api, deviceId),
       messaging: createMessagingEndpoints(api, deviceId),
       networkMonitor: createNetworkMonitorEndpoints(api, deviceId),
