@@ -1,3 +1,26 @@
+# v1.1.2 (Tue Jul 02 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Update pnpm-lock.yaml ([@haydenbleasel](https://github.com/haydenbleasel))
+- Update push.yml ([@haydenbleasel](https://github.com/haydenbleasel))
+- Ultracite fixes ([@haydenbleasel](https://github.com/haydenbleasel))
+- Swap out Harmony for Ultracite ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### 🔩 Dependency Updates
+
+- Bump @types/node from 20.12.11 to 20.13.0 [#5](https://github.com/haydenbleasel/corellium-typescript/pull/5) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump stylelint from 16.5.0 to 16.6.1 [#6](https://github.com/haydenbleasel/corellium-typescript/pull/6) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump openapi-fetch from 0.9.5 to 0.9.7 [#7](https://github.com/haydenbleasel/corellium-typescript/pull/7) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump pnpm/action-setup from 3 to 4 [#8](https://github.com/haydenbleasel/corellium-typescript/pull/8) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.1.1 (Fri May 10 2024)
 
 #### ⚠️ Pushed to `main`
