@@ -9,13 +9,6 @@ export interface paths {
     /** Log In */
     post: operations["v1AuthLogin"];
   };
-  "/v1/billing/invites": {
-    /**
-     * Create Subscriber Invite
-     * @description Create Subscriber Invite
-     */
-    post: operations["v1CreateSubscriberInvite"];
-  };
   "/v1/config": {
     /** Get all configs */
     get: operations["v1GetConfig"];
@@ -279,13 +272,6 @@ export interface paths {
     /** Get state of Instance */
     get: operations["v2GetInstanceState"];
   };
-  "/v1/instances/{instanceId}/rate": {
-    /**
-     * Get rate information
-     * @description Returns the cost, in microcents, for the instance in the on and off state. Instances are charged $0.25 / day for storage (off) and $0.25 per core per hour (on).
-     */
-    get: operations["v1GetInstanceRate"];
-  };
   "/v1/instances/{instanceId}/gpios": {
     /** Get Instance GPIOs */
     get: operations["v1GetInstanceGpios"];
@@ -415,12 +401,24 @@ export interface paths {
     post: operations["v1DisableExposePort"];
   };
   "/v1/instances/{instanceId}/message": {
-    /** Receive a message on an iOS vm */
+    /**
+     * Inject a message into an iOS VM
+     * @description Given a message and source phone number, place this message as an incoming SMS message on the iOS VM.
+     * For advanced usage, a raw message of bytes may be sent. In this case, the parameter should provide hex encoded bytes
+     *  (0x00 0x11 0x22 0x33 in the example below) which are sent verbatim.
+     *  The user must ensure that the body is the correct format for the underlying device stack.
+     */
     post: {
       parameters: {
         path: {
           /** @description Instance ID - uuid */
           instanceId: string;
+        };
+      };
+      /** @description Message data */
+      requestBody: {
+        content: {
+          "application/json": Record<string, never>;
         };
       };
       responses: {
@@ -460,13 +458,13 @@ export interface paths {
   "/v1/instances/{instanceId}/snapshots/{snapshotId}": {
     /** Get Instance Snapshot */
     get: operations["v1GetInstanceSnapshot"];
-    /** Delete a Snapshot */
+    /** Delete an Instance Snapshot */
     delete: operations["v1DeleteInstanceSnapshot"];
-    /** Rename a Snapshot */
+    /** Rename an Instance Snapshot */
     patch: operations["v1RenameInstanceSnapshot"];
   };
   "/v1/instances/{instanceId}/snapshots/{snapshotId}/restore": {
-    /** Restore a Snapshot */
+    /** Restore an Instance Snapshot */
     post: operations["v1RestoreInstanceSnapshot"];
   };
   "/v1/license/features": {
@@ -557,6 +555,13 @@ export interface paths {
      * @description Share a snapshot
      */
     post: operations["v1ShareSnapshot"];
+  };
+  "/v1/snapshots/accept": {
+    /**
+     * Accept a snapshot shared with you
+     * @description Accept a snapshot shared with you
+     */
+    post: operations["v1AcceptSharedSnapshot"];
   };
   "/v1/snapshots/{snapshotId}/permissions": {
     /**
@@ -675,6 +680,22 @@ export interface paths {
   "/v1/users/reset-link-info": {
     /** Send Password Reset Link Info */
     get: operations["v1GetResetLinkInfo"];
+  };
+  "/v1/webplayer": {
+    /** List all Webplayer sessions */
+    get: operations["v1WebPlayerListSessions"];
+    /** Create a new Webplayer Session */
+    post: operations["v1WebPlayerCreateSession"];
+  };
+  "/v1/webplayer/{sessionId}": {
+    /** Retrieve Webplayer Session Information */
+    get: operations["v1WebPlayerSessionInfo"];
+    /** Tear down a Webplayer Session */
+    delete: operations["v1WebPlayerDestroySession"];
+  };
+  "/v1/webplayer/allowedDomains": {
+    /** Retrieve the list of allowed domains for all Webplayer sessions */
+    get: operations["v1WebPlayerAllowedDomains"];
   };
   "/v1/network/connections": {
     /**
@@ -1582,12 +1603,6 @@ export interface components {
     V1SetStateBody: {
       state: components["schemas"]["InstanceState"];
     };
-    RateInfo: {
-      /** @description The amount per second, in microcents (USD), that this instance charges to be running. */
-      onRateMicrocents?: number | null;
-      /** @description The amount per second, in microcents (USD), that this instance charges to be stored. */
-      offRateMicrocents?: number | null;
-    };
     /**
      * @description Bit value
      * @enum {number}
@@ -1874,8 +1889,6 @@ export interface components {
       label?: string | null;
     };
     SnapshotSharing: {
-      /** @description The URL of the snapshot */
-      url: string;
       /** @enum {string} */
       sharingType: "publicLink" | "domainRestrictedLink" | "passwordPublicLink" | "emailInvite";
       /** @description Password with using passwordPublicLink */
@@ -2087,6 +2100,16 @@ export interface components {
       /** @description UUIDv4 of the user who last updated this record. */
       updatedBy: string;
     };
+    CreateNetworkConnectionOptions: {
+      /** @description UUIDv4 */
+      identifier: string;
+      /** @description User specified name for this network connection. e.g. My Network Connection */
+      name: string;
+      /** @description One of the registered [network provider types](#get-/v1/network/providers) */
+      provider: string;
+      /** @description An object containing network connection configuration data. Will vary based on network provider type. See examples. */
+      config?: Record<string, unknown> | null;
+    };
     /** @description Network Connection Provider Offset Pagination Result */
     NetworkConnectionProviderOffsetPaginationResult: {
       /** @description Total number of items. */
@@ -2139,26 +2162,6 @@ export interface operations {
       403: {
         content: {
           "application/json": components["schemas"]["ApiError"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Subscriber Invite
-   * @description Create Subscriber Invite
-   */
-  v1CreateSubscriberInvite: {
-    /** @description Payload of Subscriber Invite */
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["SubscriberInvite"];
-      };
-    };
-    responses: {
-      /** @description Success */
-      200: {
-        content: {
-          "application/json": components["schemas"]["SubscriberInvite"];
         };
       };
     };
@@ -3623,26 +3626,6 @@ export interface operations {
       };
     };
   };
-  /**
-   * Get rate information
-   * @description Returns the cost, in microcents, for the instance in the on and off state. Instances are charged $0.25 / day for storage (off) and $0.25 per core per hour (on).
-   */
-  v1GetInstanceRate: {
-    parameters: {
-      path: {
-        /** @description Instance ID - uuid */
-        instanceId: string;
-      };
-    };
-    responses: {
-      /** @description Rate Information */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RateInfo"];
-        };
-      };
-    };
-  };
   /** Get Instance GPIOs */
   v1GetInstanceGpios: {
     parameters: {
@@ -4670,7 +4653,7 @@ export interface operations {
       };
     };
   };
-  /** Delete a Snapshot */
+  /** Delete an Instance Snapshot */
   v1DeleteInstanceSnapshot: {
     parameters: {
       path: {
@@ -4699,7 +4682,7 @@ export interface operations {
       };
     };
   };
-  /** Rename a Snapshot */
+  /** Rename an Instance Snapshot */
   v1RenameInstanceSnapshot: {
     parameters: {
       path: {
@@ -4735,7 +4718,7 @@ export interface operations {
       };
     };
   };
-  /** Restore a Snapshot */
+  /** Restore an Instance Snapshot */
   v1RestoreInstanceSnapshot: {
     parameters: {
       path: {
@@ -5313,6 +5296,37 @@ export interface operations {
     };
   };
   /**
+   * Accept a snapshot shared with you
+   * @description Accept a snapshot shared with you
+   */
+  v1AcceptSharedSnapshot: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PostShareSnapshotRequestPayload"];
+      };
+    };
+    responses: {
+      /** @description application/json */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Snapshot"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ApiError"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
+        };
+      };
+    };
+  };
+  /**
    * Set member list
    * @description Sets the list of members who have access to the snapshot
    */
@@ -5852,6 +5866,139 @@ export interface operations {
       200: {
         content: {
           "application/json": Record<string, never>;
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  /** List all Webplayer sessions */
+  v1WebPlayerListSessions: {
+    responses: {
+      /** @description Success */
+      200: {
+        content: {
+          "application/json": components["schemas"]["WebPlayerSession"][];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  /** Create a new Webplayer Session */
+  v1WebPlayerCreateSession: {
+    /** @description Request Data */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["WebPlayerCreateSessionRequest"];
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        content: {
+          "application/json": components["schemas"]["WebPlayerSession"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  /** Retrieve Webplayer Session Information */
+  v1WebPlayerSessionInfo: {
+    parameters: {
+      path: {
+        /** @description Webplayer Session identifier */
+        sessionId: string;
+      };
+    };
+    responses: {
+      /** @description Success */
+      200: {
+        content: {
+          "application/json": components["schemas"]["WebPlayerSession"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ApiError"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
+        };
+      };
+    };
+  };
+  /** Tear down a Webplayer Session */
+  v1WebPlayerDestroySession: {
+    parameters: {
+      path: {
+        /** @description Webplayer Session identifier */
+        sessionId: string;
+      };
+    };
+    responses: {
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ApiError"];
+        };
+      };
+    };
+  };
+  /** Retrieve the list of allowed domains for all Webplayer sessions */
+  v1WebPlayerAllowedDomains: {
+    responses: {
+      /** @description Success */
+      200: {
+        content: {
+          "application/json": components["schemas"]["WebPlayerSession"];
+        };
+      };
+      /** @description Bad Request */
+      400: {
+        content: {
+          "application/json": components["schemas"]["UserError"];
         };
       };
       /** @description Forbidden */
