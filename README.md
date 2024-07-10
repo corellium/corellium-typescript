@@ -671,6 +671,12 @@ await corellium.snapshot.sharing.allow('snapshotId', {
 await corellium.snapshot.sharing.revoke('snapshotId', {
   members: ['jane@acme.com', 'john@acme.com'],
 });
+
+// Accept a shared snapshot
+await corellium.snapshot.sharing.accept({
+  sharingType: 'passwordPublicLink',
+  password: 'abcd',
+});
 ```
 
 You can run a couple of these commands without a device context, like so:
