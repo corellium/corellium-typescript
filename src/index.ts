@@ -102,7 +102,7 @@ class Corellium {
     this.team = createTeamEndpoints(api);
     this.token = createTokenEndpoints(baseUrl, apiToken);
     this.user = createUserEndpoints(api);
-    this.webplayer = createWebplayerEndpoints(baseUrl, apiToken);
+    this.webplayer = createWebplayerEndpoints(api, baseUrl, apiToken);
 
     /**
      * Create a device pointer.

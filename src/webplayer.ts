@@ -1,6 +1,8 @@
-import type { components } from '../types/corellium';
+import type createFetchClient from 'openapi-fetch';
+import type { components, paths } from '../types/corellium';
 
 export const createWebplayerEndpoints = (
+  api: ReturnType<typeof createFetchClient<paths>>,
   baseUrl: string,
   apiToken: string
 ) => ({
@@ -12,19 +14,19 @@ export const createWebplayerEndpoints = (
    * @example const response = await corellium.webplayer.get('123');
    */
   get: async (sessionId: string) => {
-    const url = new URL(`/api/v1/webplayer/${sessionId}`, baseUrl);
-
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
+    const response = await api.GET('/v1/webplayer/{sessionId}', {
+      params: {
+        path: {
+          sessionId,
+        },
       },
     });
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (response.error) {
+      throw new Error(response.error.error);
     }
 
-    return (await response.json()) as components['schemas']['WebPlayerSession'];
+    return response.data;
   },
 
   /**
@@ -34,19 +36,13 @@ export const createWebplayerEndpoints = (
    * @example const response = await corellium.webplayer.list();
    */
   list: async () => {
-    const url = new URL('/webplayer', baseUrl);
+    const response = await api.GET('/v1/webplayer');
 
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (response.error) {
+      throw new Error(response.error.error);
     }
 
-    return (await response.json()) as components['schemas']['WebPlayerSession'][];
+    return response.data;
   },
 
   /**
@@ -87,22 +83,15 @@ export const createWebplayerEndpoints = (
   create: async (
     body: components['schemas']['WebPlayerCreateSessionRequest']
   ) => {
-    const url = new URL('/webplayer', baseUrl);
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+    const response = await api.POST('/v1/webplayer', {
+      body,
     });
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (response.error) {
+      throw new Error(response.error.error);
     }
 
-    return response;
+    return response.data;
   },
 
   /**
@@ -112,19 +101,18 @@ export const createWebplayerEndpoints = (
    * @example await corellium.webplayer.delete('123');
    */
   delete: async (sessionId: string) => {
-    const url = new URL(`/api/v1/webplayer/${sessionId}`, baseUrl);
-
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
+    const response = await api.DELETE('/v1/webplayer/{sessionId}', {
+      params: {
+        path: {
+          sessionId,
+        },
       },
     });
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (response.error) {
+      throw new Error(response.error.error);
     }
 
-    return response;
+    return response.data;
   },
 });
