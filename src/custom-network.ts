@@ -30,23 +30,10 @@ export const createCustomNetworkEndpoints = (
    * @example const response = await corellium.customNetwork.get('123');
    */
   create: async (
-    /*
-     * Patching bad OpenAPI spec
-     * body: paths['/v1/network/connections']['post']['requestBody']['content']['application/json']
-     */
-    body: {
-      name: string;
-      config: string;
-    }
+    body: paths['/v1/network/connections']['post']['requestBody']['content']['application/json']
   ) => {
     const response = await api.POST('/v1/network/connections', {
-      body: {
-        name: body.name,
-        provider: 'openvpn',
-        config: {
-          config: body.config,
-        },
-      },
+      body,
     });
 
     // Patching bad OpenAPI spec
