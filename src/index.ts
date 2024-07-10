@@ -131,7 +131,7 @@ class Corellium {
       file: createFileEndpoints(api, deviceId),
       hyperTrace: createHyperTraceEndpoints(api, deviceId),
       kernelHook: createKernelHookEndpoints(api, deviceId),
-      matrix: createMatrixEndpoints(matrixApi, deviceId),
+      matrix: createMatrixEndpoints(api, matrixApi, deviceId, baseUrl),
       media: createMediaEndpoints(api, deviceId),
       messaging: createMessagingEndpoints(api, deviceId),
       networkMonitor: createNetworkMonitorEndpoints(api, deviceId),
