@@ -94,7 +94,7 @@ class Corellium {
     });
 
     const matrixApi = createFetchClient<matrixPaths>({
-      baseUrl,
+      baseUrl: new URL('/api/v1/services/matrix', baseUrl).toString(),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiToken}`,
