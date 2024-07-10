@@ -19,7 +19,7 @@ export const createPortForwardingEndpoints = (
     );
 
     if (response.error) {
-      throw new Error(response.error.error ?? response.response.statusText);
+      throw new Error(response.error.error);
     }
 
     return response.data;
@@ -39,7 +39,7 @@ export const createPortForwardingEndpoints = (
     );
 
     if (response.error) {
-      throw new Error(response.error.error ?? response.response.statusText);
+      throw new Error(response.error.error);
     }
 
     return response.data;

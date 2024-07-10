@@ -14,7 +14,7 @@ export const createCustomNetworkEndpoints = (
     const response = await api.GET('/v1/network/connections');
 
     if (response.error) {
-      throw new Error(response.error.error ?? response.response.statusText);
+      throw new Error(response.error.error);
     }
 
     return response.data;
@@ -138,7 +138,7 @@ export const createCustomNetworkEndpoints = (
       const response = await api.GET('/v1/network/providers');
 
       if (response.error) {
-        throw new Error(response.error.error ?? response.response.statusText);
+        throw new Error(response.error.error);
       }
 
       return response.data;
