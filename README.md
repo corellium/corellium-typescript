@@ -359,6 +359,31 @@ const commandResponse = await corellium
   .send('app', 'shellExec', { cmd });
 ```
 
+### Device (Specific) - MATRIX
+
+```ts
+// Run a MATRIX assessment
+await corellium.device('deviceId').matrix.run({
+  bundleId: 'com.corellium.cafe',
+});
+
+// Get a MATRIX assessment
+const assessment = await corellium
+  .device('deviceId')
+  .matrix.assessment.get('assessmentId');
+
+// Get all MATRIX assessments
+const assessments = await corellium.device('deviceId').matrix.assessment.list();
+
+// Delete a MATRIX assessment
+await corellium.device('deviceId').matrix.assessment.delete('assessmentId');
+
+// Download a MATRIX assessment
+const assessment = await corellium
+  .device('deviceId')
+  .matrix.assessment.download('assessmentId', 'json');
+```
+
 ### Files
 
 ```ts
