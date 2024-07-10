@@ -160,13 +160,20 @@ export const createMatrixEndpoints = (
       await appEndpoints.run(body.bundleId);
 
       if (body.keywords) {
+        const fileContent = new Blob(body.keywords, { type: 'text/plain' });
+        const fileName = 'keywords.txt';
+        const file = new File([fileContent], fileName, {
+          type: 'text/plain',
+          lastModified: Date.now(),
+        });
+
         const newKeywords = await imageEndpoints.create({
           type: 'extension',
           encoding: 'plain',
           name: 'keywords.txt',
           project: instance.project,
           instance: instance.id,
-          file: body.keywords.join('\n'),
+          file,
         });
 
         wordlistId = newKeywords.id ?? undefined;

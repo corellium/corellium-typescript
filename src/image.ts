@@ -47,10 +47,15 @@ export const createImageEndpoints = (
    * @example const response = await corellium.image.create({ type: 'binary', encoding: 'plain', encapsulated: true, name: 'My Image', project: 'projectId', instance: 'instanceId', file: File });
    */
   create: async (
-    body: paths['/v1/images']['post']['requestBody']['content']['multipart/form-data']
+    body: Omit<
+      paths['/v1/images']['post']['requestBody']['content']['multipart/form-data'],
+      'file'
+    > & {
+      file: File;
+    }
   ) => {
     const response = await api.POST('/v1/images', {
-      body,
+      body: body as never,
     });
 
     if (response.error) {
