@@ -760,6 +760,9 @@ await corellium.webplayer.refresh('sessionId');
 
 // Delete a Webplayer session
 await corellium.webplayer.delete('sessionId');
+
+// Retrieve the list of allowed domains for all Webplayer sessions
+const domains = await corellium.webplayer.domains.list();
 ```
 
 ## Recipes

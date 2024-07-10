@@ -115,4 +115,21 @@ export const createWebplayerEndpoints = (
 
     return response.data;
   },
+
+  domains: {
+    /**
+     * Retrieve the list of allowed domains for all Webplayer sessions.
+     * @throws {Error} The error message.
+     * @example await corellium.webplayer.domains.list();
+     */
+    list: async () => {
+      const response = await api.GET('/v1/webplayer/allowedDomains');
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
+  },
 });
