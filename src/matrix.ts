@@ -215,7 +215,7 @@ export const createMatrixEndpoints = (
         }
 
         if (status === 'failed') {
-          throw new Error('Assessment failed to start');
+          throw new Error('Monitoring failed to start');
         }
 
         await new Promise((resolve) => {
@@ -240,7 +240,7 @@ export const createMatrixEndpoints = (
         }
 
         if (status === 'failed') {
-          throw new Error('Assessment failed to start');
+          throw new Error('Monitoring failed to stop');
         }
 
         await new Promise((resolve) => {
@@ -260,7 +260,7 @@ export const createMatrixEndpoints = (
         }
 
         if (status === 'failed') {
-          throw new Error('Assessment failed to start');
+          throw new Error('Checks failed to complete');
         }
 
         await new Promise((resolve) => {
