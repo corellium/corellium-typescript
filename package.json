@@ -29,7 +29,9 @@
     "build": "tsup src",
     "dev": "tsup src --watch",
     "test": "bun test/index.ts",
-    "generate-types": "npx openapi-typescript@6.7.6 https://app.corellium.com/api/openapi.json -o ./types/corellium.d.ts"
+    "generate-types:core": "npx openapi-typescript@6.7.6 https://app.corellium.com/api/openapi.json -o ./types/corellium.d.ts",
+    "generate-types:matrix": "npx openapi-typescript@6.7.6 ./matrix-openapi.yml -o ./types/matrix.d.ts",
+    "generate-types": "npm run generate-types:core && npm run generate-types:matrix"
   },
   "repository": {
     "type": "git",

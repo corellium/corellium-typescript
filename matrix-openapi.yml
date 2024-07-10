@@ -1,0 +1,311 @@
+openapi: 3.0.3
+info:
+  title: MATRIX API Overview
+  version: 1.0.0
+servers:
+  - url: /api/v1/services/matrix
+paths:
+  /{instanceId}/instances/{instanceId}/assessments:
+    get:
+      tags:
+        - instances
+      operationId: getAssessmentsByInstanceId
+      summary: Get assessments by instanceId
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      responses:
+        '200':
+          description: Returns array of assessments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assessment'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /{instanceId}/assessments:
+    post:
+      tags:
+        - assessments
+      operationId: createAssessment
+      summary: Create assessment
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+      requestBody:
+        description: Create a new assessment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssessmentDto'
+      responses:
+        '200':
+          $ref: '#/components/responses/AssessmentIdStatusResponse'
+        '400':
+          description: Invalid body
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /{instanceId}/assessments/{assessmentId}:
+    get:
+      tags:
+        - assessments
+      operationId: getAssessmentById
+      summary: Get assessment by ID
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+        - $ref: '#/components/parameters/assessmentId'
+      responses:
+        '200':
+          $ref: '#/components/responses/AssessmentResponse'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+    delete:
+      tags:
+        - assessments
+      operationId: deleteAssessment
+      summary: Delete assessment
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+        - $ref: '#/components/parameters/assessmentId'
+      responses:
+        '204':
+          $ref: '#/components/responses/204SuccessNoContent'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /{instanceId}/assessments/{assessmentId}/start:
+    post:
+      tags:
+        - assessments
+      operationId: startMonitoring
+      summary: Update assessment state and begin device monitoring
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+        - $ref: '#/components/parameters/assessmentId'
+      responses:
+        '204':
+          $ref: '#/components/responses/204SuccessNoContent'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /{instanceId}/assessments/{assessmentId}/stop:
+    post:
+      tags:
+        - assessments
+      operationId: stopMonitoring
+      summary: Update assessment state and stop device monitoring
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+        - $ref: '#/components/parameters/assessmentId'
+      responses:
+        '204':
+          $ref: '#/components/responses/204SuccessNoContent'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /{instanceId}/assessments/{assessmentId}/test:
+    post:
+      tags:
+        - assessments
+      operationId: runTests
+      summary: Update assessment state and execute MATRIX tests
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+        - $ref: '#/components/parameters/assessmentId'
+      requestBody:
+        description: Execute MATRIX tests
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestAssessmentDto'
+      responses:
+        '200':
+          $ref: '#/components/responses/AssessmentIdStatusResponse'
+        '400':
+          description: Assessment status invalid
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+  /{instanceId}/assessments/{assessmentId}/download:
+    get:
+      tags:
+        - assessments
+      operationId: downloadReport
+      summary: Download report
+      parameters:
+        - $ref: '#/components/parameters/instanceId'
+        - $ref: '#/components/parameters/assessmentId'
+        - $ref: '#/components/parameters/format'
+      responses:
+        '200':
+          description: Returns the HTML file of the report
+          content:
+            text/html:
+              schema:
+                type: string
+                example: '<html>Automated Mobile Application Security Test Report</html>'
+            application/json:
+              schema:
+                type: string
+                example: '{ metadata: {}, results: [] }'
+        '400':
+          description: Assessment status invalid
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+components:
+  schemas:
+    Assessment:
+      allOf:
+        - $ref: '#/components/schemas/CreateAssessmentDto'
+        - $ref: '#/components/schemas/AssessmentIdStatus'
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        reportId:
+          type: string
+          format: uuid
+        bundle:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+              example: 'Camera'
+            version:
+              type: string
+              example: '1.2.0'
+        results:
+          type: object
+          properties:
+            pass:
+              type: integer
+            fail:
+              type: integer
+            info:
+              type: integer
+            error:
+              type: integer
+        metadata:
+          type: object
+          properties:
+            corelliumVersion:
+              type: string
+              example: '6.4.0'
+    AssessmentIdStatus:
+      allOf:
+        - $ref: '#/components/schemas/UpdateAssessmentDto'
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    CreateAssessmentDto:
+      type: object
+      required:
+        - instanceId
+        - bundleId
+      properties:
+        instanceId:
+          type: string
+          format: uuid
+        bundleId:
+          type: string
+          example: com.android.egg
+          writeOnly: true
+        wordlistId:
+          type: string
+          format: uuid
+    UpdateAssessmentDto:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: testing
+    TestAssessmentDto:
+      type: object
+      properties:
+        invert:
+          type: boolean
+        grep:
+          type: string
+          example: masvs-storage-2-android-8
+  responses:
+    AssessmentResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Assessment'
+    AssessmentIdStatusResponse:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AssessmentIdStatus'
+    204SuccessNoContent:
+      description: Successful operation
+    404NotFound:
+      description: Assessment not found
+    500InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  parameters:
+    assessmentId:
+      name: assessmentId
+      in: path
+      description: ID of assessment
+      required: true
+      schema:
+        type: string
+        format: uuid
+    instanceId:
+      name: instanceId
+      in: path
+      description: ID of instance
+      required: true
+      schema:
+        type: string
+        format: uuid
+    format:
+      name: format
+      in: query
+      description: Assessment report download format
+      required: true
+      schema:
+        type: string
+        format: enum['json', 'html']
+        default: 'html'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
