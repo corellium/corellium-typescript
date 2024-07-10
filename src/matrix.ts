@@ -157,11 +157,9 @@ export const createMatrixEndpoints = (
         throw new Error('Device must be online to run MATRIX assessment');
       }
 
-      console.log('Opening app...');
       await appEndpoints.run(body.bundleId);
 
       if (body.keywords) {
-        console.log('Uploading keywords...');
         const newKeywords = await imageEndpoints.create({
           type: 'extension',
           encoding: 'plain',
@@ -174,7 +172,6 @@ export const createMatrixEndpoints = (
         wordlistId = newKeywords.id ?? undefined;
       }
 
-      console.log('Creating assessment...', wordlistId);
       const assessment = await createAssessment({
         bundleId: body.bundleId,
         wordlistId,
@@ -185,7 +182,6 @@ export const createMatrixEndpoints = (
         throw new Error('Assessment ID not returned from API');
       }
 
-      console.log('Waiting for assessment to be ready...');
       while (true) {
         const { status } = await getAssessment(assessment.id);
 
@@ -200,10 +196,8 @@ export const createMatrixEndpoints = (
         await wait(5000);
       }
 
-      console.log('Starting assessment...');
       await startMonitoring(assessment.id);
 
-      console.log('Waiting for assessment to start...');
       while (true) {
         const { status } = await getAssessment(assessment.id);
 
@@ -219,19 +213,15 @@ export const createMatrixEndpoints = (
       }
 
       if (body.input) {
-        console.log('Sending input to device...');
         const { eta } = await deviceEndpoints.input(body.input);
 
         if (eta) {
-          console.log(`Waiting for input to be processed (${eta}ms)...`);
           await wait(eta);
         }
       }
 
-      console.log('Stopping assessment...');
       await stopMonitoring(assessment.id);
 
-      console.log('Waiting for assessment to be ready for testing...');
       while (true) {
         const { status } = await getAssessment(assessment.id);
 
@@ -246,10 +236,8 @@ export const createMatrixEndpoints = (
         await wait(5000);
       }
 
-      console.log('Running checks...');
       await runChecks(assessment.id);
 
-      console.log('Waiting for assessment to complete...');
       while (true) {
         const { status } = await getAssessment(assessment.id);
 
@@ -264,7 +252,6 @@ export const createMatrixEndpoints = (
         await wait(5000);
       }
 
-      console.log('Assessment complete');
       return getAssessment(assessment.id);
     },
 
