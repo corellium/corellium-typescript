@@ -225,7 +225,14 @@ export const createMatrixEndpoints = (
 
       if (body.input) {
         console.log('Sending input to device...');
-        await deviceEndpoints.input(body.input);
+        const { eta } = await deviceEndpoints.input(body.input);
+
+        if (eta) {
+          console.log(`Waiting for input to be processed (${eta}ms)...`);
+          await new Promise((resolve) => {
+            setTimeout(resolve, eta);
+          });
+        }
       }
 
       console.log('Stopping assessment...');
