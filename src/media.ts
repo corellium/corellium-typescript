@@ -27,7 +27,7 @@ export const createMediaEndpoints = (
     });
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -49,7 +49,7 @@ export const createMediaEndpoints = (
     });
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;

@@ -23,7 +23,7 @@ export const createWebplayerEndpoints = (
     });
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -39,7 +39,7 @@ export const createWebplayerEndpoints = (
     const response = await api.GET('/v1/webplayer');
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -88,7 +88,7 @@ export const createWebplayerEndpoints = (
     });
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -110,7 +110,7 @@ export const createWebplayerEndpoints = (
     });
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -126,7 +126,7 @@ export const createWebplayerEndpoints = (
       const response = await api.GET('/v1/webplayer/allowedDomains');
 
       if (response.error) {
-        throw new Error(response.error.error);
+        throw new Error(response.error.error ?? response.response.statusText);
       }
 
       return response.data;

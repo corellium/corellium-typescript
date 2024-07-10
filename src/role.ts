@@ -14,7 +14,7 @@ export const createRoleEndpoints = (
     const response = await api.GET('/v1/roles');
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -58,7 +58,7 @@ export const createRoleEndpoints = (
       );
 
       if (response.error) {
-        throw new Error(response.error.error);
+        throw new Error(response.error.error ?? response.response.statusText);
       }
 
       return response.data;
@@ -78,7 +78,7 @@ export const createRoleEndpoints = (
     );
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;
@@ -122,7 +122,7 @@ export const createRoleEndpoints = (
       );
 
       if (response.error) {
-        throw new Error(response.error.error);
+        throw new Error(response.error.error ?? response.response.statusText);
       }
 
       return response.data;
@@ -142,7 +142,7 @@ export const createRoleEndpoints = (
     );
 
     if (response.error) {
-      throw new Error(response.error.error);
+      throw new Error(response.error.error ?? response.response.statusText);
     }
 
     return response.data;

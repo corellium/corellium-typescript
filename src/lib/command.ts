@@ -20,7 +20,7 @@ export const sendCommand = async (
   });
 
   if (response.error) {
-    throw new Error(response.error.error);
+    throw new Error(response.error.error ?? response.response.statusText);
   }
 
   const device = response.data;
