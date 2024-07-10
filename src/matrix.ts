@@ -1,12 +1,11 @@
 /* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-/* eslint-disable compat/compat */
-/* eslint-disable promise/avoid-new */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable unicorn/no-await-expression-member */
 import { createImageEndpoints } from './image';
 import { createDeviceEndpoints } from './device';
 import { createAppEndpoints } from './app';
+import { wait } from './lib/wait';
 import type createFetchClient from 'openapi-fetch';
 import type { components, paths as matrixPaths } from '../types/matrix';
 import type { paths as corePaths } from '../types/corellium';
@@ -198,9 +197,7 @@ export const createMatrixEndpoints = (
           throw new Error('Assessment failed to start');
         }
 
-        await new Promise((resolve) => {
-          setTimeout(resolve, 5000);
-        });
+        await wait(5000);
       }
 
       console.log('Starting assessment...');
@@ -218,9 +215,7 @@ export const createMatrixEndpoints = (
           throw new Error('Monitoring failed to start');
         }
 
-        await new Promise((resolve) => {
-          setTimeout(resolve, 5000);
-        });
+        await wait(5000);
       }
 
       if (body.input) {
@@ -229,9 +224,7 @@ export const createMatrixEndpoints = (
 
         if (eta) {
           console.log(`Waiting for input to be processed (${eta}ms)...`);
-          await new Promise((resolve) => {
-            setTimeout(resolve, eta);
-          });
+          await wait(eta);
         }
       }
 
@@ -250,9 +243,7 @@ export const createMatrixEndpoints = (
           throw new Error('Monitoring failed to stop');
         }
 
-        await new Promise((resolve) => {
-          setTimeout(resolve, 5000);
-        });
+        await wait(5000);
       }
 
       console.log('Running checks...');
@@ -270,9 +261,7 @@ export const createMatrixEndpoints = (
           throw new Error('Checks failed to complete');
         }
 
-        await new Promise((resolve) => {
-          setTimeout(resolve, 5000);
-        });
+        await wait(5000);
       }
 
       console.log('Assessment complete');
