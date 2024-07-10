@@ -348,5 +348,25 @@ export const createSnapshotEndpoints = (
 
       return response.data;
     },
+
+    /**
+     * Accept a snapshot shared with you.
+     * @returns The response data.
+     * @throws {Error} The error message.
+     * @example await corellium.snapshot.sharing.accept({ sharingType: 'passwordPublicLink', password: 'abcd' });
+     */
+    accept: async (
+      body: paths['/v1/snapshots/accept']['post']['requestBody']['content']['application/json']
+    ) => {
+      const response = await api.POST('/v1/snapshots/accept', {
+        body,
+      });
+
+      if (response.error) {
+        throw new Error(response.error.error);
+      }
+
+      return response.data;
+    },
   },
 });
