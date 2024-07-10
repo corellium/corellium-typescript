@@ -1,3 +1,7 @@
+/* eslint-disable compat/compat */
+/* eslint-disable promise/avoid-new */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable unicorn/no-await-expression-member */
 import { createImageEndpoints } from './image';
 import { createDeviceEndpoints } from './device';
 import type createFetchClient from 'openapi-fetch';
@@ -93,6 +97,39 @@ export const createMatrixEndpoints = (
     return response.data;
   };
 
+  const getAssessment = async (assessmentId: string) => {
+    const response = await matrixApi.GET(
+      '/{instanceId}/assessments/{assessmentId}',
+      {
+        params: {
+          path: {
+            instanceId,
+            assessmentId,
+          },
+        },
+      }
+    );
+
+    if (response.error) {
+      throw new Error(response.error.error);
+    }
+
+    // Patch status to be more specific
+    return {
+      ...response.data,
+      status: response.data.status as
+        | 'complete'
+        | 'failed'
+        | 'generatingReport'
+        | 'monitoring'
+        | 'new'
+        | 'readyForTesting'
+        | 'startingMonitoring'
+        | 'stoppingMonitoring'
+        | 'testing',
+    };
+  };
+
   return {
     /**
      * Run a MATRIX assessment.
@@ -112,6 +149,12 @@ export const createMatrixEndpoints = (
       // eslint-disable-next-line @typescript-eslint/init-declarations
       let wordlistId: string | undefined;
       const instance = await deviceEndpoints.get();
+
+      while (instance.state !== 'on') {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 60_000);
+        });
+      }
 
       if (body.keywords) {
         const newKeywords = await imageEndpoints.create({
@@ -136,7 +179,19 @@ export const createMatrixEndpoints = (
         throw new Error('Assessment ID not returned from API');
       }
 
+      while ((await getAssessment(assessment.id)).status !== 'new') {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        });
+      }
+
       await startMonitoring(assessment.id);
+
+      while ((await getAssessment(assessment.id)).status !== 'monitoring') {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        });
+      }
 
       if (body.input) {
         await deviceEndpoints.input(body.input);
@@ -144,7 +199,23 @@ export const createMatrixEndpoints = (
 
       await stopMonitoring(assessment.id);
 
+      while (
+        (await getAssessment(assessment.id)).status !== 'readyForTesting'
+      ) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        });
+      }
+
       await runChecks(assessment.id);
+
+      while ((await getAssessment(assessment.id)).status !== 'complete') {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 5000);
+        });
+      }
+
+      return getAssessment(assessment.id);
     },
 
     assessment: {
@@ -154,25 +225,7 @@ export const createMatrixEndpoints = (
        * @throws {Error} The error message.
        * @example const response = await corellium.device('123').matrix.assessment.get('456');
        */
-      get: async (assessmentId: string) => {
-        const response = await matrixApi.GET(
-          '/{instanceId}/assessments/{assessmentId}',
-          {
-            params: {
-              path: {
-                instanceId,
-                assessmentId,
-              },
-            },
-          }
-        );
-
-        if (response.error) {
-          throw new Error(response.error.error);
-        }
-
-        return response.data;
-      },
+      get: async (assessmentId: string) => getAssessment(assessmentId),
 
       /**
        * List MATRIX assessments.
