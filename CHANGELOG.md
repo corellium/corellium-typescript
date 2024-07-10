@@ -1,3 +1,28 @@
+# v1.1.3 (Wed Jul 10 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Add new snapshot.sharing.accept endpoint ([@haydenbleasel](https://github.com/haydenbleasel))
+- Update custom-network.ts ([@haydenbleasel](https://github.com/haydenbleasel))
+- Add new webplayer.domains.list endpoint ([@haydenbleasel](https://github.com/haydenbleasel))
+- Migrate new Webplayer paths ([@haydenbleasel](https://github.com/haydenbleasel))
+- Update corellium.d.ts ([@haydenbleasel](https://github.com/haydenbleasel))
+- Lock openapi-typescript generator version ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### 🔩 Dependency Updates
+
+- Bump @types/node from 20.13.0 to 20.14.9 [#10](https://github.com/haydenbleasel/corellium-typescript/pull/10) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump tsup from 8.0.2 to 8.1.0 [#11](https://github.com/haydenbleasel/corellium-typescript/pull/11) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump prettier from 3.2.5 to 3.3.2 [#13](https://github.com/haydenbleasel/corellium-typescript/pull/13) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump typescript from 5.4.5 to 5.5.3 [#15](https://github.com/haydenbleasel/corellium-typescript/pull/15) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.1.2 (Tue Jul 02 2024)
 
 #### ⚠️ Pushed to `main`
