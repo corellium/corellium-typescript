@@ -1,9 +1,12 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable compat/compat */
 /* eslint-disable promise/avoid-new */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable unicorn/no-await-expression-member */
 import { createImageEndpoints } from './image';
 import { createDeviceEndpoints } from './device';
+import { createAppEndpoints } from './app';
 import type createFetchClient from 'openapi-fetch';
 import type { components, paths as matrixPaths } from '../types/matrix';
 import type { paths as corePaths } from '../types/corellium';
@@ -16,6 +19,7 @@ export const createMatrixEndpoints = (
   // eslint-disable-next-line @typescript-eslint/max-params
 ) => {
   const imageEndpoints = createImageEndpoints(api);
+  const appEndpoints = createAppEndpoints(api, instanceId);
   const deviceEndpoints = createDeviceEndpoints(api, instanceId, baseUrl);
 
   const startMonitoring = async (assessmentId: string) => {
@@ -154,6 +158,9 @@ export const createMatrixEndpoints = (
         throw new Error('Device must be online to run MATRIX assessment');
       }
 
+      console.log('Opening app...');
+      await appEndpoints.run(body.bundleId);
+
       if (body.keywords) {
         console.log('Uploading keywords...');
         const newKeywords = await imageEndpoints.create({
@@ -180,7 +187,17 @@ export const createMatrixEndpoints = (
       }
 
       console.log('Waiting for assessment to be ready...');
-      while ((await getAssessment(assessment.id)).status !== 'new') {
+      while (true) {
+        const { status } = await getAssessment(assessment.id);
+
+        if (status === 'new') {
+          break;
+        }
+
+        if (status === 'failed') {
+          throw new Error('Assessment failed to start');
+        }
+
         await new Promise((resolve) => {
           setTimeout(resolve, 5000);
         });
@@ -190,7 +207,17 @@ export const createMatrixEndpoints = (
       await startMonitoring(assessment.id);
 
       console.log('Waiting for assessment to start...');
-      while ((await getAssessment(assessment.id)).status !== 'monitoring') {
+      while (true) {
+        const { status } = await getAssessment(assessment.id);
+
+        if (status === 'monitoring') {
+          break;
+        }
+
+        if (status === 'failed') {
+          throw new Error('Assessment failed to start');
+        }
+
         await new Promise((resolve) => {
           setTimeout(resolve, 5000);
         });
@@ -205,9 +232,17 @@ export const createMatrixEndpoints = (
       await stopMonitoring(assessment.id);
 
       console.log('Waiting for assessment to be ready for testing...');
-      while (
-        (await getAssessment(assessment.id)).status !== 'readyForTesting'
-      ) {
+      while (true) {
+        const { status } = await getAssessment(assessment.id);
+
+        if (status === 'readyForTesting') {
+          break;
+        }
+
+        if (status === 'failed') {
+          throw new Error('Assessment failed to start');
+        }
+
         await new Promise((resolve) => {
           setTimeout(resolve, 5000);
         });
@@ -217,7 +252,17 @@ export const createMatrixEndpoints = (
       await runChecks(assessment.id);
 
       console.log('Waiting for assessment to complete...');
-      while ((await getAssessment(assessment.id)).status !== 'complete') {
+      while (true) {
+        const { status } = await getAssessment(assessment.id);
+
+        if (status === 'complete') {
+          break;
+        }
+
+        if (status === 'failed') {
+          throw new Error('Assessment failed to start');
+        }
+
         await new Promise((resolve) => {
           setTimeout(resolve, 5000);
         });
