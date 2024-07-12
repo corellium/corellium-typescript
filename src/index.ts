@@ -27,7 +27,9 @@ import { createDevicesEndpoints } from './devices';
 import { createProjectsEndpoints } from './projects';
 import { createWebplayerEndpoints } from './webplayer';
 import { createTokenEndpoints } from './token';
-import type { paths } from '../types/corellium';
+import { createMatrixEndpoints } from './matrix';
+import type { paths as corePaths } from '../types/corellium';
+import type { paths as matrixPaths } from '../types/matrix';
 
 type CorelliumOptions = {
   endpoint?: string;
@@ -47,6 +49,7 @@ class Corellium {
     file: ReturnType<typeof createFileEndpoints>;
     hyperTrace: ReturnType<typeof createHyperTraceEndpoints>;
     kernelHook: ReturnType<typeof createKernelHookEndpoints>;
+    matrix: ReturnType<typeof createMatrixEndpoints>;
     media: ReturnType<typeof createMediaEndpoints>;
     messaging: ReturnType<typeof createMessagingEndpoints>;
     networkMonitor: ReturnType<typeof createNetworkMonitorEndpoints>;
@@ -82,8 +85,16 @@ class Corellium {
       ? new URL('/api', options.endpoint).toString()
       : 'https://app.corellium.com/api';
 
-    const api = createFetchClient<paths>({
+    const api = createFetchClient<corePaths>({
       baseUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiToken}`,
+      },
+    });
+
+    const matrixApi = createFetchClient<matrixPaths>({
+      baseUrl: new URL('/api/v1/services/matrix', baseUrl).toString(),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiToken}`,
@@ -120,6 +131,7 @@ class Corellium {
       file: createFileEndpoints(api, deviceId),
       hyperTrace: createHyperTraceEndpoints(api, deviceId),
       kernelHook: createKernelHookEndpoints(api, deviceId),
+      matrix: createMatrixEndpoints(api, matrixApi, deviceId, baseUrl),
       media: createMediaEndpoints(api, deviceId),
       messaging: createMessagingEndpoints(api, deviceId),
       networkMonitor: createNetworkMonitorEndpoints(api, deviceId),
