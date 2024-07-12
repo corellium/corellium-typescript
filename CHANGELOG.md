@@ -1,3 +1,15 @@
+# v1.2.0 (Fri Jul 12 2024)
+
+#### 🚀 Enhancement
+
+- 14 add matrix endpoints [#17](https://github.com/haydenbleasel/corellium-typescript/pull/17) ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.1.4 (Wed Jul 10 2024)
 
 #### ⚠️ Pushed to `main`
