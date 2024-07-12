@@ -1,3 +1,16 @@
+# v1.2.1 (Fri Jul 12 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Expose PatchedInputProperties to MATRIX ([@haydenbleasel](https://github.com/haydenbleasel))
+- Patch instance input body spec ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.0 (Fri Jul 12 2024)
 
 #### 🚀 Enhancement
