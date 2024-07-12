@@ -6,6 +6,7 @@ import { createImageEndpoints } from './image';
 import { createDeviceEndpoints } from './device';
 import { createAppEndpoints } from './app';
 import { wait } from './lib/wait';
+import type { PatchedInstanceInputProperties } from './device';
 import type createFetchClient from 'openapi-fetch';
 import type { components, paths as matrixPaths } from '../types/matrix';
 import type { paths as corePaths } from '../types/corellium';
@@ -146,7 +147,7 @@ export const createMatrixEndpoints = (
      */
     run: async (body: {
       bundleId: components['schemas']['CreateAssessmentDto']['bundleId'];
-      input?: corePaths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json'];
+      input?: PatchedInstanceInputProperties;
       keywords?: string[];
     }) => {
       // eslint-disable-next-line @typescript-eslint/init-declarations

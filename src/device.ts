@@ -2,6 +2,32 @@ import { sendCommand } from './lib/command';
 import type createFetchClient from 'openapi-fetch';
 import type { components, paths } from '../types/corellium';
 
+export type PatchedInstanceInputProperties = (
+  | {
+      // Patched TextInput
+      text: string;
+      keyDuration?: number;
+    }
+  | {
+      // Patched TouchCurveInput
+      start: [number, number][];
+      end: [number, number][];
+      bezierPoints?: number[][][];
+      startButtons: components['schemas']['Button'][];
+      endButtons?: components['schemas']['Button'][];
+      normalized?: boolean;
+      wait?: number;
+      duration: number;
+    }
+  | {
+      // Patched TouchInput
+      position: [number, number][];
+      buttons?: components['schemas']['Button'][];
+      normalized?: boolean;
+      wait?: number;
+    }
+)[];
+
 export const createDeviceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
   instanceId: string,
@@ -521,31 +547,7 @@ export const createDeviceEndpoints = (
      * Patch bad OpenAPI spec
      * body: paths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json']
      */
-    body: (
-      | {
-          // Patched TextInput
-          text: string;
-          keyDuration?: number;
-        }
-      | {
-          // Patched TouchCurveInput
-          start: [number, number][];
-          end: [number, number][];
-          bezierPoints?: number[][][];
-          startButtons: components['schemas']['Button'][];
-          endButtons?: components['schemas']['Button'][];
-          normalized?: boolean;
-          wait?: number;
-          duration: number;
-        }
-      | {
-          // Patched TouchInput
-          position: [number, number][];
-          buttons?: components['schemas']['Button'][];
-          normalized?: boolean;
-          wait?: number;
-        }
-    )[]
+    body: PatchedInstanceInputProperties
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/input', {
       params: {
