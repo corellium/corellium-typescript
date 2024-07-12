@@ -1,6 +1,6 @@
 import { sendCommand } from './lib/command';
 import type createFetchClient from 'openapi-fetch';
-import type { paths } from '../types/corellium';
+import type { components, paths } from '../types/corellium';
 
 export const createDeviceEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
@@ -517,7 +517,35 @@ export const createDeviceEndpoints = (
    * @example const response = await corellium.device('123').input([{ buttons: ['finger'], position: [[300, 600]], wait: 0 }]);
    */
   input: async (
-    body: paths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json']
+    /*
+     * Patch bad OpenAPI spec
+     * body: paths['/v1/instances/{instanceId}/input']['post']['requestBody']['content']['application/json']
+     */
+    body: (
+      | {
+          // Patched TextInput
+          text: string;
+          keyDuration?: number;
+        }
+      | {
+          // Patched TouchCurveInput
+          start: [number, number][];
+          end: [number, number][];
+          bezierPoints?: number[][][];
+          startButtons: components['schemas']['Button'][];
+          endButtons?: components['schemas']['Button'][];
+          normalized?: boolean;
+          wait?: number;
+          duration: number;
+        }
+      | {
+          // Patched TouchInput
+          position: [number, number][];
+          buttons?: components['schemas']['Button'][];
+          normalized?: boolean;
+          wait?: number;
+        }
+    )[]
   ) => {
     const response = await api.POST('/v1/instances/{instanceId}/input', {
       params: {
@@ -525,7 +553,7 @@ export const createDeviceEndpoints = (
           instanceId,
         },
       },
-      body,
+      body: body as never,
     });
 
     if (response.error) {
