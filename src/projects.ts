@@ -23,9 +23,10 @@ export const createProjectsEndpoints = (
   create: async (
     body: Omit<
       paths['/v1/projects']['post']['requestBody']['content']['application/json'],
-      'settings'
+      // Patch ID out of the request body - you should not be able to set this.
+      'settings' | 'id'
     > & {
-      settings: Omit<
+      settings?: Omit<
         components['schemas']['ProjectSettings'],
         'internet-access'
       > & {
@@ -36,10 +37,13 @@ export const createProjectsEndpoints = (
     const response = await api.POST('/v1/projects', {
       body: {
         ...body,
-        settings: {
-          ...body.settings,
-          'internet-access': body.settings.internetAccess,
-        },
+        id: '',
+        settings: body.settings
+          ? {
+              ...body.settings,
+              'internet-access': body.settings.internetAccess,
+            }
+          : undefined,
       },
     });
 
