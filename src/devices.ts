@@ -11,7 +11,20 @@ export const createDevicesEndpoints = (
    * @param body.name The name of the device.
    * @param body.flavor The flavor of the device e.g. `ranchu`, `iphone6`, `iphone6plus`, `ipodtouch6`, `ipadmini4wifi`, `iphone6s`, `iphone6splus`, `iphonese`, `iphone7`, `iphone7plus`, `iphone8`, `iphone8plus`, `iphonex`, `iphonexs`, `iphonexsmax`, `iphonexsmaxww`, `iphonexr`, `iphone11`, `iphone11pro`, `iphone11promax`, `iphonese2`, `iphone12m`, `iphone12`, `iphone12p`, `iphone12pm`, `iphone13`, `iphone13m`, `iphone13p`, `iphone13pm`.
    * @param body.os The OS version of the device e.g. `14.0.0`.
+   * @param body.osbuild The OS build of the device e.g. `18A373`.
+   * @param body.fwpackage The firmware package to use for the device.
+   * @param body.origFwPackageUrl The URL that the firmware package used to create this instance is available at.
+   * @param body.encrypt Whether to encrypt the device.
+   * @param body.overrideWifiMAC The MAC address to use for the device.
+   * @param body.snapshot The snapshot ID for this instance to be cloned from if defined.
+   * @param body.key The key used to encrypt the device.
+   * @param body.sharedSnapshot The shared snapshot ID for this instance to be cloned from if defined.
+   * @param body.sharedSnapshotPassword The shared snapshot password for this instance to be cloned from if defined.
    * @param body.patches The patches to apply to the device e.g. `jailbroken` | `corelliumd` | `nonjailbroken`. Jailbroken by default.
+   * @param body.volume The volume options of the device.
+   * @param body.volume.allocate The amount of storage to allocate for the device.
+   * @param body.volume.partitions The partitions of the device.
+   * @param body.volume.computeNode The compute node to use for the device.
    * @param body.bootOptions The boot options of the device.
    * @param body.bootOptions.kernelSlide The Kernel slide value for an iOS device. Defaults to zero. When set to an empty value, the slide will be randomized.
    * @param body.bootOptions.udid Predefined Unique Device ID (UDID) for iOS device
