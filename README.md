@@ -768,8 +768,8 @@ await corellium.team.user.delete('teamId', 'userId');
 ## Tokens (API)
 
 ```ts
-// Generate an API Token for the current user.
-const token = await corellium.token.generate();
+// Create an API Token for the current user.
+const token = await corellium.token.create();
 
 // Delete the current user's API Token.
 await corellium.token.delete();
