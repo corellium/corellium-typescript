@@ -1,3 +1,16 @@
+# v1.2.4 (Mon Jul 15 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Update Create Instance Options documentation ([@haydenbleasel](https://github.com/haydenbleasel))
+- Opt for jailbroken devices by default ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.3 (Mon Jul 15 2024)
 
 #### ⚠️ Pushed to `main`
