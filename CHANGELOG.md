@@ -1,3 +1,15 @@
+# v1.2.5 (Mon Jul 15 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Patch CreateProject props ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.4 (Mon Jul 15 2024)
 
 #### ⚠️ Pushed to `main`
