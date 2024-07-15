@@ -214,7 +214,7 @@ await corellium.device('deviceId').coreTrace.clear();
 // List all devices
 const devices = await corellium.devices.list();
 
-// Create a new device
+// Create a new device (Jailbroken / Rooted by default)
 const device = await corellium.devices.create({
   project: 'projectId',
   name: 'My New Device',
