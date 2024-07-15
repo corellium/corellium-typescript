@@ -1,3 +1,15 @@
+# v1.2.3 (Mon Jul 15 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Fix typo ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.2 (Mon Jul 15 2024)
 
 #### ⚠️ Pushed to `main`
