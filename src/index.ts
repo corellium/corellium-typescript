@@ -30,10 +30,18 @@ import { createTokenEndpoints } from './token';
 import { createMatrixEndpoints } from './matrix';
 import type { paths as corePaths } from '../types/corellium';
 import type { paths as matrixPaths } from '../types/matrix';
+import { generateToken } from './lib/token';
 
 type CorelliumOptions = {
   endpoint?: string;
 };
+
+type AuthenticationMethod =
+  | string
+  | {
+      username: string;
+      password: string;
+    };
 
 class Corellium {
   public auth!: ReturnType<typeof createAuthEndpoints>;
@@ -80,25 +88,48 @@ class Corellium {
    * @returns The Corellium TypeScript SDK instance.
    * @example const corellium = new Corellium('1234567890abcdef');
    */
-  public constructor(apiToken: string, options?: CorelliumOptions) {
+  public constructor(
+    authentication: AuthenticationMethod,
+    options?: CorelliumOptions
+  ) {
     const baseUrl = options?.endpoint
       ? new URL('/api', options.endpoint).toString()
       : 'https://app.corellium.com/api';
+    const Authorization =
+      typeof authentication === 'string' ? `Bearer ${authentication}` : '';
+
+    const patchedFetch = async (request: Request) => {
+      if (typeof authentication === 'string') {
+        return fetch(request);
+      }
+
+      // User has provided a username / password.
+      const { token } = await generateToken(baseUrl, authentication);
+
+      return fetch(request, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    };
 
     const api = createFetchClient<corePaths>({
       baseUrl,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiToken}`,
+        Authorization,
       },
+      fetch: patchedFetch,
     });
 
     const matrixApi = createFetchClient<matrixPaths>({
       baseUrl: new URL('/api/v1/services/matrix', baseUrl).toString(),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiToken}`,
+        Authorization,
       },
+      fetch: patchedFetch,
     });
 
     this.auth = createAuthEndpoints(api);
@@ -111,9 +142,9 @@ class Corellium {
     this.role = createRoleEndpoints(api);
     this.snapshot = createSnapshotEndpoints(api);
     this.team = createTeamEndpoints(api);
-    this.token = createTokenEndpoints(baseUrl, apiToken);
+    this.token = createTokenEndpoints(baseUrl, Authorization);
     this.user = createUserEndpoints(api);
-    this.webplayer = createWebplayerEndpoints(api, baseUrl, apiToken);
+    this.webplayer = createWebplayerEndpoints(api, baseUrl, Authorization);
 
     /**
      * Create a device pointer.

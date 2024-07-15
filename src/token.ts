@@ -1,6 +1,9 @@
 import type { components } from '../types/corellium';
 
-export const createTokenEndpoints = (baseUrl: string, apiToken: string) => ({
+export const createTokenEndpoints = (
+  baseUrl: string,
+  Authorization: string
+) => ({
   /**
    * Generate an API Token for the current user.
    * @returns The response data.
@@ -13,7 +16,7 @@ export const createTokenEndpoints = (baseUrl: string, apiToken: string) => ({
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${apiToken}`,
+        Authorization,
       },
     });
 
@@ -36,7 +39,7 @@ export const createTokenEndpoints = (baseUrl: string, apiToken: string) => ({
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${apiToken}`,
+        Authorization,
       },
     });
 

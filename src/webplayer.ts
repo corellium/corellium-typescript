@@ -4,7 +4,7 @@ import type { components, paths } from '../types/corellium';
 export const createWebplayerEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,
   baseUrl: string,
-  apiToken: string
+  Authorization: string
 ) => ({
   /**
    * Get a webplayer session.
@@ -57,7 +57,7 @@ export const createWebplayerEndpoints = (
 
     const response = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${apiToken}`,
+        Authorization,
       },
     });
 

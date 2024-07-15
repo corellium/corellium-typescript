@@ -54,6 +54,23 @@ const corellium = new Corellium('apiToken', {
 });
 ```
 
+Alternatively, you can use an object containing `username` and `password`:
+
+```ts
+import { Corellium } from 'corellium-typescript';
+
+const corellium = new Corellium(
+  {
+    username: 'username',
+    password: 'password',
+  },
+  {
+    // Optional: Set the API URL to use a different Corellium instance
+    endpoint: 'https://acme.enterprise.corellium.com',
+  }
+);
+```
+
 Then, you can use the `corellium` object to interact with the Corellium API. The library is structured in a way that mirrors the Corellium UI, with methods for projects, devices, and apps e.g.
 
 ```ts
