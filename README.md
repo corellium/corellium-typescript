@@ -928,7 +928,15 @@ const device = await corellium.devices.create({
   os: '14.0.0',
 });
 
-while (!(await corellium.device(device.id).ready())) {
+const isReady = (deviceId: string) => {
+  try {
+    return corellium.device(deviceId).ready();
+  } catch (error) {
+    return false;
+  }
+};
+
+while (!(await isReady(device.id))) {
   // Wait 1 minute before checking again
   await new Promise((resolve) => setTimeout(resolve, 60000));
 }
