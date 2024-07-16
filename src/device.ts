@@ -595,7 +595,7 @@ export const createDeviceEndpoints = (
 
   /**
    * Determine whether the device is ready.
-   * @returns The response data.
+   * @returns {boolean} Whether the device is ready.
    * @throws {Error} The error message.
    * @example const response = await corellium.device('123').ready();
    */
@@ -612,10 +612,16 @@ export const createDeviceEndpoints = (
     );
 
     if (response.error) {
+      if (
+        response.error.error.toLowerCase().includes('agent not yet available')
+      ) {
+        return false;
+      }
+
       throw new Error(response.error.error);
     }
 
-    return response.data;
+    return response.data.ready;
   },
 
   hostname: {
