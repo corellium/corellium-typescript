@@ -381,9 +381,9 @@ export const createDeviceEndpoints = (
      * Get the sensor list of the device.
      * @returns The response data.
      * @throws {Error} The error message.
-     * @example const response = await corellium.device('123').sensors.list();
+     * @example const response = await corellium.device('123').sensors.get();
      */
-    list: async () => {
+    get: async () => {
       const response = await api.GET('/v1/instances/{instanceId}/peripherals', {
         params: {
           path: {
