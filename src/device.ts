@@ -731,7 +731,7 @@ export const createDeviceEndpoints = (
      * Run Frida Kill on the device.
      * @returns The response data.
      * @throws {Error} The error message.
-     * @example const response = await corellium.device('123').frida.kill('123', 'MyApp');
+     * @example const response = await corellium.device('123').frida.kill();
      */
     kill: async () =>
       sendCommand(api, instanceId, baseUrl, 'frida', 'run-frida-kill'),
