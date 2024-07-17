@@ -402,9 +402,6 @@ const assessment = await corellium
 ### Files
 
 ```ts
-// List all files on a device
-const files = await corellium.device('deviceId').file.list();
-
 // Get a file from a device
 const file = await corellium.device('deviceId').file.get('/data/test.txt');
 
