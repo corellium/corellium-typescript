@@ -302,9 +302,7 @@ await corellium.device('deviceId').sensors.set({
 });
 
 // Take a screenshot of a device
-const screenshot = await corellium.device('deviceId').takeScreenshot({
-  format: 'png',
-});
+const screenshot = await corellium.device('deviceId').takeScreenshot('png');
 
 // Rotate a device
 await corellium.device('deviceId').rotate('landscape');
