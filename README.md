@@ -179,10 +179,10 @@ await corellium.device('deviceId').connect.adbAuthSetting.set({
 });
 
 // Connect to WiFi
-await corellium.device('deviceId').wifi.connect();
+await corellium.device('deviceId').connect.wifi.connect();
 
 // Disconnect from WiFi
-await corellium.device('deviceId').wifi.disconnect();
+await corellium.device('deviceId').connect.wifi.disconnect();
 ```
 
 ### Console
