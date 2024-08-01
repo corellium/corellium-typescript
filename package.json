@@ -61,7 +61,7 @@
     "ultracite": "^3.9.2"
   },
   "dependencies": {
-    "openapi-fetch": "^0.9.5",
+    "openapi-fetch": "^0.10.4",
     "ws": "^8.17.0"
   },
   "engines": {
