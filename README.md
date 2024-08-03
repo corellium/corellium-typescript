@@ -88,6 +88,9 @@ const apps = await corellium.device('deviceId').app.list();
 // Run an app on a device
 await corellium.device('deviceId').app.run('com.corellium.cafe');
 
+// Install an app on a device
+await corellium.device('123').app.install({ path: '/com.corellium.cafe.ipa' });
+
 // Uninstall an app from a device
 await corellium.device('deviceId').app.uninstall('com.corellium.cafe');
 
