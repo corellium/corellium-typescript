@@ -1,3 +1,22 @@
+# v1.2.12 (Sat Aug 03 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Update README.md ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### 🔩 Dependency Updates
+
+- Bump @types/node from 20.14.9 to 22.0.2 [#25](https://github.com/haydenbleasel/corellium-typescript/pull/25) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump openapi-fetch from 0.9.7 to 0.10.4 [#26](https://github.com/haydenbleasel/corellium-typescript/pull/26) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump ws and @types/ws [#28](https://github.com/haydenbleasel/corellium-typescript/pull/28) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.11 (Wed Jul 17 2024)
 
 #### ⚠️ Pushed to `main`
