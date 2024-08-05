@@ -1,3 +1,15 @@
+# v1.2.14 (Mon Aug 05 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Delete matrix.d.ts ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.13 (Mon Aug 05 2024)
 
 #### 🐛 Bug Fix
