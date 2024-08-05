@@ -8,12 +8,10 @@ import { createAppEndpoints } from './app';
 import { wait } from './lib/wait';
 import type { PatchedInstanceInputProperties } from './device';
 import type createFetchClient from 'openapi-fetch';
-import type { components, paths as matrixPaths } from '../types/matrix';
-import type { paths as corePaths } from '../types/corellium';
+import type { paths, components } from '../types/corellium';
 
 export const createMatrixEndpoints = (
-  api: ReturnType<typeof createFetchClient<corePaths>>,
-  matrixApi: ReturnType<typeof createFetchClient<matrixPaths>>,
+  api: ReturnType<typeof createFetchClient<paths>>,
   instanceId: string,
   baseUrl: string
   // eslint-disable-next-line @typescript-eslint/max-params
@@ -23,8 +21,8 @@ export const createMatrixEndpoints = (
   const deviceEndpoints = createDeviceEndpoints(api, instanceId, baseUrl);
 
   const startMonitoring = async (assessmentId: string) => {
-    const response = await matrixApi.POST(
-      '/{instanceId}/assessments/{assessmentId}/start',
+    const response = await api.POST(
+      '/v1/services/matrix/{instanceId}/assessments/{assessmentId}/start',
       {
         params: {
           path: {
@@ -43,8 +41,8 @@ export const createMatrixEndpoints = (
   };
 
   const stopMonitoring = async (assessmentId: string) => {
-    const response = await matrixApi.POST(
-      '/{instanceId}/assessments/{assessmentId}/stop',
+    const response = await api.POST(
+      '/v1/services/matrix/{instanceId}/assessments/{assessmentId}/stop',
       {
         params: {
           path: {
@@ -63,8 +61,8 @@ export const createMatrixEndpoints = (
   };
 
   const runChecks = async (assessmentId: string) => {
-    const response = await matrixApi.POST(
-      '/{instanceId}/assessments/{assessmentId}/test',
+    const response = await api.POST(
+      '/v1/services/matrix/{instanceId}/assessments/{assessmentId}/test',
       {
         params: {
           path: {
@@ -85,14 +83,17 @@ export const createMatrixEndpoints = (
   const createAssessment = async (
     body: components['schemas']['CreateAssessmentDto']
   ) => {
-    const response = await matrixApi.POST('/{instanceId}/assessments', {
-      params: {
-        path: {
-          instanceId,
+    const response = await api.POST(
+      '/v1/services/matrix/{instanceId}/assessments',
+      {
+        params: {
+          path: {
+            instanceId,
+          },
         },
-      },
-      body,
-    });
+        body,
+      }
+    );
 
     if (response.error) {
       throw new Error(response.error.error ?? response.response.statusText);
@@ -102,8 +103,8 @@ export const createMatrixEndpoints = (
   };
 
   const getAssessment = async (assessmentId: string) => {
-    const response = await matrixApi.GET(
-      '/{instanceId}/assessments/{assessmentId}',
+    const response = await api.GET(
+      '/v1/services/matrix/{instanceId}/assessments/{assessmentId}',
       {
         params: {
           path: {
@@ -279,8 +280,8 @@ export const createMatrixEndpoints = (
        * @example const response = await corellium.device('123').matrix.assessment.list();
        */
       list: async () => {
-        const response = await matrixApi.GET(
-          '/{instanceId}/instances/{instanceId}/assessments',
+        const response = await api.GET(
+          '/v1/services/matrix/{instanceId}/instances/{instanceId}/assessments',
           {
             params: {
               path: {
@@ -304,8 +305,8 @@ export const createMatrixEndpoints = (
        * @example const response = await corellium.device('123').matrix.assessment.delete('456');
        */
       delete: async (assessmentId: string) => {
-        const response = await matrixApi.DELETE(
-          '/{instanceId}/assessments/{assessmentId}',
+        const response = await api.DELETE(
+          '/v1/services/matrix/{instanceId}/assessments/{assessmentId}',
           {
             params: {
               path: {
@@ -335,8 +336,8 @@ export const createMatrixEndpoints = (
         assessmentId: string,
         format: 'html' | 'json' = 'json'
       ) => {
-        const response = await matrixApi.GET(
-          '/{instanceId}/assessments/{assessmentId}/download',
+        const response = await api.GET(
+          '/v1/services/matrix/{instanceId}/assessments/{assessmentId}/download',
           {
             params: {
               path: {
