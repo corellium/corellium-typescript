@@ -1,3 +1,20 @@
+# v1.2.13 (Mon Aug 05 2024)
+
+#### 🐛 Bug Fix
+
+- Merge MATRIX API into Corellium API [#30](https://github.com/haydenbleasel/corellium-typescript/pull/30) ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### 🔩 Dependency Updates
+
+- Bump typescript from 5.5.3 to 5.5.4 [#27](https://github.com/haydenbleasel/corellium-typescript/pull/27) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.12 (Sat Aug 03 2024)
 
 #### ⚠️ Pushed to `main`
