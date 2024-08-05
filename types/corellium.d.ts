@@ -734,6 +734,36 @@ export interface paths {
      */
     get: operations["v1ListNetworkProviders"];
   };
+  "/v1/services/matrix/{instanceId}/instances/{instanceId}/assessments": {
+    /** Get assessments by instanceId */
+    get: operations["getAssessmentsByInstanceId"];
+  };
+  "/v1/services/matrix/{instanceId}/assessments": {
+    /** Create assessment */
+    post: operations["createAssessment"];
+  };
+  "/v1/services/matrix/{instanceId}/assessments/{assessmentId}": {
+    /** Get assessment by ID */
+    get: operations["getAssessmentById"];
+    /** Delete assessment */
+    delete: operations["deleteAssessment"];
+  };
+  "/v1/services/matrix/{instanceId}/assessments/{assessmentId}/start": {
+    /** Update assessment state and begin device monitoring */
+    post: operations["startMonitoring"];
+  };
+  "/v1/services/matrix/{instanceId}/assessments/{assessmentId}/stop": {
+    /** Update assessment state and stop device monitoring */
+    post: operations["stopMonitoring"];
+  };
+  "/v1/services/matrix/{instanceId}/assessments/{assessmentId}/test": {
+    /** Update assessment state and execute MATRIX tests */
+    post: operations["runTests"];
+  };
+  "/v1/services/matrix/{instanceId}/assessments/{assessmentId}/download": {
+    /** Download report */
+    get: operations["downloadReport"];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -1989,6 +2019,8 @@ export interface components {
       email: string;
       /** @description the flag that specifies whether user is Administrator or not */
       administrator?: boolean | null;
+      /** @description Flag to determine if user attributes are editable. */
+      canEditUserAttributes?: boolean | null;
     };
     CreateTeam: {
       /** @description Team name */
@@ -2129,9 +2161,94 @@ export interface components {
       /** @description Internal identifier for Network Connection Provider. */
       type: string;
     };
+    Assessment: {
+      /** Format: date-time */
+      createdAt?: string;
+      /** Format: date-time */
+      updatedAt?: string;
+      /** Format: uuid */
+      createdBy?: string;
+      /** Format: uuid */
+      reportId?: string;
+      bundle?: {
+        /** Format: uuid */
+        id?: string;
+        /** @example Camera */
+        name?: string;
+        /** @example 1.2.0 */
+        version?: string;
+      };
+      results?: {
+        pass?: number;
+        fail?: number;
+        info?: number;
+        error?: number;
+      };
+      metadata?: {
+        /** @example 6.4.0 */
+        corelliumVersion?: string;
+      };
+    } & components["schemas"]["CreateAssessmentDto"] & components["schemas"]["AssessmentIdStatus"];
+    AssessmentIdStatus: {
+      /** Format: uuid */
+      id?: string;
+    } & components["schemas"]["UpdateAssessmentDto"];
+    CreateAssessmentDto: {
+      /** Format: uuid */
+      instanceId: string;
+      /** @example com.android.egg */
+      bundleId: string;
+      /** Format: uuid */
+      wordlistId?: string;
+    };
+    UpdateAssessmentDto: {
+      /** @example testing */
+      status: string;
+    };
+    TestAssessmentDto: {
+      invert?: boolean;
+      /** @example masvs-storage-2-android-8 */
+      grep?: string;
+    };
   };
-  responses: never;
-  parameters: never;
+  responses: {
+    /** @description Successful operation */
+    AssessmentResponse: {
+      content: {
+        "application/json": components["schemas"]["Assessment"];
+      };
+    };
+    /** @description Successful operation */
+    AssessmentIdStatusResponse: {
+      content: {
+        "application/json": components["schemas"]["AssessmentIdStatus"];
+      };
+    };
+    /** @description Successful operation */
+    "204SuccessNoContent": {
+      content: never;
+    };
+    /** @description Assessment not found */
+    "404NotFound": {
+      content: never;
+    };
+    /** @description Internal Server Error */
+    "500InternalServerError": {
+      content: {
+        "application/json": {
+          error?: string;
+        };
+      };
+    };
+  };
+  parameters: {
+    /** @description ID of assessment */
+    assessmentId: string;
+    /** @description ID of instance */
+    instanceId: string;
+    /** @description Assessment report download format */
+    format: string;
+  };
   requestBodies: never;
   headers: never;
   pathItems: never;
@@ -6126,6 +6243,152 @@ export interface operations {
           "application/json": components["schemas"]["ApiError"];
         };
       };
+    };
+  };
+  /** Get assessments by instanceId */
+  getAssessmentsByInstanceId: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+      };
+    };
+    responses: {
+      /** @description Returns array of assessments */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Assessment"][];
+        };
+      };
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Create assessment */
+  createAssessment: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+      };
+    };
+    /** @description Create a new assessment */
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CreateAssessmentDto"];
+      };
+    };
+    responses: {
+      200: components["responses"]["AssessmentIdStatusResponse"];
+      /** @description Invalid body */
+      400: {
+        content: never;
+      };
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Get assessment by ID */
+  getAssessmentById: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+        assessmentId: components["parameters"]["assessmentId"];
+      };
+    };
+    responses: {
+      200: components["responses"]["AssessmentResponse"];
+      404: components["responses"]["404NotFound"];
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Delete assessment */
+  deleteAssessment: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+        assessmentId: components["parameters"]["assessmentId"];
+      };
+    };
+    responses: {
+      204: components["responses"]["204SuccessNoContent"];
+      404: components["responses"]["404NotFound"];
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Update assessment state and begin device monitoring */
+  startMonitoring: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+        assessmentId: components["parameters"]["assessmentId"];
+      };
+    };
+    responses: {
+      204: components["responses"]["204SuccessNoContent"];
+      404: components["responses"]["404NotFound"];
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Update assessment state and stop device monitoring */
+  stopMonitoring: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+        assessmentId: components["parameters"]["assessmentId"];
+      };
+    };
+    responses: {
+      204: components["responses"]["204SuccessNoContent"];
+      404: components["responses"]["404NotFound"];
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Update assessment state and execute MATRIX tests */
+  runTests: {
+    parameters: {
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+        assessmentId: components["parameters"]["assessmentId"];
+      };
+    };
+    /** @description Execute MATRIX tests */
+    requestBody?: {
+      content: {
+        "application/json": components["schemas"]["TestAssessmentDto"];
+      };
+    };
+    responses: {
+      200: components["responses"]["AssessmentIdStatusResponse"];
+      /** @description Assessment status invalid */
+      400: {
+        content: never;
+      };
+      404: components["responses"]["404NotFound"];
+      500: components["responses"]["500InternalServerError"];
+    };
+  };
+  /** Download report */
+  downloadReport: {
+    parameters: {
+      query: {
+        format: components["parameters"]["format"];
+      };
+      path: {
+        instanceId: components["parameters"]["instanceId"];
+        assessmentId: components["parameters"]["assessmentId"];
+      };
+    };
+    responses: {
+      /** @description Returns the HTML file of the report */
+      200: {
+        content: {
+          "text/html": string;
+          "application/json": string;
+        };
+      };
+      /** @description Assessment status invalid */
+      400: {
+        content: never;
+      };
+      404: components["responses"]["404NotFound"];
+      500: components["responses"]["500InternalServerError"];
     };
   };
 }
