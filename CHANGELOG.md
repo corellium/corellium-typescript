@@ -1,3 +1,15 @@
+# v1.2.15 (Sat Aug 10 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Update LICENSE.md ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### Authors: 1
+
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.14 (Mon Aug 05 2024)
 
 #### ⚠️ Pushed to `main`
