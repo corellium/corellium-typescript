@@ -29,7 +29,7 @@
     "build": "tsup src",
     "dev": "tsup src --watch",
     "test": "bun test/index.ts",
-    "generate-types": "npx openapi-typescript@6.7.6 https://app.corellium.com/api/openapi.json -o ./types/corellium.d.ts"
+    "generate-types": "./scripts/generate-types.sh"
   },
   "repository": {
     "type": "git",
