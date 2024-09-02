@@ -1,3 +1,20 @@
+# v1.2.17 (Mon Sep 02 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Move generate-types to script file with env var ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### 🔩 Dependency Updates
+
+- Bump @types/node from 22.0.2 to 22.5.2 [#37](https://github.com/haydenbleasel/corellium-typescript/pull/37) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.16 (Mon Sep 02 2024)
 
 #### ⚠️ Pushed to `main`
