@@ -1,3 +1,22 @@
+# v1.2.16 (Mon Sep 02 2024)
+
+#### ⚠️ Pushed to `main`
+
+- Run Ultracite ([@haydenbleasel](https://github.com/haydenbleasel))
+- Update Ultracite ([@haydenbleasel](https://github.com/haydenbleasel))
+
+#### 🔩 Dependency Updates
+
+- Bump prettier from 3.3.2 to 3.3.3 [#35](https://github.com/haydenbleasel/corellium-typescript/pull/35) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump openapi-fetch from 0.10.4 to 0.12.0 [#36](https://github.com/haydenbleasel/corellium-typescript/pull/36) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 2
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Hayden Bleasel ([@haydenbleasel](https://github.com/haydenbleasel))
+
+---
+
 # v1.2.15 (Sat Aug 10 2024)
 
 #### ⚠️ Pushed to `main`
