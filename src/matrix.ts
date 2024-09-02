@@ -1,14 +1,14 @@
+import type createFetchClient from 'openapi-fetch';
+import type { components, paths } from '../types/corellium';
+import { createAppEndpoints } from './app';
+import { createDeviceEndpoints } from './device';
+import type { PatchedInstanceInputProperties } from './device';
 /* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable unicorn/no-await-expression-member */
 import { createImageEndpoints } from './image';
-import { createDeviceEndpoints } from './device';
-import { createAppEndpoints } from './app';
 import { wait } from './lib/wait';
-import type { PatchedInstanceInputProperties } from './device';
-import type createFetchClient from 'openapi-fetch';
-import type { paths, components } from '../types/corellium';
 
 export const createMatrixEndpoints = (
   api: ReturnType<typeof createFetchClient<paths>>,

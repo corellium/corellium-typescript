@@ -1,5 +1,5 @@
-import WebSocket from 'ws';
 import type createFetchClient from 'openapi-fetch';
+import WebSocket from 'ws';
 import type { paths } from '../../types/corellium';
 
 export const sendCommand = async (

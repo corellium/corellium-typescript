@@ -11,7 +11,7 @@ export const createTokenEndpoints = (
    * @example const response = await corellium.token.create();
    */
   create: async () => {
-    const url = new URL(`/api/v1/auth/apitoken`, baseUrl);
+    const url = new URL('/api/v1/auth/apitoken', baseUrl);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -34,7 +34,7 @@ export const createTokenEndpoints = (
    * @example await corellium.token.delete();
    */
   delete: async () => {
-    const url = new URL(`/api/v1/auth/apitoken`, baseUrl);
+    const url = new URL('/api/v1/auth/apitoken', baseUrl);
 
     const response = await fetch(url, {
       method: 'DELETE',

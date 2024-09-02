@@ -2,9 +2,7 @@
   "name": "corellium-typescript",
   "version": "1.2.15",
   "description": "A beautiful TypeScript Corellium library.",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "exports": {
     ".": {
       "import": {
@@ -35,12 +33,7 @@
     "type": "git",
     "url": "git+https://github.com/haydenbleasel/corellium-typescript.git"
   },
-  "keywords": [
-    "corellium",
-    "typescript",
-    "api",
-    "client"
-  ],
+  "keywords": ["corellium", "typescript", "api", "client"],
   "author": "Hayden Bleasel <hello@haydenbleasel.com>",
   "license": "ISC",
   "bugs": {

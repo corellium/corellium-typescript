@@ -1,6 +1,6 @@
-import { sendCommand } from './lib/command';
 import type createFetchClient from 'openapi-fetch';
 import type { components, paths } from '../types/corellium';
+import { sendCommand } from './lib/command';
 
 export type PatchedInstanceInputProperties = (
   | {
