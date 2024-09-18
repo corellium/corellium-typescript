@@ -20,7 +20,7 @@ importers:
         version: 1.8.3
       '@types/node':
         specifier: ^22.0.2
-        version: 22.5.2
+        version: 22.5.5
       '@types/ws':
         specifier: ^8.5.10
         version: 8.5.12
@@ -348,8 +348,8 @@ packages:
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
-  '@types/node@22.5.2':
-    resolution: {integrity: sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==}
+  '@types/node@22.5.5':
+    resolution: {integrity: sha512-Xjs4y5UPO/CLdzpgR6GirZJx36yScjh73+2NlLlkFRSoQN8B0DpfXPdZGnvVmLRLOsqDpOfTNv7D9trgGhmOIA==}
 
   '@types/ws@8.5.12':
     resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
@@ -1011,13 +1011,13 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
-  '@types/node@22.5.2':
+  '@types/node@22.5.5':
     dependencies:
       undici-types: 6.19.8
 
   '@types/ws@8.5.12':
     dependencies:
-      '@types/node': 22.5.2
+      '@types/node': 22.5.5
 
   ansi-regex@5.0.1: {}
 
