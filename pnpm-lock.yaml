@@ -26,10 +26,10 @@ importers:
         version: 8.5.12
       tsup:
         specifier: ^8.0.2
-        version: 8.1.0(postcss@8.4.38)(typescript@5.5.4)
+        version: 8.1.0(postcss@8.4.38)(typescript@5.6.2)
       typescript:
         specifier: ^5.4.5
-        version: 5.5.4
+        version: 5.6.2
       ultracite:
         specifier: 4.0.6
         version: 4.0.6
@@ -767,8 +767,8 @@ packages:
       typescript:
         optional: true
 
-  typescript@5.5.4:
-    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+  typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1407,7 +1407,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsup@8.1.0(postcss@8.4.38)(typescript@5.5.4):
+  tsup@8.1.0(postcss@8.4.38)(typescript@5.6.2):
     dependencies:
       bundle-require: 4.1.0(esbuild@0.21.5)
       cac: 6.7.14
@@ -1425,12 +1425,12 @@ snapshots:
       tree-kill: 1.2.2
     optionalDependencies:
       postcss: 8.4.38
-      typescript: 5.5.4
+      typescript: 5.6.2
     transitivePeerDependencies:
       - supports-color
       - ts-node
 
-  typescript@5.5.4: {}
+  typescript@5.6.2: {}
 
   ultracite@4.0.6: {}
 
