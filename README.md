@@ -16,8 +16,6 @@ The key differences between `corellium-typescript` and official Corellium librar
 - Adds undocumented endpoint payloads
 - Supports both ECMAScript Modules (ESM) and CommonJS (CJS) environments
 
-**Note: While I am a Corellium employee, this library is not officially supported by Corellium.**
-
 ## Requirements
 
 - Node.js 18.x or later
