@@ -31,8 +31,8 @@ importers:
         specifier: ^5.4.5
         version: 5.6.2
       ultracite:
-        specifier: 4.1.1
-        version: 4.1.1
+        specifier: 4.1.2
+        version: 4.1.2
 
 packages:
 
@@ -772,8 +772,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  ultracite@4.1.1:
-    resolution: {integrity: sha512-PgjiSooWVcoahsbbW/z0xJhnlcMJKVewnzpV/AYe2VlTtKkd3BoOkLMIvOrm8PvpYAip35hS8kcu2AfuyzbGGQ==}
+  ultracite@4.1.2:
+    resolution: {integrity: sha512-KJBckNVzWkABJ07Mckx5kgsKnL1+iQw3TCdRzx7gTKUAUVEzuRgWqppiKgQm2O69m9sunOYVo6SOugMZnzNcwA==}
 
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
@@ -1432,7 +1432,7 @@ snapshots:
 
   typescript@5.6.2: {}
 
-  ultracite@4.1.1: {}
+  ultracite@4.1.2: {}
 
   undici-types@6.19.8: {}
 
