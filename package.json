@@ -3,7 +3,8 @@
   "version": "1.2.18",
   "description": "A beautiful TypeScript Corellium library.",
   "files": [
-    "dist"
+    "dist",
+    "types/corellium.d.ts"
   ],
   "exports": {
     ".": {
@@ -12,22 +13,22 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
       }
     }
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
+    "build": "unbuild",
     "prepublishOnly": "pnpm build",
-    "build": "tsup src",
-    "dev": "tsup src --watch",
+    "dev": "unbuild --watch",
     "test": "bun test/index.ts",
     "generate-types": "./scripts/generate-types.sh"
   },
@@ -49,13 +50,15 @@
   "homepage": "https://github.com/haydenbleasel/corellium-typescript#readme",
   "devDependencies": {
     "@biomejs/biome": "1.9.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/node": "^22.0.2",
     "@types/ws": "^8.5.10",
-    "tsup": "^8.0.2",
     "typescript": "^5.4.5",
-    "ultracite": "4.1.1"
+    "ultracite": "4.1.1",
+    "unbuild": "^3.5.0"
   },
   "dependencies": {
+    "esbuild": "^0.25.3",
     "openapi-fetch": "^0.12.0",
     "ws": "^8.17.0"
   },
