@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Corellium } from '../dist';
+import { Corellium } from '../src';
 
 const corellium = new Corellium('123');
 
