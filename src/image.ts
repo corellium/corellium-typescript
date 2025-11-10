@@ -54,9 +54,20 @@ export const createImageEndpoints = (
       file: File;
     }
   ) => {
-    const response = await api.POST('/v1/images', {
-      body: body as never,
-    });
+    let response;
+
+    if (body.file) {
+      const form = new FormData();
+      Object.entries(body).forEach(([key, value]) => {
+        form.append(key, value as never);
+      })
+
+      response = await api.POST('/v1/images', {body: form as never});
+    } else {
+      response = await api.POST('/v1/images', {
+        body: body as never,
+      });
+    }
 
     if (response.error) {
       throw new Error(response.error.error);

@@ -216,6 +216,8 @@ await corellium.device('deviceId').coreTrace.clear();
 const devices = await corellium.devices.list();
 
 // Create a new device (Jailbroken / Rooted by default)
+// Modern iOS devices require Firmware Assets to be downloaded when creating new devices.
+// Pass FETCH_FIRMWARE_ASSETS=1 to automatically download assets.
 const device = await corellium.devices.create({
   project: 'projectId',
   name: 'My New Device',

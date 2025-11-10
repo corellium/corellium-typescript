@@ -1,8 +1,26 @@
 import type createFetchClient from 'openapi-fetch';
 import type { paths } from '../types/corellium';
+import { CorelliumSDKError, MissingFirmwareAssetError, RawMissingFirmwareAssetError } from './errors';
+import path from 'node:path';
+import os from 'node:os';
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import {Writable} from 'stream';
+import {readFile} from 'node:fs/promises';
+
+async function fileFromPath(path: string) {
+  const buffer = await readFile(path);
+  const blob = Buffer.from(buffer);
+  const filename = path.split('/').pop() || 'file';
+  return new File([blob], filename, {
+    type: 'application/octet-stream',
+    lastModified: Date.now(),
+  });
+}
 
 export const createDevicesEndpoints = (
-  api: ReturnType<typeof createFetchClient<paths>>
+  api: ReturnType<typeof createFetchClient<paths>>,
+  imageApi: any,
 ) => ({
   /**
    * Create a new device.
@@ -36,7 +54,7 @@ export const createDevicesEndpoints = (
    * @throws {Error} The error message.
    * @example const response = await corellium.devices.create({ project: 'projectId', name: 'My New Device', flavor: 'ranchu', os: '14.0.0' });
    */
-  create: async ({
+  create: async function create ({
     patches = 'jailbroken',
     ...body
   }: Omit<
@@ -44,7 +62,7 @@ export const createDevicesEndpoints = (
     'patches'
   > & {
     patches?: 'corelliumd' | 'jailbroken' | 'nonjailbroken';
-  }) => {
+  }) {
     const response = await api.POST('/v1/instances', {
       body: {
         ...body,
@@ -53,7 +71,39 @@ export const createDevicesEndpoints = (
     });
 
     if (response.error) {
-      throw new Error(response.error.error);
+      if ((response.error as RawMissingFirmwareAssetError).missingFwAssets) {
+        if (process.env.FETCH_FIRMWARE_ASSETS === '1') {
+          const knownErr = new MissingFirmwareAssetError (response.error as RawMissingFirmwareAssetError)
+          for (const firmwareAssetUrl of knownErr.missingFwAssets) {
+            const response = await fetch(firmwareAssetUrl);
+            const fwAssetPath = path.join(os.tmpdir(), `${crypto.randomUUID()}.fwasset`)
+            if (response.ok && response.body) {
+              const nodeStream = fs.createWriteStream(fwAssetPath);
+              const webStream = Writable.toWeb(nodeStream);
+              await response.body.pipeTo(webStream)
+              const file = await fileFromPath(fwAssetPath);
+
+              await imageApi.create({
+                type: 'fwasset',
+                encoding: 'plain',
+                encapsulated: false,
+                name: firmwareAssetUrl,
+                project: knownErr.projectId,
+                file: file,
+              });
+            }
+          }
+
+          return await create({
+            patches,
+            ...body
+          });
+        } else {
+          throw new Error('This instance requires additional firmware assets. To automatically download firmware assets and associate them with your domain, set the environment variable FETCH_FIRMWARE_ASSETS=1')
+        }
+      } else {
+        throw new CorelliumSDKError(response.error);
+      }
     }
 
     return response.data;

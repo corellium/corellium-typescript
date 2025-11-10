@@ -104,19 +104,14 @@ class Corellium {
 
       // User has provided a username / password.
       const { token } = await generateToken(baseUrl, authentication);
+      request.headers.set('Authorization', `Bearer ${token}`);
 
-      return fetch(request, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      return fetch(request);
     };
 
     const api = createFetchClient<paths>({
       baseUrl,
       headers: {
-        'Content-Type': 'application/json',
         Authorization,
       },
       fetch: patchedFetch,
@@ -125,9 +120,9 @@ class Corellium {
     this.auth = createAuthEndpoints(api);
     this.authProvider = createAuthProviderEndpoints(api);
     this.customNetwork = createCustomNetworkEndpoints(api);
-    this.devices = createDevicesEndpoints(api);
-    this.projects = createProjectsEndpoints(api);
     this.image = createImageEndpoints(api);
+    this.devices = createDevicesEndpoints(api, this.image);
+    this.projects = createProjectsEndpoints(api);
     this.model = createModelEndpoints(api);
     this.role = createRoleEndpoints(api);
     this.snapshot = createSnapshotEndpoints(api);
@@ -174,4 +169,5 @@ class Corellium {
   }
 }
 
+export * as errors from './errors';
 export { Corellium };
