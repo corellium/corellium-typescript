@@ -1,3 +1,15 @@
+# v1.2.23 (Mon Nov 10 2025)
+
+#### 🐛 Bug Fix
+
+- feat(device): CORE-9024 - Support firmware assets for modern iOS devices [#73](https://github.com/corellium/corellium-typescript/pull/73) ([@matthewh](https://github.com/matthewh))
+
+#### Authors: 1
+
+- matthewh ([@matthewh](https://github.com/matthewh))
+
+---
+
 # v1.2.22 (Wed May 07 2025)
 
 #### ⚠️ Pushed to `main`
