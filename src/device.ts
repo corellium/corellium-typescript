@@ -484,6 +484,7 @@ export const createDeviceEndpoints = (
             scale,
           },
         },
+        parseAs: 'arrayBuffer'
       }
     );
 
